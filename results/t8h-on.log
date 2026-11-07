@@ -1,0 +1,21 @@
+◇ injected env (6) from .env.local
+arm=on prs=13 bank=replay-t8h-on-mw60gl1r
+# 0 PR 12934  recalled=0  comments=2  matched=0  human=2 covered=0  running precision=0%  (4s)
+# 1 PR 13728  recalled=2  comments=4  matched=0  human=5 covered=0  running precision=0%  (4s)
+# 2 PR 14025  recalled=9  comments=1  matched=0  human=1 covered=0  running precision=0%  (603s)
+# 3 PR 13963  recalled=15  comments=1  matched=0  human=3 covered=0  running precision=0%  (395s)
+PR 14053 attempt 1 failed (LLM JSON completion failed on all models: Request timed out.), retrying in 30s
+# 4 PR 14053  recalled=21  comments=2  matched=0  human=1 covered=0  running precision=0%  (814s)
+# 5 PR 14099  recalled=22  comments=1  matched=0  human=1 covered=0  running precision=0%  (399s)
+# 6 PR 14105  recalled=24  comments=6  matched=1  human=2 covered=1  running precision=6%  (402s)
+# 7 PR 13815  recalled=28  comments=1  matched=1  human=3 covered=1  running precision=11%  (462s)
+# 8 PR 14121  recalled=31  comments=1  matched=0  human=2 covered=0  running precision=11%  (440s)
+# 9 PR 13778  recalled=35  comments=5  matched=3  human=8 covered=3  running precision=21%  (444s)
+PR 14179 attempt 1 failed (LLM JSON completion failed on all models: Request timed out.), retrying in 30s
+#10 PR 14179  recalled=45  comments=2  matched=0  human=23 covered=0  running precision=19%  (600s)
+#11 PR 14050  recalled=46  comments=6  matched=2  human=5 covered=2  running precision=22%  (437s)
+PR 14200 attempt 1 failed (LLM JSON completion failed on all models: Request timed out.), retrying in 30s
+PR 14200 attempt 2 failed (recall failed: "fetch failed"), retrying in 30s
+PR 14200 attempt 3 failed (recall failed: "fetch failed"), retrying in 30s
+PR 14200 failed: recall failed: "fetch failed"
+wrote results/replay-t8h-on.json

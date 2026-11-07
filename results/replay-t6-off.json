@@ -1,0 +1,671 @@
+{
+ "arm": "off",
+ "repo": "pytest-dev/pytest",
+ "bank": "replay-t6-off-mw55h0gt",
+ "rows": [
+  {
+   "k": 0,
+   "pr": 12934,
+   "title": "use Contextmanagers to handle StopIteration in generators",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 5,
+   "matched": 0,
+   "humanComments": 2,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/logging.py",
+     "line": 809,
+     "text": "You added @contextmanager but didn't import it. Add `from contextlib import contextmanager` at the top of the file.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/logging.py",
+     "line": 839,
+     "text": "`_runtest_for` is now used as a context manager, but its return type annotation is still `Generator[None]`. Update the annotation to `Iterator[None]` or `Generator[None, None, None]` to reflect its dual use.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/logging.py",
+     "line": 842,
+     "text": "The `with self._runtest_for(...): yield` pattern works, but you should ensure that any exception raised inside the block is re‑raised after the context manager cleanup. Verify that the original semantics of `yield from` (including proper propagation of `StopIteration`) are preserved.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/acceptance_test.py",
+     "line": 1609,
+     "text": "The new tests rely on `ExitCode.INTERRUPTED` for collection‑time `StopIteration`. Ensure that the change in `logging.py` does not alter the exit code for collection errors.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/acceptance_test.py",
+     "line": 1620,
+     "text": "The test `test_stop_iteration_runtest_protocol` expects two errors and one failure. Verify that the context‑manager implementation correctly distinguishes between errors in setup/teardown and failures in the call phase.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 1,
+   "pr": 13728,
+   "title": "terminal: notify terminal emulator about test session progress",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 6,
+   "matched": 0,
+   "humanComments": 5,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 295,
+     "text": "The `TerminalProgressPlugin` class is referenced before it is defined. Move the plugin registration after the class definition or import it from a separate module to avoid a NameError during import.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 350,
+     "text": "`Literal` and `Session` are used in type annotations but not imported. Add `from typing import Literal` and import `Session` from `._pytest.main` or the appropriate module.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 371,
+     "text": "The `match` statement in `_emit_progress` is incomplete – the last `case` branch is missing a body and the function ends abruptly. This will raise a SyntaxError. Complete the `case` clauses or remove the unfinished one.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 371,
+     "text": "The `match` statement uses Python 3.10 syntax. Ensure the project’s minimum Python version supports this or provide a fallback for older versions.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/terminalwriter.py",
+     "line": 161,
+     "text": "`write_raw` is added but not used anywhere else in the codebase. Verify that this method is intended to replace the original `write` logic and that no other modules rely on the old behavior.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/terminalwriter.py",
+     "line": 161,
+     "text": "The new `write_raw` method duplicates the Unicode handling logic. Consider extracting the common error handling into a helper to avoid code duplication between `write` and `write_raw`.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 2,
+   "pr": 14025,
+   "title": "don't crash if exceptiongroup has only hidden tb frames",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 1,
+   "matched": 0,
+   "humanComments": 1,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "testing/code/test_excinfo.py",
+     "line": 1902,
+     "text": "Using a raw f-string to generate the test file can introduce unwanted indentation in the generated code. Consider using `textwrap.dedent` or a plain triple‑quoted string to keep the source layout clean.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 3,
+   "pr": 13963,
+   "title": "Ensure subtest's context kwargs are JSON serializable",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 5,
+   "matched": 0,
+   "humanComments": 3,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/subtests.py",
+     "line": 64,
+     "text": "`saferepr` is used in `__post_init__` but never imported. Add `from _pytest._io.saferepr import saferepr` at the top of the file.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/subtests.py",
+     "line": 61,
+     "text": "`SubtestContext` is a frozen dataclass (see its definition elsewhere). Mutating `self.kwargs` via `object.__setattr__` is fine, but consider documenting that this conversion happens in `__post_init__` to avoid confusion.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_subtests.py",
+     "line": 965,
+     "text": "The test imports `saferepr` but never uses it directly; the assertion uses `saferepr(10)` and `saferepr(MyEnum.A)`. Ensure that the import is necessary or remove it to keep the test tidy.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_subtests.py",
+     "line": 1003,
+     "text": "In `test_serialization_xdist`, the pytest command uses `-pxdist.plugin`. The correct flag to enable the xdist plugin is `-pxdist`. Adjust the command accordingly to avoid a silent failure.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_subtests.py",
+     "line": 302,
+     "text": "The expected output strings now include quotes around the `i` value (e.g., `i='1'`). Verify that the actual pytest output indeed contains these quotes; otherwise the test will fail. If the output format changes, update the expected patterns.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 4,
+   "pr": 14053,
+   "title": "docs: clarify capture fixture precedence over -s",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 6,
+   "matched": 1,
+   "humanComments": 1,
+   "humanCovered": 1,
+   "outcomes": [
+    {
+     "path": "doc/en/how-to/capture-stdout-stderr.rst",
+     "line": 168,
+     "text": "The :fixture: role is used for ``capsys`` and ``capfd`` but the role is not defined in the docs. Add a definition for the :fixture: role or use the standard :func: or :class: role if appropriate.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "doc/en/how-to/capture-stdout-stderr.rst",
+     "line": 166,
+     "text": "The note block appears after the main section heading but before the example code. Consider moving the note to the top of the section or placing it immediately after the example for better readability.",
+     "precedents": [],
+     "matchedHuman": 2649154995,
+     "matchedReviewer": "nicoddemus"
+    },
+    {
+     "path": "doc/en/how-to/capture-stdout-stderr.rst",
+     "line": 174,
+     "text": "The note mentions that output is still captured when using a capture fixture even if global capturing is disabled. It might be helpful to add a short example showing this behavior for clarity.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "changelog/13731.doc.rst",
+     "line": 1,
+     "text": "The changelog entry uses a relative reference to the section title. Ensure that the reference target :ref:`Accessing captured output from a test function <accessing-captured-output>` is unique and does not clash with other sections.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "changelog/13731.doc.rst",
+     "line": 1,
+     "text": "The changelog entry uses the past tense \"Clarified\" which is correct, but consider adding a brief description of the change for consistency with other changelog entries.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "doc/en/how-to/capture-stdout-stderr.rst",
+     "line": 109,
+     "text": "The example code block at line 109 shows a failing test but does not illustrate the interaction between ``-s`` and capture fixtures. Adding a minimal example that demonstrates this interaction would strengthen the documentation.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 5,
+   "pr": 14099,
+   "title": "docs: actualize pytest_version",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 2,
+   "matched": 0,
+   "humanComments": 1,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "doc/en/backwards-compatibility.rst",
+     "line": 83,
+     "text": "The table now lists 9.0+ as supporting Python 3.10+. Verify that this aligns with the actual supported Python versions in the release notes and CI matrix.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "doc/en/reference/reference.rst",
+     "line": 2544,
+     "text": "Typo: \"linesto\" should be \"lines to\". Fix the spacing for clarity.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 6,
+   "pr": 14105,
+   "title": "[truncate explanation] Fix edge case when we truncate due to max_chars",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 6,
+   "matched": 2,
+   "humanComments": 2,
+   "humanCovered": 2,
+   "outcomes": [
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 71,
+     "text": "The comment about \"When this function is launched we know max_lines > 0 or max_chars > 0\" is misleading – the code still accepts both zero, which could lead to unexpected behaviour if called directly. Consider clarifying the precondition or guarding against both being zero.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 83,
+     "text": "The condition `if max_lines == 0 or len(input_lines) <= max_lines + 2:` mixes two unrelated checks. If `max_lines==0` you still evaluate the `max_chars` condition, but the intent is to skip line truncation entirely. Split the logic for clarity.",
+     "precedents": [],
+     "matchedHuman": 2681921524,
+     "matchedReviewer": "bluetech"
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 90,
+     "text": "`sum(len(s) for s in input_lines)` recomputes the total character count twice (once here, once in `_truncate_by_char_count`). Cache the value to avoid redundant work and keep the intent clear.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 104,
+     "text": "`truncated_line_count` is calculated as `len(input_lines) - len(truncated_explanation) + int(need_to_truncate_char)`. This adds 1 when characters were truncated, but the original logic added 1 only when the last line was partially truncated. Adjust the formula to match the original behaviour or document the change.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 112,
+     "text": "The final return list omits the truncation explanation message that was previously appended after the ellipsis. The test expects a line like \"...Full output truncated (1 line hidden), use '-vv' to show\". Ensure that message is added back after the ellipsis logic.",
+     "precedents": [],
+     "matchedHuman": 2681957683,
+     "matchedReviewer": "bluetech"
+    },
+    {
+     "path": "testing/test_assertion.py",
+     "line": 1400,
+     "text": "The new test `test_truncates_full_line_because_of_max_chars` expects the truncation message to appear after an empty line. Verify that the implementation preserves this ordering, especially when `max_lines` is large enough to include the full line but `max_chars` forces truncation.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 7,
+   "pr": 13815,
+   "title": "fix(testing): `pytest.approx` correctly take account Mapping keys order to compare them",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 3,
+   "matched": 2,
+   "humanComments": 3,
+   "humanCovered": 2,
+   "outcomes": [
+    {
+     "path": "src/_pytest/python_api.py",
+     "line": 244,
+     "text": "The key comparison now uses order-sensitive equality (`self.expected.keys() != other_side.keys()`). This is intentional for the bug fix, but note that dict key order is insertion order; if callers rely on unordered comparison, this change may affect them.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/python_api.py",
+     "line": 259,
+     "text": "The loop now accesses `other_value = other_side[approx_key]` instead of zipping values. This is fine after the key check, but consider adding a defensive `KeyError` guard or using `other_side.get(approx_key)` to avoid accidental crashes if the key check is removed in future.",
+     "precedents": [],
+     "matchedHuman": 2685866897,
+     "matchedReviewer": "nicoddemus"
+    },
+    {
+     "path": "testing/python/approx.py",
+     "line": 1064,
+     "text": "The test `test_approx_on_unordered_mapping_with_mismatch` expects the mismatch report to list only the mismatched keys. Ensure that the formatting of the report matches the expected lines exactly; otherwise the test may fail on different Python versions where dict order changes.",
+     "precedents": [],
+     "matchedHuman": 2685881230,
+     "matchedReviewer": "nicoddemus"
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 8,
+   "pr": 14121,
+   "title": "cacheprovider: simplify cache directory creation",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 6,
+   "matched": 1,
+   "humanComments": 2,
+   "humanCovered": 1,
+   "outcomes": [
+    {
+     "path": "src/_pytest/cacheprovider.py",
+     "line": 12,
+     "text": "Missing import of `errno` used in `_make_cachedir` error handling.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/cacheprovider.py",
+     "line": 34,
+     "text": "`CACHEDIR_FILES` stores bytes for all files, but `README.md` content was originally a string. Ensure the bytes representation matches the intended file encoding (UTF-8).",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/cacheprovider.py",
+     "line": 58,
+     "text": "`_make_cachedir` uses `Path.rename` which may raise `FileExistsError` on Windows; the code checks `errno.EEXIST` but `errno` is not imported, causing a `NameError`.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/cacheprovider.py",
+     "line": 70,
+     "text": "The `finally` block unconditionally calls `shutil.rmtree(path, ignore_errors=True)` even if `path` was successfully renamed. This will delete the target directory on success. Consider checking if `path` still exists before removing.",
+     "precedents": [],
+     "matchedHuman": 2702217628,
+     "matchedReviewer": "bluetech"
+    },
+    {
+     "path": "testing/test_cacheprovider.py",
+     "line": 1348,
+     "text": "Test imports `CACHEDIR_FILES` but does not verify the contents of `README.md` or `.gitignore`. Adding assertions for those files would strengthen the test coverage.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_cacheprovider.py",
+     "line": 1379,
+     "text": "The test patches `Path.rename` to raise `KeyboardInterrupt`, but `_make_cachedir` only catches `OSError`. The exception will propagate, which is intended, but the test should also verify that the temporary directory is removed in this case, which it does. Ensure that the cleanup logic in `_make_cachedir` correctly handles any exception, not just `OSError`.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 9,
+   "pr": 13778,
+   "title": "Upload junit reports codecov",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 5,
+   "matched": 3,
+   "humanComments": 8,
+   "humanCovered": 3,
+   "outcomes": [
+    {
+     "path": ".github/workflows/test.yml",
+     "line": 278,
+     "text": "The environment variable name `_PYTEST_TOX_POSARGS_JUNIT` is set but never used in the `tox run` command. Ensure that the variable is referenced correctly in the tox.ini or remove it if unnecessary.",
+     "precedents": [],
+     "matchedHuman": 2505901128,
+     "matchedReviewer": "webknjaz"
+    },
+    {
+     "path": "tox.ini",
+     "line": 63,
+     "text": "The doctesting command includes `{env:_PYTEST_TOX_POSARGS_JUNIT:}` while the default posargs already inject this variable. This may result in duplicate `--junitxml` arguments. Consider removing it from the doctesting command to avoid redundancy.",
+     "precedents": [],
+     "matchedHuman": 2505901964,
+     "matchedReviewer": "webknjaz"
+    },
+    {
+     "path": "changelog/12689.contrib.rst",
+     "line": 1,
+     "text": "The changelog entry lacks a period at the end of the first sentence. Add a period for consistency with other changelog entries.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "changelog/12689.contrib.rst",
+     "line": 2,
+     "text": "The second sentence is split across two lines and missing a closing parenthesis. Merge into a single line and close the parenthesis: \"The test statistics is visible on the web interface <https://app.codecov.io/gh/pytest-dev/pytest/tests>.__\"",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": ".github/workflows/test.yml",
+     "line": 304,
+     "text": "The `files: junit.xml` path is relative to the repository root. Verify that the JUnit XML is indeed generated at the root; otherwise use `./junit.xml` or adjust the path accordingly.",
+     "precedents": [],
+     "matchedHuman": 2561971856,
+     "matchedReviewer": "webknjaz"
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 10,
+   "pr": 14179,
+   "title": "doc: fix ~75 typos and grammar issues across documentation",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 6,
+   "matched": 0,
+   "humanComments": 23,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "CONTRIBUTING.rst",
+     "line": 146,
+     "text": "The bullet point should read \"- a `tox configuration` …\" – the leading space before the hyphen is unnecessary and can cause rendering issues.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "CONTRIBUTING.rst",
+     "line": 280,
+     "text": "The phrase \"to pytest you can do\" is awkward; consider rephrasing to \"you can do\" for clarity.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "CONTRIBUTING.rst",
+     "line": 346,
+     "text": "The sentence \"it is expected that a core developer will to do\" contains an extra verb; remove \"to\".",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "CONTRIBUTING.rst",
+     "line": 512,
+     "text": "The phrase \"use to decide\" is incorrect; it should be \"use to decide\" – the current wording is confusing.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "RELEASING.rst",
+     "line": 117,
+     "text": "The instruction \"Ensure your are updated\" is missing a word; it should be \"Ensure your local checkout is up to date\" for clarity.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "changelog/13963.bugfix.rst",
+     "line": 1,
+     "text": "The URL now correctly points to the pytest-xdist repository; this change fixes a broken link that could mislead users.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 11,
+   "pr": 14050,
+   "title": "Fix: assertrepr_compare respects dict insertion order",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 1,
+   "matched": 1,
+   "humanComments": 5,
+   "humanCovered": 1,
+   "outcomes": [
+    {
+     "path": "src/_pytest/_io/saferepr.py",
+     "line": 85,
+     "text": "Adding a custom `repr_dict` changes the default representation of dicts throughout pytest. The documentation and any callers that relied on the sorted output should be updated to reflect that dicts are now rendered in insertion order.",
+     "precedents": [],
+     "matchedHuman": 2649149642,
+     "matchedReviewer": "nicoddemus"
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 12,
+   "pr": 14200,
+   "title": "Test overriding a fixture that requests a parametrized fixture",
+   "arm": "off",
+   "recalled": 0,
+   "agentComments": 3,
+   "matched": 0,
+   "humanComments": 1,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "testing/python/fixtures.py",
+     "line": 5405,
+     "text": "The inner class fixture `fixture_bar` shadows the outer fixture of the same name, which can be confusing. Consider renaming the class-scoped fixture to avoid accidental recursion or name clashes.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/python/fixtures.py",
+     "line": 5409,
+     "text": "The class-scoped fixture `fixture_bar` takes `self` as the first argument, which is unnecessary for fixtures. Pytest will pass the instance automatically; you can drop `self` from the signature.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/python/fixtures.py",
+     "line": 5414,
+     "text": "The test method `test_foobar` accesses the class-scoped fixture `fixture_bar`, but because the fixture name collides with the outer one, the intent may be unclear. Add a comment clarifying which fixture is being injected.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": null
+  },
+  {
+   "k": 13,
+   "pr": 14216,
+   "arm": "off",
+   "error": "LLM JSON completion failed on all models: Connection error."
+  },
+  {
+   "k": 14,
+   "pr": 14223,
+   "arm": "off",
+   "error": "LLM JSON completion failed on all models: Connection error."
+  },
+  {
+   "k": 15,
+   "pr": 12378,
+   "arm": "off",
+   "error": "LLM JSON completion failed on all models: Connection error."
+  },
+  {
+   "k": 16,
+   "pr": 14303,
+   "arm": "off",
+   "error": "LLM JSON completion failed on all models: Connection error."
+  },
+  {
+   "k": 17,
+   "pr": 14175,
+   "arm": "off",
+   "error": "LLM JSON completion failed on all models: Connection error."
+  },
+  {
+   "k": 18,
+   "pr": 14310,
+   "arm": "off",
+   "error": "LLM JSON completion failed on all models: Connection error."
+  },
+  {
+   "k": 19,
+   "pr": 14339,
+   "arm": "off",
+   "error": "LLM JSON completion failed on all models: Connection error."
+  }
+ ]
+}

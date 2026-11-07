@@ -1,0 +1,16 @@
+◇ injected env (6) from .env.local
+arm=on prs=13 bank=replay-t7-on-mw5x1b24
+# 0 PR 12934  recalled=0  comments=1  matched=0  human=2 covered=0  running precision=0%  (5s)
+# 1 PR 13728  recalled=6  comments=3  matched=1  human=5 covered=1  running precision=25%  (5s)
+# 2 PR 14025  recalled=20  comments=2  matched=0  human=1 covered=0  running precision=17%  (16s)
+# 3 PR 13963  recalled=28  comments=1  matched=0  human=3 covered=0  running precision=14%  (347s)
+# 4 PR 14053  recalled=43  comments=0  matched=0  human=1 covered=0  running precision=14%  (452s)
+# 5 PR 14099  recalled=52  comments=0  matched=0  human=1 covered=0  running precision=14%  (478s)
+# 6 PR 14105  recalled=53  comments=2  matched=1  human=2 covered=1  running precision=22%  (378s)
+# 7 PR 13815  recalled=60  comments=1  matched=0  human=3 covered=0  running precision=20%  (369s)
+# 8 PR 14121  recalled=70  comments=1  matched=0  human=2 covered=0  running precision=18%  (453s)
+# 9 PR 13778  recalled=74  comments=0  matched=0  human=8 covered=0  running precision=18%  (420s)
+#10 PR 14179  recalled=77  comments=1  matched=0  human=23 covered=0  running precision=17%  (432s)
+#11 PR 14050  recalled=84  comments=6  matched=1  human=5 covered=1  running precision=17%  (377s)
+#12 PR 14200  recalled=90  comments=1  matched=0  human=1 covered=0  running precision=16%  (377s)
+wrote results/replay-t7-on.json

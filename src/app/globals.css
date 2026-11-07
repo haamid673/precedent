@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f9f9f7;
+  --foreground: #0b0b0b;
+  /* chart tokens (palette validated with the dataviz script, both modes) */
+  --viz-surface: #fcfcfb;
+  --viz-ink: #0b0b0b;
+  --viz-ink-2: #52514e;
+  --viz-muted: #6f6d68;
+  --viz-grid: #e1e0d9;
+  --viz-axis: #c3c2b7;
+  --viz-on: #2a78d6;
+  --viz-off: #eb6834;
 }
 
 @theme inline {
@@ -14,13 +23,21 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0d0d0d;
+    --foreground: #f0efec;
+    --viz-surface: #1a1a19;
+    --viz-ink: #f0efec;
+    --viz-ink-2: #c3c2b7;
+    --viz-muted: #a09e97;
+    --viz-grid: #2c2c2a;
+    --viz-axis: #383835;
+    --viz-on: #3987e5;
+    --viz-off: #d95926;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }

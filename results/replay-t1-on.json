@@ -1,0 +1,2364 @@
+{
+ "arm": "on",
+ "repo": "pytest-dev/pytest",
+ "bank": "replay-t1-on-mw515usl",
+ "rows": [
+  {
+   "k": 0,
+   "pr": 12934,
+   "title": "use Contextmanagers to handle StopIteration in generators",
+   "arm": "on",
+   "recalled": 0,
+   "agentComments": 2,
+   "matched": 0,
+   "humanComments": 2,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/logging.py",
+     "line": 809,
+     "text": "The new @contextmanager decorator requires an import. Add `from contextlib import contextmanager` to the imports at the top of the file.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/logging.py",
+     "line": 809,
+     "text": "The return type hint of `_runtest_for` should reflect that it is now a context manager, e.g. `-> ContextManager[None]` (imported from `typing`).",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": []
+  },
+  {
+   "k": 1,
+   "pr": 13728,
+   "title": "terminal: notify terminal emulator about test session progress",
+   "arm": "on",
+   "recalled": 8,
+   "agentComments": 6,
+   "matched": 0,
+   "humanComments": 5,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 800,
+     "text": "The `_emit_progress` method uses `Literal` in its type annotation but `Literal` is not imported. Add `from typing import Literal` to the imports at the top of the file.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 462,
+     "text": "The new `reported_progress` property accesses `self._progress_nodeids_reported`, which is a set. The property returns its length, but the docstring says \"The amount of items reported in the progress so far.\" Consider renaming to `reported_progress_count` or clarifying that it returns a count, not the set itself.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_terminal.py",
+     "line": 12,
+     "text": "The tests patch `sys.stdout.isatty` but `sys` is never imported. Add `import sys` to the imports.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_terminal.py",
+     "line": 13,
+     "text": "`Literal` is imported but never used in this file. Remove the unused import to keep the test module clean.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_terminal.py",
+     "line": 336,
+     "text": "The `mock_tr` fixture is annotated as returning `pytest.TerminalReporter`, which does not exist. It should be `TerminalReporter` imported from `_pytest.terminal`.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_terminal.py",
+     "line": 340,
+     "text": "`Mock(spec=pytest.TerminalReporter)` uses the same incorrect reference. Change the spec to `TerminalReporter` (the class imported from `_pytest.terminal`).",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "3af5eec4-52ca-4e95-8e88-529e4e925368",
+     "label": "P1",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "732e31f9-75e3-4389-b753-f061e8969b9d",
+     "label": "P2",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "7e8e5f90-b3ff-417e-b8e3-231f30ca38ad",
+     "label": "P3",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "02cf9db8-cefc-4605-844f-7852f67c1fd3",
+     "label": "P4",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews. | When: 2025-05-31 | Involving: user, the team",
+     "type": "world"
+    },
+    {
+     "id": "f4da7c57-651b-49aa-9714-f28abf5b2a86",
+     "label": "P5",
+     "text": "The user's suggestion for PR #12934 was ignored by the team because they do not prioritize this type of type hint feedback. | When: 2025-05-31 | Involving: user, PR #12934 reviewers | The team does not ask for this specific type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "f8a43d22-9182-474a-8838-7fb755f96e9e",
+     "label": "P6",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The function was updated to be a context manager.",
+     "type": "experience"
+    },
+    {
+     "id": "bf52c1bc-519f-4709-ab44-0c02fc83ef3c",
+     "label": "P7",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "7a947140-df68-42b6-9bf0-dcbe569b2a8f",
+     "label": "P8",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The new @contextmanager decorator required an import.",
+     "type": "experience"
+    }
+   ]
+  },
+  {
+   "k": 2,
+   "pr": 14025,
+   "title": "don't crash if exceptiongroup has only hidden tb frames",
+   "arm": "on",
+   "recalled": 31,
+   "agentComments": 3,
+   "matched": 0,
+   "humanComments": 1,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/_code/code.py",
+     "line": 1198,
+     "text": "The new `extraline` is added only when `traceback` is empty, but `repr_traceback` already adds a similar line for hidden frames elsewhere. Verify that this does not produce duplicate \"All traceback entries are hidden\" lines in the output.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/code/test_excinfo.py",
+     "line": 1902,
+     "text": "The assertion `result.stdout.fnmatch_lines([\"*ValueError: bar\"])` will not match the output when `group=True` because the top‑level exception is an `ExceptionGroup`. Adjust the pattern to accept either `ExceptionGroup` or the inner `ValueError` (e.g. `\"*ExceptionGroup*\"` or use two separate expectations).",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/code/test_excinfo.py",
+     "line": 1900,
+     "text": "The generated test file uses an f‑string with the `def test():` line indented one space less than the preceding import block, which will raise an `IndentationError`. Align the `def test():` line with the imports (no extra leading space) or move the import block outside the f‑string.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "02cf9db8-cefc-4605-844f-7852f67c1fd3",
+     "label": "P1",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews. | When: 2025-05-31 | Involving: user, the team",
+     "type": "world"
+    },
+    {
+     "id": "3af5eec4-52ca-4e95-8e88-529e4e925368",
+     "label": "P2",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "732e31f9-75e3-4389-b753-f061e8969b9d",
+     "label": "P3",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "1d6608ee-e093-4388-ab0f-fc740ad549e3",
+     "label": "P4",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch to disable terminal notifications in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "bf52c1bc-519f-4709-ab44-0c02fc83ef3c",
+     "label": "P5",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "f4da7c57-651b-49aa-9714-f28abf5b2a86",
+     "label": "P6",
+     "text": "The user's suggestion for PR #12934 was ignored by the team because they do not prioritize this type of type hint feedback. | When: 2025-05-31 | Involving: user, PR #12934 reviewers | The team does not ask for this specific type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "d76869e5-6e84-4852-bf14-3b590c589d72",
+     "label": "P7",
+     "text": "The team ignored the user's suggestion on PR #13728, as the team does not prioritize this type of feedback. | When: 2025-10-01 | Involving: user, team | The team does not ask for this kind of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "a6d167c4-8fbf-493d-be38-b6ad3965bcc6",
+     "label": "P8",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "97f4039b-21fd-40af-bba1-ba193419e0e8",
+     "label": "P9",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "f4ffdb39-0017-47e0-a433-f29a10f561c4",
+     "label": "P10",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "7e8e5f90-b3ff-417e-b8e3-231f30ca38ad",
+     "label": "P11",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "bbc5bde5-2c06-45bd-bf41-1e699e49a013",
+     "label": "P12",
+     "text": "User suggested adding 'from typing import Literal' to 'src/_pytest/terminal.py' in PR #13728, but the suggestion was ignored by reviewers. | When: 2025-10-01 | Where: src/_pytest/terminal.py | Involving: user | The team does not prioritize this type of suggestion.",
+     "type": "experience"
+    },
+    {
+     "id": "7208d74d-028f-4a7e-afeb-a5e1544d349c",
+     "label": "P13",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "157d438a-07e6-48db-a431-4cdafd9e803e",
+     "label": "P14",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "ae66db33-6a2d-4d8a-b013-50ed622dfb50",
+     "label": "P15",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "7eb978bd-48aa-4c04-869a-a7a54a4925b4",
+     "label": "P16",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team. | When: 2025-10-01 | Involving: user, team | The team does not prioritize this type of code cleanup.",
+     "type": "world"
+    },
+    {
+     "id": "a53d8ad1-7a18-4f84-87f0-c8a522ddd712",
+     "label": "P17",
+     "text": "The team ignored the user's suggestion on PR #13728 because such naming clarifications are not requested by the team. | When: 2025-10-01 | Involving: user, PR #13728 reviewers | The team does not prioritize this type of feedback.",
+     "type": "world"
+    },
+    {
+     "id": "bb6e3c75-18fb-4ef0-a42a-8eb596e4a28b",
+     "label": "P18",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "313d1889-90c3-411b-a645-e62f1072d188",
+     "label": "P19",
+     "text": "The user suggested removing an unused 'Literal' import from testing/test_terminal.py in PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | To keep the test module clean.",
+     "type": "experience"
+    },
+    {
+     "id": "476f6670-2831-4b26-ae5c-e2ad22e7e332",
+     "label": "P20",
+     "text": "User suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set. | When: 2025-10-01 | Where: src/_pytest/terminal.py:462 | Involving: user | The existing docstring was ambiguous regarding the property's return value.",
+     "type": "experience"
+    },
+    {
+     "id": "f8a43d22-9182-474a-8838-7fb755f96e9e",
+     "label": "P21",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The function was updated to be a context manager.",
+     "type": "experience"
+    },
+    {
+     "id": "32e9efb8-414d-43f0-9609-2d18af1dbd46",
+     "label": "P22",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "53963732-3471-406e-beda-35dc0e964cc4",
+     "label": "P23",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "33a14aa9-474d-4449-a0f7-193b45ec81e1",
+     "label": "P24",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "333d1486-0806-407f-b82c-57f40e4e5ee1",
+     "label": "P25",
+     "text": "User suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:340 | Involving: user | The original reference was incorrect.",
+     "type": "experience"
+    },
+    {
+     "id": "7a947140-df68-42b6-9bf0-dcbe569b2a8f",
+     "label": "P26",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The new @contextmanager decorator required an import.",
+     "type": "experience"
+    },
+    {
+     "id": "0b8e125f-ec48-456d-9e63-3ed5d9bb4e63",
+     "label": "P27",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | The current annotation refers to a non-existent class.",
+     "type": "experience"
+    },
+    {
+     "id": "f75867a0-6fe4-4cc5-b742-c6101be81ba4",
+     "label": "P28",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch to disable terminal notifications. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To address potential long-term compatibility issues with older Linux distributions that may continue to show notifications.",
+     "type": "world"
+    },
+    {
+     "id": "64d0d78c-2f64-4278-ab00-93494a1d42df",
+     "label": "P29",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "98a3a038-ae34-45ef-84eb-0e2b248c6f7b",
+     "label": "P30",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "c4e29f29-3cd0-4a0b-9f33-6a82b9b09b79",
+     "label": "P31",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Feedback on terminal emulator test session progress notification.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 3,
+   "pr": 13963,
+   "arm": "on",
+   "error": "recall failed: \"fetch failed\""
+  },
+  {
+   "k": 4,
+   "pr": 14053,
+   "title": "docs: clarify capture fixture precedence over -s",
+   "arm": "on",
+   "recalled": 52,
+   "agentComments": 2,
+   "matched": 0,
+   "humanComments": 1,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "doc/en/how-to/capture-stdout-stderr.rst",
+     "line": 109,
+     "text": "You add an explicit target ``.. _accessing-captured-output:`` right before the section heading that already generates an automatic target with the same name. This will cause a duplicate label warning during the docs build. Consider removing the explicit target and rely on the autogenerated one.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "doc/en/how-to/capture-stdout-stderr.rst",
+     "line": 164,
+     "text": "The ``.. note::`` block is correctly formatted, but ensure there is a blank line before the ``.. note::`` directive (you have one) and after the note content (add an extra blank line) to avoid any potential parsing issues.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "7e8e5f90-b3ff-417e-b8e3-231f30ca38ad",
+     "label": "P1",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "732e31f9-75e3-4389-b753-f061e8969b9d",
+     "label": "P2",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "1d6608ee-e093-4388-ab0f-fc740ad549e3",
+     "label": "P3",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch to disable terminal notifications in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "a6d167c4-8fbf-493d-be38-b6ad3965bcc6",
+     "label": "P4",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "f75867a0-6fe4-4cc5-b742-c6101be81ba4",
+     "label": "P5",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch to disable terminal notifications. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To address potential long-term compatibility issues with older Linux distributions that may continue to show notifications.",
+     "type": "world"
+    },
+    {
+     "id": "a53d8ad1-7a18-4f84-87f0-c8a522ddd712",
+     "label": "P6",
+     "text": "The team ignored the user's suggestion on PR #13728 because such naming clarifications are not requested by the team. | When: 2025-10-01 | Involving: user, PR #13728 reviewers | The team does not prioritize this type of feedback.",
+     "type": "world"
+    },
+    {
+     "id": "0b8e125f-ec48-456d-9e63-3ed5d9bb4e63",
+     "label": "P7",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | The current annotation refers to a non-existent class.",
+     "type": "experience"
+    },
+    {
+     "id": "2c08dcde-9b05-4bbc-b70e-c607e902a8eb",
+     "label": "P8",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py.",
+     "type": "observation"
+    },
+    {
+     "id": "85c0f965-f3e6-428b-9bcf-65135dba3804",
+     "label": "P9",
+     "text": "The team ignored the user's suggestion on PR #13728 because such naming clarifications are not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "d76869e5-6e84-4852-bf14-3b590c589d72",
+     "label": "P10",
+     "text": "The team ignored the user's suggestion on PR #13728, as the team does not prioritize this type of feedback. | When: 2025-10-01 | Involving: user, team | The team does not ask for this kind of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "bb6e3c75-18fb-4ef0-a42a-8eb596e4a28b",
+     "label": "P11",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "f4ffdb39-0017-47e0-a433-f29a10f561c4",
+     "label": "P12",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "313d1889-90c3-411b-a645-e62f1072d188",
+     "label": "P13",
+     "text": "The user suggested removing an unused 'Literal' import from testing/test_terminal.py in PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | To keep the test module clean.",
+     "type": "experience"
+    },
+    {
+     "id": "9c6a81b2-7137-46c2-83be-8577367f19e2",
+     "label": "P14",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'.",
+     "type": "observation"
+    },
+    {
+     "id": "33a14aa9-474d-4449-a0f7-193b45ec81e1",
+     "label": "P15",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "f4da7c57-651b-49aa-9714-f28abf5b2a86",
+     "label": "P16",
+     "text": "The user's suggestion for PR #12934 was ignored by the team because they do not prioritize this type of type hint feedback. | When: 2025-05-31 | Involving: user, PR #12934 reviewers | The team does not ask for this specific type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "bf52c1bc-519f-4709-ab44-0c02fc83ef3c",
+     "label": "P17",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "333d1486-0806-407f-b82c-57f40e4e5ee1",
+     "label": "P18",
+     "text": "User suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:340 | Involving: user | The original reference was incorrect.",
+     "type": "experience"
+    },
+    {
+     "id": "02cf9db8-cefc-4605-844f-7852f67c1fd3",
+     "label": "P19",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews. | When: 2025-05-31 | Involving: user, the team",
+     "type": "world"
+    },
+    {
+     "id": "7208d74d-028f-4a7e-afeb-a5e1544d349c",
+     "label": "P20",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "98a3a038-ae34-45ef-84eb-0e2b248c6f7b",
+     "label": "P21",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "93dd2f68-c1ca-4583-8c91-3dd27cc3eeb8",
+     "label": "P22",
+     "text": "The user suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "97f4039b-21fd-40af-bba1-ba193419e0e8",
+     "label": "P23",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "3af5eec4-52ca-4e95-8e88-529e4e925368",
+     "label": "P24",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "32e9efb8-414d-43f0-9609-2d18af1dbd46",
+     "label": "P25",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "157d438a-07e6-48db-a431-4cdafd9e803e",
+     "label": "P26",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "bbc5bde5-2c06-45bd-bf41-1e699e49a013",
+     "label": "P27",
+     "text": "User suggested adding 'from typing import Literal' to 'src/_pytest/terminal.py' in PR #13728, but the suggestion was ignored by reviewers. | When: 2025-10-01 | Where: src/_pytest/terminal.py | Involving: user | The team does not prioritize this type of suggestion.",
+     "type": "experience"
+    },
+    {
+     "id": "c5cb0d70-008a-45ce-85b5-15b7ddc68df9",
+     "label": "P28",
+     "text": "The user suggested adding 'from typing import Literal' to 'src/_pytest/terminal.py' in PR #13728, but the suggestion was ignored by reviewers.",
+     "type": "observation"
+    },
+    {
+     "id": "ae66db33-6a2d-4d8a-b013-50ed622dfb50",
+     "label": "P29",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "955e7dcd-b878-42c9-a8a1-71819e285de3",
+     "label": "P30",
+     "text": "User suggested a verification check for potential duplicate 'All traceback entries are hidden' lines in PR #14025 at src/_pytest/_code/code.py:1198. | When: 2025-12-12 | Where: src/_pytest/_code/code.py:1198 | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "afc7da5f-89fe-42cc-bdb2-cc8cac0409e6",
+     "label": "P31",
+     "text": "The user's suggestion regarding indentation in PR #14025 was ignored by the team, as such feedback is not requested.",
+     "type": "observation"
+    },
+    {
+     "id": "41a35031-36a9-4a76-9c64-ce9585cae29c",
+     "label": "P32",
+     "text": "The team ignored the user's suggestion on PR #14025 because such feedback is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "5c0e021f-53fd-4552-ab3b-c6ebf7331167",
+     "label": "P33",
+     "text": "The user suggested removing an unused 'Literal' import from testing/test_terminal.py in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "d456069e-c07c-4c62-aebd-7e2924b7080e",
+     "label": "P34",
+     "text": "The user suggested a fix for an IndentationError in a generated test file within PR #14025, specifically at testing/code/test_excinfo.py:1900.",
+     "type": "observation"
+    },
+    {
+     "id": "d02e5bc6-69e7-4ad8-8f59-ef0339db12d2",
+     "label": "P35",
+     "text": "The user suggested a fix for a test assertion in PR #14025 regarding ExceptionGroup handling, but the suggestion was ignored by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "5eabf333-f028-4c3b-8bfe-e4107a9ad9e3",
+     "label": "P36",
+     "text": "The user suggested a fix for an IndentationError in a generated test file within PR #14025, specifically at testing/code/test_excinfo.py:1900. | When: 2025-12-12 | Where: testing/code/test_excinfo.py:1900 | Involving: user | The generated test file used an f-string with incorrect indentation for the 'def test():' line.",
+     "type": "experience"
+    },
+    {
+     "id": "888785ed-6278-48bf-8ecb-aacb18cec459",
+     "label": "P37",
+     "text": "The user's suggestion regarding indentation in PR #14025 was ignored by the team, as such feedback is not requested. | When: 2025-12-12 | Where: PR #14025 | Involving: user, team | The team does not prioritize this type of code review suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "476f6670-2831-4b26-ae5c-e2ad22e7e332",
+     "label": "P38",
+     "text": "User suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set. | When: 2025-10-01 | Where: src/_pytest/terminal.py:462 | Involving: user | The existing docstring was ambiguous regarding the property's return value.",
+     "type": "experience"
+    },
+    {
+     "id": "7eb978bd-48aa-4c04-869a-a7a54a4925b4",
+     "label": "P39",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team. | When: 2025-10-01 | Involving: user, team | The team does not prioritize this type of code cleanup.",
+     "type": "world"
+    },
+    {
+     "id": "df8a5e9a-1bba-446b-9f2b-76809dec3b88",
+     "label": "P40",
+     "text": "The user suggested a fix for a test assertion in PR #14025 regarding ExceptionGroup handling, but the suggestion was ignored by the team. | When: 2025-12-12 | Where: testing/code/test_excinfo.py:1902 | Involving: user | The team does not prioritize this type of suggestion during code reviews.",
+     "type": "experience"
+    },
+    {
+     "id": "c4e29f29-3cd0-4a0b-9f33-6a82b9b09b79",
+     "label": "P41",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Feedback on terminal emulator test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "9d685eb2-2419-48d4-b609-774a933573ee",
+     "label": "P42",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "73a9310a-ee9f-4d8c-bf7b-7350ceaa7c8b",
+     "label": "P43",
+     "text": "The team ignored the user's suggestion on PR #14025 because such feedback is not requested by the team. | When: 2025-12-12 | Involving: user, team | The team does not ask for this type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "f8a43d22-9182-474a-8838-7fb755f96e9e",
+     "label": "P44",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The function was updated to be a context manager.",
+     "type": "experience"
+    },
+    {
+     "id": "cc1156f1-75d1-4ce0-b4a8-5acaccdfd4f9",
+     "label": "P45",
+     "text": "The user suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set.",
+     "type": "observation"
+    },
+    {
+     "id": "4e701743-4ff7-4924-abc3-63fd806c25a4",
+     "label": "P46",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "2ad2926b-00d1-4b8c-8152-33755b0a983a",
+     "label": "P47",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "7a947140-df68-42b6-9bf0-dcbe569b2a8f",
+     "label": "P48",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The new @contextmanager decorator required an import.",
+     "type": "experience"
+    },
+    {
+     "id": "14d74664-b548-4671-a210-123bbec84670",
+     "label": "P49",
+     "text": "The user suggested a verification check for potential duplicate 'All traceback entries are hidden' lines in PR #14025 at src/_pytest/_code/code.py:1198.",
+     "type": "observation"
+    },
+    {
+     "id": "53963732-3471-406e-beda-35dc0e964cc4",
+     "label": "P50",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "bbdfd79d-624d-421f-8137-e73e3c45d7b5",
+     "label": "P51",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "64d0d78c-2f64-4278-ab00-93494a1d42df",
+     "label": "P52",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    }
+   ]
+  },
+  {
+   "k": 5,
+   "pr": 14099,
+   "title": "docs: actualize pytest_version",
+   "arm": "on",
+   "recalled": 58,
+   "agentComments": 4,
+   "matched": 1,
+   "humanComments": 1,
+   "humanCovered": 1,
+   "outcomes": [
+    {
+     "path": "doc/en/backwards-compatibility.rst",
+     "line": 85,
+     "text": "The new version range rows use a mixture of \"-\" and \"+\" notation (e.g. \"8.0 - 8.3\" vs \"9.0+\"). For consistency with the rest of the table, consider using a uniform format, such as \"8.0‑8.3\" without spaces, or keep the \"+\" style for all future‑only rows.",
+     "precedents": [],
+     "matchedHuman": 2681969146,
+     "matchedReviewer": "bluetech"
+    },
+    {
+     "path": "doc/en/backwards-compatibility.rst",
+     "line": 88,
+     "text": "The header \"min. Python version\" is abbreviated; the rest of the documentation prefers the full wording. Changing it to \"Minimum Python version\" would improve readability and match other tables.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "doc/en/reference/reference.rst",
+     "line": 20,
+     "text": "The hard‑coded version string now shows \"'9.0.2'\". Verify that this matches the actual package version in the source tree; otherwise the docs will become out‑of‑date quickly.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "doc/en/reference/reference.rst",
+     "line": 2546,
+     "text": "The typo fix from \"linesto\" to \"lines to\" is good. Consider adding a short note in the changelog that this documentation typo was corrected, for traceability.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "afc7da5f-89fe-42cc-bdb2-cc8cac0409e6",
+     "label": "P1",
+     "text": "The user's suggestion regarding indentation in PR #14025 was ignored by the team, as such feedback is not requested.",
+     "type": "observation"
+    },
+    {
+     "id": "c5cb0d70-008a-45ce-85b5-15b7ddc68df9",
+     "label": "P2",
+     "text": "The user suggested adding 'from typing import Literal' to 'src/_pytest/terminal.py' in PR #13728, but the suggestion was ignored by reviewers.",
+     "type": "observation"
+    },
+    {
+     "id": "888785ed-6278-48bf-8ecb-aacb18cec459",
+     "label": "P3",
+     "text": "The user's suggestion regarding indentation in PR #14025 was ignored by the team, as such feedback is not requested. | When: 2025-12-12 | Where: PR #14025 | Involving: user, team | The team does not prioritize this type of code review suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "93dd2f68-c1ca-4583-8c91-3dd27cc3eeb8",
+     "label": "P4",
+     "text": "The user suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "97f4039b-21fd-40af-bba1-ba193419e0e8",
+     "label": "P5",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "955e7dcd-b878-42c9-a8a1-71819e285de3",
+     "label": "P6",
+     "text": "User suggested a verification check for potential duplicate 'All traceback entries are hidden' lines in PR #14025 at src/_pytest/_code/code.py:1198. | When: 2025-12-12 | Where: src/_pytest/_code/code.py:1198 | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "2c08dcde-9b05-4bbc-b70e-c607e902a8eb",
+     "label": "P7",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py.",
+     "type": "observation"
+    },
+    {
+     "id": "333d1486-0806-407f-b82c-57f40e4e5ee1",
+     "label": "P8",
+     "text": "User suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:340 | Involving: user | The original reference was incorrect.",
+     "type": "experience"
+    },
+    {
+     "id": "ae66db33-6a2d-4d8a-b013-50ed622dfb50",
+     "label": "P9",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "157d438a-07e6-48db-a431-4cdafd9e803e",
+     "label": "P10",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "7e8e5f90-b3ff-417e-b8e3-231f30ca38ad",
+     "label": "P11",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "0b8e125f-ec48-456d-9e63-3ed5d9bb4e63",
+     "label": "P12",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | The current annotation refers to a non-existent class.",
+     "type": "experience"
+    },
+    {
+     "id": "f8a43d22-9182-474a-8838-7fb755f96e9e",
+     "label": "P13",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The function was updated to be a context manager.",
+     "type": "experience"
+    },
+    {
+     "id": "bbc5bde5-2c06-45bd-bf41-1e699e49a013",
+     "label": "P14",
+     "text": "User suggested adding 'from typing import Literal' to 'src/_pytest/terminal.py' in PR #13728, but the suggestion was ignored by reviewers. | When: 2025-10-01 | Where: src/_pytest/terminal.py | Involving: user | The team does not prioritize this type of suggestion.",
+     "type": "experience"
+    },
+    {
+     "id": "14d74664-b548-4671-a210-123bbec84670",
+     "label": "P15",
+     "text": "The user suggested a verification check for potential duplicate 'All traceback entries are hidden' lines in PR #14025 at src/_pytest/_code/code.py:1198.",
+     "type": "observation"
+    },
+    {
+     "id": "d456069e-c07c-4c62-aebd-7e2924b7080e",
+     "label": "P16",
+     "text": "The user suggested a fix for an IndentationError in a generated test file within PR #14025, specifically at testing/code/test_excinfo.py:1900.",
+     "type": "observation"
+    },
+    {
+     "id": "5c0e021f-53fd-4552-ab3b-c6ebf7331167",
+     "label": "P17",
+     "text": "The user suggested removing an unused 'Literal' import from testing/test_terminal.py in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "732e31f9-75e3-4389-b753-f061e8969b9d",
+     "label": "P18",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "9c6a81b2-7137-46c2-83be-8577367f19e2",
+     "label": "P19",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'.",
+     "type": "observation"
+    },
+    {
+     "id": "313d1889-90c3-411b-a645-e62f1072d188",
+     "label": "P20",
+     "text": "The user suggested removing an unused 'Literal' import from testing/test_terminal.py in PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | To keep the test module clean.",
+     "type": "experience"
+    },
+    {
+     "id": "33a14aa9-474d-4449-a0f7-193b45ec81e1",
+     "label": "P21",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "df8a5e9a-1bba-446b-9f2b-76809dec3b88",
+     "label": "P22",
+     "text": "The user suggested a fix for a test assertion in PR #14025 regarding ExceptionGroup handling, but the suggestion was ignored by the team. | When: 2025-12-12 | Where: testing/code/test_excinfo.py:1902 | Involving: user | The team does not prioritize this type of suggestion during code reviews.",
+     "type": "experience"
+    },
+    {
+     "id": "41a35031-36a9-4a76-9c64-ce9585cae29c",
+     "label": "P23",
+     "text": "The team ignored the user's suggestion on PR #14025 because such feedback is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "32e9efb8-414d-43f0-9609-2d18af1dbd46",
+     "label": "P24",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "53963732-3471-406e-beda-35dc0e964cc4",
+     "label": "P25",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "3c188aba-2eac-4d18-9744-10620765add9",
+     "label": "P26",
+     "text": "The user's suggestion on PR #14053 was ignored by reviewers and is considered outside the scope of what the team requests. | When: 2025-12-28 | Involving: user, team | The team does not prioritize this type of formatting suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "7a947140-df68-42b6-9bf0-dcbe569b2a8f",
+     "label": "P27",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The new @contextmanager decorator required an import.",
+     "type": "experience"
+    },
+    {
+     "id": "bbdfd79d-624d-421f-8137-e73e3c45d7b5",
+     "label": "P28",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "bb6e3c75-18fb-4ef0-a42a-8eb596e4a28b",
+     "label": "P29",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "73a9310a-ee9f-4d8c-bf7b-7350ceaa7c8b",
+     "label": "P30",
+     "text": "The team ignored the user's suggestion on PR #14025 because such feedback is not requested by the team. | When: 2025-12-12 | Involving: user, team | The team does not ask for this type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "d02e5bc6-69e7-4ad8-8f59-ef0339db12d2",
+     "label": "P31",
+     "text": "The user suggested a fix for a test assertion in PR #14025 regarding ExceptionGroup handling, but the suggestion was ignored by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "5eabf333-f028-4c3b-8bfe-e4107a9ad9e3",
+     "label": "P32",
+     "text": "The user suggested a fix for an IndentationError in a generated test file within PR #14025, specifically at testing/code/test_excinfo.py:1900. | When: 2025-12-12 | Where: testing/code/test_excinfo.py:1900 | Involving: user | The generated test file used an f-string with incorrect indentation for the 'def test():' line.",
+     "type": "experience"
+    },
+    {
+     "id": "476f6670-2831-4b26-ae5c-e2ad22e7e332",
+     "label": "P33",
+     "text": "User suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set. | When: 2025-10-01 | Where: src/_pytest/terminal.py:462 | Involving: user | The existing docstring was ambiguous regarding the property's return value.",
+     "type": "experience"
+    },
+    {
+     "id": "d76869e5-6e84-4852-bf14-3b590c589d72",
+     "label": "P34",
+     "text": "The team ignored the user's suggestion on PR #13728, as the team does not prioritize this type of feedback. | When: 2025-10-01 | Involving: user, team | The team does not ask for this kind of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "f4da7c57-651b-49aa-9714-f28abf5b2a86",
+     "label": "P35",
+     "text": "The user's suggestion for PR #12934 was ignored by the team because they do not prioritize this type of type hint feedback. | When: 2025-05-31 | Involving: user, PR #12934 reviewers | The team does not ask for this specific type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "2ad2926b-00d1-4b8c-8152-33755b0a983a",
+     "label": "P36",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "7eb978bd-48aa-4c04-869a-a7a54a4925b4",
+     "label": "P37",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team. | When: 2025-10-01 | Involving: user, team | The team does not prioritize this type of code cleanup.",
+     "type": "world"
+    },
+    {
+     "id": "f4ffdb39-0017-47e0-a433-f29a10f561c4",
+     "label": "P38",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "85c0f965-f3e6-428b-9bcf-65135dba3804",
+     "label": "P39",
+     "text": "The team ignored the user's suggestion on PR #13728 because such naming clarifications are not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "a53d8ad1-7a18-4f84-87f0-c8a522ddd712",
+     "label": "P40",
+     "text": "The team ignored the user's suggestion on PR #13728 because such naming clarifications are not requested by the team. | When: 2025-10-01 | Involving: user, PR #13728 reviewers | The team does not prioritize this type of feedback.",
+     "type": "world"
+    },
+    {
+     "id": "cc1156f1-75d1-4ce0-b4a8-5acaccdfd4f9",
+     "label": "P41",
+     "text": "The user suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set.",
+     "type": "observation"
+    },
+    {
+     "id": "7208d74d-028f-4a7e-afeb-a5e1544d349c",
+     "label": "P42",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "b7d442ee-fc4f-4902-8e25-22fb877c58d8",
+     "label": "P43",
+     "text": "The team ignored the user's suggestion regarding the duplicate label warning, as such technical feedback is not requested by the team. | When: 2025-12-28 | Where: PR #14053 | Involving: user, the team | The team does not prioritize or ask for this specific type of documentation feedback.",
+     "type": "world"
+    },
+    {
+     "id": "bf52c1bc-519f-4709-ab44-0c02fc83ef3c",
+     "label": "P44",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "02cf9db8-cefc-4605-844f-7852f67c1fd3",
+     "label": "P45",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews. | When: 2025-05-31 | Involving: user, the team",
+     "type": "world"
+    },
+    {
+     "id": "9d685eb2-2419-48d4-b609-774a933573ee",
+     "label": "P46",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "863ff3b6-64ff-49dc-af69-51d072a932e2",
+     "label": "P47",
+     "text": "The user suggested adding a blank line after the note content in doc/en/how-to/capture-stdout-stderr.rst:164 on PR #14053 to avoid parsing issues. | When: 2025-12-28 | Where: doc/en/how-to/capture-stdout-stderr.rst:164 | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "a6d167c4-8fbf-493d-be38-b6ad3965bcc6",
+     "label": "P48",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "d6998606-0ba2-4a77-9252-e13dca7d2c12",
+     "label": "P49",
+     "text": "The user suggested removing an explicit target label in doc/en/how-to/capture-stdout-stderr.rst to avoid a duplicate label warning during documentation builds. | When: 2025-12-28 | Where: PR #14053 | Involving: user | To prevent duplicate label warnings during the documentation build process.",
+     "type": "experience"
+    },
+    {
+     "id": "64d0d78c-2f64-4278-ab00-93494a1d42df",
+     "label": "P50",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "1d6608ee-e093-4388-ab0f-fc740ad549e3",
+     "label": "P51",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch to disable terminal notifications in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "95143a8f-6634-47e5-ab90-fa49b70a5802",
+     "label": "P52",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic feature explanations. | When: 2025-12-27 | Where: doc/en/how-to/capture-stdout-stderr.rst | Involving: nicoddemus (reviewer) | The note contains advanced information that interrupts the explanation of basic features.",
+     "type": "world"
+    },
+    {
+     "id": "3af5eec4-52ca-4e95-8e88-529e4e925368",
+     "label": "P53",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "99d92024-3bd9-458a-a5a5-656108a1dfa6",
+     "label": "P54",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic feature explanations.",
+     "type": "observation"
+    },
+    {
+     "id": "c4e29f29-3cd0-4a0b-9f33-6a82b9b09b79",
+     "label": "P55",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Feedback on terminal emulator test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "98a3a038-ae34-45ef-84eb-0e2b248c6f7b",
+     "label": "P56",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "f75867a0-6fe4-4cc5-b742-c6101be81ba4",
+     "label": "P57",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch to disable terminal notifications. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To address potential long-term compatibility issues with older Linux distributions that may continue to show notifications.",
+     "type": "world"
+    },
+    {
+     "id": "4e701743-4ff7-4924-abc3-63fd806c25a4",
+     "label": "P58",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    }
+   ]
+  },
+  {
+   "k": 6,
+   "pr": 14105,
+   "title": "[truncate explanation] Fix edge case when we truncate due to max_chars",
+   "arm": "on",
+   "recalled": 62,
+   "agentComments": 3,
+   "matched": 1,
+   "humanComments": 2,
+   "humanCovered": 1,
+   "outcomes": [
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 124,
+     "text": "The truncation summary line is hard‑coded to \"1 line hidden\". Use the computed `truncated_line_count` (and proper pluralisation) so the message is correct for all cases.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 119,
+     "text": "`truncated_line_count` is calculated but never used. Either incorporate it into the summary message (as above) or remove the variable to avoid dead code.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 61,
+     "text": "The docstring states that \"we know max_lines > 0 or max_chars > 0\", yet the early‑return condition checks `max_lines == 0`. Clarify the invariant or adjust the comment to match the actual logic.",
+     "precedents": [],
+     "matchedHuman": 2681921524,
+     "matchedReviewer": "bluetech"
+    }
+   ],
+   "precedents": [
+    {
+     "id": "6718bab2-942f-42a8-a6a4-4bd552b6ee51",
+     "label": "P1",
+     "text": "The user's suggestion on PR #14053 was ignored by reviewers and is considered outside the scope of what the team requests.",
+     "type": "observation"
+    },
+    {
+     "id": "d02e5bc6-69e7-4ad8-8f59-ef0339db12d2",
+     "label": "P2",
+     "text": "The user suggested a fix for a test assertion in PR #14025 regarding ExceptionGroup handling, but the suggestion was ignored by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "afc7da5f-89fe-42cc-bdb2-cc8cac0409e6",
+     "label": "P3",
+     "text": "The user's suggestion regarding indentation in PR #14025 was ignored by the team, as such feedback is not requested.",
+     "type": "observation"
+    },
+    {
+     "id": "888785ed-6278-48bf-8ecb-aacb18cec459",
+     "label": "P4",
+     "text": "The user's suggestion regarding indentation in PR #14025 was ignored by the team, as such feedback is not requested. | When: 2025-12-12 | Where: PR #14025 | Involving: user, team | The team does not prioritize this type of code review suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "14d74664-b548-4671-a210-123bbec84670",
+     "label": "P5",
+     "text": "The user suggested a verification check for potential duplicate 'All traceback entries are hidden' lines in PR #14025 at src/_pytest/_code/code.py:1198.",
+     "type": "observation"
+    },
+    {
+     "id": "3c188aba-2eac-4d18-9744-10620765add9",
+     "label": "P6",
+     "text": "The user's suggestion on PR #14053 was ignored by reviewers and is considered outside the scope of what the team requests. | When: 2025-12-28 | Involving: user, team | The team does not prioritize this type of formatting suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "41a35031-36a9-4a76-9c64-ce9585cae29c",
+     "label": "P7",
+     "text": "The team ignored the user's suggestion on PR #14025 because such feedback is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "79d12143-18f2-4805-b8e4-fd3dfbd41695",
+     "label": "P8",
+     "text": "The team ignored the user's suggestion for PR #14099, as such stylistic changes are not requested by the team. | When: 2026-01-12 | Involving: user, the team | The team does not prioritize this type of stylistic suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "df8a5e9a-1bba-446b-9f2b-76809dec3b88",
+     "label": "P9",
+     "text": "The user suggested a fix for a test assertion in PR #14025 regarding ExceptionGroup handling, but the suggestion was ignored by the team. | When: 2025-12-12 | Where: testing/code/test_excinfo.py:1902 | Involving: user | The team does not prioritize this type of suggestion during code reviews.",
+     "type": "experience"
+    },
+    {
+     "id": "5c0e021f-53fd-4552-ab3b-c6ebf7331167",
+     "label": "P10",
+     "text": "The user suggested removing an unused 'Literal' import from testing/test_terminal.py in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "d456069e-c07c-4c62-aebd-7e2924b7080e",
+     "label": "P11",
+     "text": "The user suggested a fix for an IndentationError in a generated test file within PR #14025, specifically at testing/code/test_excinfo.py:1900.",
+     "type": "observation"
+    },
+    {
+     "id": "5eabf333-f028-4c3b-8bfe-e4107a9ad9e3",
+     "label": "P12",
+     "text": "The user suggested a fix for an IndentationError in a generated test file within PR #14025, specifically at testing/code/test_excinfo.py:1900. | When: 2025-12-12 | Where: testing/code/test_excinfo.py:1900 | Involving: user | The generated test file used an f-string with incorrect indentation for the 'def test():' line.",
+     "type": "experience"
+    },
+    {
+     "id": "313d1889-90c3-411b-a645-e62f1072d188",
+     "label": "P13",
+     "text": "The user suggested removing an unused 'Literal' import from testing/test_terminal.py in PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | To keep the test module clean.",
+     "type": "experience"
+    },
+    {
+     "id": "32e9efb8-414d-43f0-9609-2d18af1dbd46",
+     "label": "P14",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "157d438a-07e6-48db-a431-4cdafd9e803e",
+     "label": "P15",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "73a9310a-ee9f-4d8c-bf7b-7350ceaa7c8b",
+     "label": "P16",
+     "text": "The team ignored the user's suggestion on PR #14025 because such feedback is not requested by the team. | When: 2025-12-12 | Involving: user, team | The team does not ask for this type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "bbdfd79d-624d-421f-8137-e73e3c45d7b5",
+     "label": "P17",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "476f6670-2831-4b26-ae5c-e2ad22e7e332",
+     "label": "P18",
+     "text": "User suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set. | When: 2025-10-01 | Where: src/_pytest/terminal.py:462 | Involving: user | The existing docstring was ambiguous regarding the property's return value.",
+     "type": "experience"
+    },
+    {
+     "id": "33a14aa9-474d-4449-a0f7-193b45ec81e1",
+     "label": "P19",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "1d6608ee-e093-4388-ab0f-fc740ad549e3",
+     "label": "P20",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch to disable terminal notifications in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "97f4039b-21fd-40af-bba1-ba193419e0e8",
+     "label": "P21",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "bbc5bde5-2c06-45bd-bf41-1e699e49a013",
+     "label": "P22",
+     "text": "User suggested adding 'from typing import Literal' to 'src/_pytest/terminal.py' in PR #13728, but the suggestion was ignored by reviewers. | When: 2025-10-01 | Where: src/_pytest/terminal.py | Involving: user | The team does not prioritize this type of suggestion.",
+     "type": "experience"
+    },
+    {
+     "id": "93dd2f68-c1ca-4583-8c91-3dd27cc3eeb8",
+     "label": "P23",
+     "text": "The user suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "f4ffdb39-0017-47e0-a433-f29a10f561c4",
+     "label": "P24",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "ae66db33-6a2d-4d8a-b013-50ed622dfb50",
+     "label": "P25",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "2d6586ba-ebbe-498f-b124-53bdc5f0e0d4",
+     "label": "P26",
+     "text": "The team ignored the user's suggestion regarding the duplicate label warning on PR #14053, as such technical feedback is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "bb6e3c75-18fb-4ef0-a42a-8eb596e4a28b",
+     "label": "P27",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "9c6a81b2-7137-46c2-83be-8577367f19e2",
+     "label": "P28",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'.",
+     "type": "observation"
+    },
+    {
+     "id": "2ad2926b-00d1-4b8c-8152-33755b0a983a",
+     "label": "P29",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "02cf9db8-cefc-4605-844f-7852f67c1fd3",
+     "label": "P30",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews. | When: 2025-05-31 | Involving: user, the team",
+     "type": "world"
+    },
+    {
+     "id": "f8a43d22-9182-474a-8838-7fb755f96e9e",
+     "label": "P31",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The function was updated to be a context manager.",
+     "type": "experience"
+    },
+    {
+     "id": "7e8e5f90-b3ff-417e-b8e3-231f30ca38ad",
+     "label": "P32",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "7208d74d-028f-4a7e-afeb-a5e1544d349c",
+     "label": "P33",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "0b8e125f-ec48-456d-9e63-3ed5d9bb4e63",
+     "label": "P34",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | The current annotation refers to a non-existent class.",
+     "type": "experience"
+    },
+    {
+     "id": "2c08dcde-9b05-4bbc-b70e-c607e902a8eb",
+     "label": "P35",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py.",
+     "type": "observation"
+    },
+    {
+     "id": "c5cb0d70-008a-45ce-85b5-15b7ddc68df9",
+     "label": "P36",
+     "text": "The user suggested adding 'from typing import Literal' to 'src/_pytest/terminal.py' in PR #13728, but the suggestion was ignored by reviewers.",
+     "type": "observation"
+    },
+    {
+     "id": "732e31f9-75e3-4389-b753-f061e8969b9d",
+     "label": "P37",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "cc1156f1-75d1-4ce0-b4a8-5acaccdfd4f9",
+     "label": "P38",
+     "text": "The user suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set.",
+     "type": "observation"
+    },
+    {
+     "id": "955e7dcd-b878-42c9-a8a1-71819e285de3",
+     "label": "P39",
+     "text": "User suggested a verification check for potential duplicate 'All traceback entries are hidden' lines in PR #14025 at src/_pytest/_code/code.py:1198. | When: 2025-12-12 | Where: src/_pytest/_code/code.py:1198 | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "b7d442ee-fc4f-4902-8e25-22fb877c58d8",
+     "label": "P40",
+     "text": "The team ignored the user's suggestion regarding the duplicate label warning, as such technical feedback is not requested by the team. | When: 2025-12-28 | Where: PR #14053 | Involving: user, the team | The team does not prioritize or ask for this specific type of documentation feedback.",
+     "type": "world"
+    },
+    {
+     "id": "9d685eb2-2419-48d4-b609-774a933573ee",
+     "label": "P41",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "a53d8ad1-7a18-4f84-87f0-c8a522ddd712",
+     "label": "P42",
+     "text": "The team ignored the user's suggestion on PR #13728 because such naming clarifications are not requested by the team. | When: 2025-10-01 | Involving: user, PR #13728 reviewers | The team does not prioritize this type of feedback.",
+     "type": "world"
+    },
+    {
+     "id": "7eb978bd-48aa-4c04-869a-a7a54a4925b4",
+     "label": "P43",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team. | When: 2025-10-01 | Involving: user, team | The team does not prioritize this type of code cleanup.",
+     "type": "world"
+    },
+    {
+     "id": "f4da7c57-651b-49aa-9714-f28abf5b2a86",
+     "label": "P44",
+     "text": "The user's suggestion for PR #12934 was ignored by the team because they do not prioritize this type of type hint feedback. | When: 2025-05-31 | Involving: user, PR #12934 reviewers | The team does not ask for this specific type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "a6d167c4-8fbf-493d-be38-b6ad3965bcc6",
+     "label": "P45",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "85c0f965-f3e6-428b-9bcf-65135dba3804",
+     "label": "P46",
+     "text": "The team ignored the user's suggestion on PR #13728 because such naming clarifications are not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "7a947140-df68-42b6-9bf0-dcbe569b2a8f",
+     "label": "P47",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The new @contextmanager decorator required an import.",
+     "type": "experience"
+    },
+    {
+     "id": "06241e4e-e362-43e0-878b-70ac36da53ea",
+     "label": "P48",
+     "text": "The user suggested adding a blank line after the note content in doc/en/how-to/capture-stdout-stderr.rst:164 on PR #14053.",
+     "type": "observation"
+    },
+    {
+     "id": "6209f9e2-02c3-49cf-be7c-2415a61ddec4",
+     "label": "P49",
+     "text": "Reviewer bluetech requested a change to doc/en/backwards-compatibility.rst in PR #14099 to update the pytest version documentation to '8.4 3.9+'.",
+     "type": "observation"
+    },
+    {
+     "id": "f75867a0-6fe4-4cc5-b742-c6101be81ba4",
+     "label": "P50",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch to disable terminal notifications. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To address potential long-term compatibility issues with older Linux distributions that may continue to show notifications.",
+     "type": "world"
+    },
+    {
+     "id": "333d1486-0806-407f-b82c-57f40e4e5ee1",
+     "label": "P51",
+     "text": "User suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:340 | Involving: user | The original reference was incorrect.",
+     "type": "experience"
+    },
+    {
+     "id": "4e701743-4ff7-4924-abc3-63fd806c25a4",
+     "label": "P52",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "d6998606-0ba2-4a77-9252-e13dca7d2c12",
+     "label": "P53",
+     "text": "The user suggested removing an explicit target label in doc/en/how-to/capture-stdout-stderr.rst to avoid a duplicate label warning during documentation builds. | When: 2025-12-28 | Where: PR #14053 | Involving: user | To prevent duplicate label warnings during the documentation build process.",
+     "type": "experience"
+    },
+    {
+     "id": "d5e81935-016f-406e-8d80-52b383647aa8",
+     "label": "P54",
+     "text": "The user suggested a verification step for a hard-coded version string in PR #14099, but the suggestion was ignored by the team. | When: 2026-01-12 | Where: doc/en/reference/reference.rst:20 | Involving: user | The team does not request this type of suggestion during code reviews.",
+     "type": "experience"
+    },
+    {
+     "id": "3af5eec4-52ca-4e95-8e88-529e4e925368",
+     "label": "P55",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "b25d6548-33d6-4c19-b005-bca1c47e4daf",
+     "label": "P56",
+     "text": "User suggested changing 'min. Python version' to 'Minimum Python version' in doc/en/backwards-compatibility.rst to improve consistency and readability. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "53963732-3471-406e-beda-35dc0e964cc4",
+     "label": "P57",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "98a3a038-ae34-45ef-84eb-0e2b248c6f7b",
+     "label": "P58",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "e0941f38-05d9-41f8-8f59-8113f1a6ef3f",
+     "label": "P59",
+     "text": "The user suggested removing an explicit target label in doc/en/how-to/capture-stdout-stderr.rst on PR #14053.",
+     "type": "observation"
+    },
+    {
+     "id": "d76869e5-6e84-4852-bf14-3b590c589d72",
+     "label": "P60",
+     "text": "The team ignored the user's suggestion on PR #13728, as the team does not prioritize this type of feedback. | When: 2025-10-01 | Involving: user, team | The team does not ask for this kind of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "99d92024-3bd9-458a-a5a5-656108a1dfa6",
+     "label": "P61",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic feature explanations.",
+     "type": "observation"
+    },
+    {
+     "id": "95143a8f-6634-47e5-ab90-fa49b70a5802",
+     "label": "P62",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic feature explanations. | When: 2025-12-27 | Where: doc/en/how-to/capture-stdout-stderr.rst | Involving: nicoddemus (reviewer) | The note contains advanced information that interrupts the explanation of basic features.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 7,
+   "pr": 13815,
+   "title": "fix(testing): `pytest.approx` correctly take account Mapping keys order to compare them",
+   "arm": "on",
+   "recalled": 61,
+   "agentComments": 2,
+   "matched": 2,
+   "humanComments": 3,
+   "humanCovered": 2,
+   "outcomes": [
+    {
+     "path": "src/_pytest/python_api.py",
+     "line": 244,
+     "text": "The key‑comparison should be order‑agnostic. Using `self.expected.keys() != other_side.keys()` makes the check fail when the two mappings have the same keys in a different order, which is exactly the case this PR fixes. Revert to the original set comparison (`set(self.expected.keys()) != set(other_side.keys())`) to keep the logic consistent with the intended behavior.",
+     "precedents": [],
+     "matchedHuman": 2685866897,
+     "matchedReviewer": "nicoddemus"
+    },
+    {
+     "path": "testing/python/approx.py",
+     "line": 1085,
+     "text": "The failure output for mapping comparisons uses a \"Key\" column, not \"Index\". The test currently asserts a line containing \"*Index | Obtained | Expected *\", which will not match the actual output and cause the test to fail. Update the expected pattern to use \"Key\" (e.g. \"*Key | Obtained | Expected *\") or adjust the assertion accordingly.",
+     "precedents": [],
+     "matchedHuman": 2693974304,
+     "matchedReviewer": "nicoddemus"
+    }
+   ],
+   "precedents": [
+    {
+     "id": "f092f1da-00cc-4aab-8667-acb7c955ab94",
+     "label": "P1",
+     "text": "Reviewer bluetech requested code changes for PR #14105 to improve readability by checking if max_chars > 0 instead of comparing against 70.",
+     "type": "observation"
+    },
+    {
+     "id": "c3a399ce-716d-4c46-9aa2-f0180178cd1c",
+     "label": "P2",
+     "text": "The team ignored the user's suggestion for PR #14099, as such stylistic changes are not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "e08901c0-49a5-4e3f-aadd-3d39b54120d5",
+     "label": "P3",
+     "text": "The user suggested adding a note to the changelog for a documentation typo fix in PR #14099.",
+     "type": "observation"
+    },
+    {
+     "id": "79d12143-18f2-4805-b8e4-fd3dfbd41695",
+     "label": "P4",
+     "text": "The team ignored the user's suggestion for PR #14099, as such stylistic changes are not requested by the team. | When: 2026-01-12 | Involving: user, the team | The team does not prioritize this type of stylistic suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "d02e5bc6-69e7-4ad8-8f59-ef0339db12d2",
+     "label": "P5",
+     "text": "The user suggested a fix for a test assertion in PR #14025 regarding ExceptionGroup handling, but the suggestion was ignored by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "e7066f84-20bc-46c0-9153-f0a3c32cec93",
+     "label": "P6",
+     "text": "Reviewer bluetech requested code changes for PR #14105 to improve readability by checking if max_chars > 0 instead of comparing against 70, and suggested documenting the meaning of 0 in the function docstring. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:92 | Involving: bluetech (reviewer) | To make the code logic more consistent with the max_lines check and improve maintainability.",
+     "type": "world"
+    },
+    {
+     "id": "bee3b578-4a54-40f4-9781-732bc1490846",
+     "label": "P7",
+     "text": "The team ignored the user's suggestion to update the changelog, as such documentation traceability is not required by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "7e8e5f90-b3ff-417e-b8e3-231f30ca38ad",
+     "label": "P8",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "888785ed-6278-48bf-8ecb-aacb18cec459",
+     "label": "P9",
+     "text": "The user's suggestion regarding indentation in PR #14025 was ignored by the team, as such feedback is not requested. | When: 2025-12-12 | Where: PR #14025 | Involving: user, team | The team does not prioritize this type of code review suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "2d6586ba-ebbe-498f-b124-53bdc5f0e0d4",
+     "label": "P10",
+     "text": "The team ignored the user's suggestion regarding the duplicate label warning on PR #14053, as such technical feedback is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "732e31f9-75e3-4389-b753-f061e8969b9d",
+     "label": "P11",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "157d438a-07e6-48db-a431-4cdafd9e803e",
+     "label": "P12",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "f7efe922-c034-4e04-a058-6b6f9e81c97f",
+     "label": "P13",
+     "text": "Reviewer bluetech requested a change to doc/en/backwards-compatibility.rst in PR #14099 to update the pytest version documentation to '8.4 3.9+' for logical consistency. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:87 | Involving: bluetech (reviewer) | To keep documentation logical.",
+     "type": "world"
+    },
+    {
+     "id": "0b8e125f-ec48-456d-9e63-3ed5d9bb4e63",
+     "label": "P14",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | The current annotation refers to a non-existent class.",
+     "type": "experience"
+    },
+    {
+     "id": "2c08dcde-9b05-4bbc-b70e-c607e902a8eb",
+     "label": "P15",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py.",
+     "type": "observation"
+    },
+    {
+     "id": "6718bab2-942f-42a8-a6a4-4bd552b6ee51",
+     "label": "P16",
+     "text": "The user's suggestion on PR #14053 was ignored by reviewers and is considered outside the scope of what the team requests.",
+     "type": "observation"
+    },
+    {
+     "id": "97f4039b-21fd-40af-bba1-ba193419e0e8",
+     "label": "P17",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "80dec148-3515-4b43-813c-663a8b8886a2",
+     "label": "P18",
+     "text": "The team ignored the user's suggestion to update the changelog, as such documentation traceability is not required by the team. | When: 2026-01-12 | Involving: user, team | The team does not prioritize changelog entries for minor documentation typo fixes.",
+     "type": "world"
+    },
+    {
+     "id": "3c188aba-2eac-4d18-9744-10620765add9",
+     "label": "P19",
+     "text": "The user's suggestion on PR #14053 was ignored by reviewers and is considered outside the scope of what the team requests. | When: 2025-12-28 | Involving: user, team | The team does not prioritize this type of formatting suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "6209f9e2-02c3-49cf-be7c-2415a61ddec4",
+     "label": "P20",
+     "text": "Reviewer bluetech requested a change to doc/en/backwards-compatibility.rst in PR #14099 to update the pytest version documentation to '8.4 3.9+'.",
+     "type": "observation"
+    },
+    {
+     "id": "5eabf333-f028-4c3b-8bfe-e4107a9ad9e3",
+     "label": "P21",
+     "text": "The user suggested a fix for an IndentationError in a generated test file within PR #14025, specifically at testing/code/test_excinfo.py:1900. | When: 2025-12-12 | Where: testing/code/test_excinfo.py:1900 | Involving: user | The generated test file used an f-string with incorrect indentation for the 'def test():' line.",
+     "type": "experience"
+    },
+    {
+     "id": "53c2de58-32eb-4bb4-8853-13eea4f152fa",
+     "label": "P22",
+     "text": "The user's suggestion on PR #14105 was ignored by reviewers and is considered outside the scope of what the team requests. | When: 2026-01-13 | Involving: user, team | The team does not prioritize this type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "32e9efb8-414d-43f0-9609-2d18af1dbd46",
+     "label": "P23",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "14d74664-b548-4671-a210-123bbec84670",
+     "label": "P24",
+     "text": "The user suggested a verification check for potential duplicate 'All traceback entries are hidden' lines in PR #14025 at src/_pytest/_code/code.py:1198.",
+     "type": "observation"
+    },
+    {
+     "id": "333d1486-0806-407f-b82c-57f40e4e5ee1",
+     "label": "P25",
+     "text": "User suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:340 | Involving: user | The original reference was incorrect.",
+     "type": "experience"
+    },
+    {
+     "id": "93dd2f68-c1ca-4583-8c91-3dd27cc3eeb8",
+     "label": "P26",
+     "text": "The user suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "476f6670-2831-4b26-ae5c-e2ad22e7e332",
+     "label": "P27",
+     "text": "User suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set. | When: 2025-10-01 | Where: src/_pytest/terminal.py:462 | Involving: user | The existing docstring was ambiguous regarding the property's return value.",
+     "type": "experience"
+    },
+    {
+     "id": "02cf9db8-cefc-4605-844f-7852f67c1fd3",
+     "label": "P28",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews. | When: 2025-05-31 | Involving: user, the team",
+     "type": "world"
+    },
+    {
+     "id": "ae66db33-6a2d-4d8a-b013-50ed622dfb50",
+     "label": "P29",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "bb6e3c75-18fb-4ef0-a42a-8eb596e4a28b",
+     "label": "P30",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "5c0e021f-53fd-4552-ab3b-c6ebf7331167",
+     "label": "P31",
+     "text": "The user suggested removing an unused 'Literal' import from testing/test_terminal.py in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "b25d6548-33d6-4c19-b005-bca1c47e4daf",
+     "label": "P32",
+     "text": "User suggested changing 'min. Python version' to 'Minimum Python version' in doc/en/backwards-compatibility.rst to improve consistency and readability. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "7a947140-df68-42b6-9bf0-dcbe569b2a8f",
+     "label": "P33",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The new @contextmanager decorator required an import.",
+     "type": "experience"
+    },
+    {
+     "id": "955e7dcd-b878-42c9-a8a1-71819e285de3",
+     "label": "P34",
+     "text": "User suggested a verification check for potential duplicate 'All traceback entries are hidden' lines in PR #14025 at src/_pytest/_code/code.py:1198. | When: 2025-12-12 | Where: src/_pytest/_code/code.py:1198 | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "bbc5bde5-2c06-45bd-bf41-1e699e49a013",
+     "label": "P35",
+     "text": "User suggested adding 'from typing import Literal' to 'src/_pytest/terminal.py' in PR #13728, but the suggestion was ignored by reviewers. | When: 2025-10-01 | Where: src/_pytest/terminal.py | Involving: user | The team does not prioritize this type of suggestion.",
+     "type": "experience"
+    },
+    {
+     "id": "d456069e-c07c-4c62-aebd-7e2924b7080e",
+     "label": "P36",
+     "text": "The user suggested a fix for an IndentationError in a generated test file within PR #14025, specifically at testing/code/test_excinfo.py:1900.",
+     "type": "observation"
+    },
+    {
+     "id": "afc7da5f-89fe-42cc-bdb2-cc8cac0409e6",
+     "label": "P37",
+     "text": "The user's suggestion regarding indentation in PR #14025 was ignored by the team, as such feedback is not requested.",
+     "type": "observation"
+    },
+    {
+     "id": "f8a43d22-9182-474a-8838-7fb755f96e9e",
+     "label": "P38",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The function was updated to be a context manager.",
+     "type": "experience"
+    },
+    {
+     "id": "d093417d-3c03-4b85-92d6-e11fafe7a617",
+     "label": "P39",
+     "text": "Reviewer bluetech suggested documenting the meaning of 0 in the function docstring for PR #14105.",
+     "type": "observation"
+    },
+    {
+     "id": "df8a5e9a-1bba-446b-9f2b-76809dec3b88",
+     "label": "P40",
+     "text": "The user suggested a fix for a test assertion in PR #14025 regarding ExceptionGroup handling, but the suggestion was ignored by the team. | When: 2025-12-12 | Where: testing/code/test_excinfo.py:1902 | Involving: user | The team does not prioritize this type of suggestion during code reviews.",
+     "type": "experience"
+    },
+    {
+     "id": "bea18e00-17b0-49d1-a6e6-b722d5654ce9",
+     "label": "P41",
+     "text": "The user suggested removing or using the unused variable 'truncated_line_count' in PR #14105 at src/_pytest/assertion/truncate.py:119. | When: 2026-01-13 | Where: src/_pytest/assertion/truncate.py:119 | Involving: user | Code review suggestion to avoid dead code.",
+     "type": "experience"
+    },
+    {
+     "id": "cc1156f1-75d1-4ce0-b4a8-5acaccdfd4f9",
+     "label": "P42",
+     "text": "The user suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set.",
+     "type": "observation"
+    },
+    {
+     "id": "bbdfd79d-624d-421f-8137-e73e3c45d7b5",
+     "label": "P43",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "d6998606-0ba2-4a77-9252-e13dca7d2c12",
+     "label": "P44",
+     "text": "The user suggested removing an explicit target label in doc/en/how-to/capture-stdout-stderr.rst to avoid a duplicate label warning during documentation builds. | When: 2025-12-28 | Where: PR #14053 | Involving: user | To prevent duplicate label warnings during the documentation build process.",
+     "type": "experience"
+    },
+    {
+     "id": "2ad2926b-00d1-4b8c-8152-33755b0a983a",
+     "label": "P45",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "313d1889-90c3-411b-a645-e62f1072d188",
+     "label": "P46",
+     "text": "The user suggested removing an unused 'Literal' import from testing/test_terminal.py in PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | To keep the test module clean.",
+     "type": "experience"
+    },
+    {
+     "id": "f4da7c57-651b-49aa-9714-f28abf5b2a86",
+     "label": "P47",
+     "text": "The user's suggestion for PR #12934 was ignored by the team because they do not prioritize this type of type hint feedback. | When: 2025-05-31 | Involving: user, PR #12934 reviewers | The team does not ask for this specific type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "f4ffdb39-0017-47e0-a433-f29a10f561c4",
+     "label": "P48",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "a6d167c4-8fbf-493d-be38-b6ad3965bcc6",
+     "label": "P49",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "85c31cef-b3da-4e05-bf34-df84a842aa8d",
+     "label": "P50",
+     "text": "The user's suggestion regarding 'truncated_line_count' was ignored by reviewers, as the team does not prioritize this type of code cleanup. | When: 2026-01-13 | Involving: user, reviewers | The team does not ask for this kind of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "73a9310a-ee9f-4d8c-bf7b-7350ceaa7c8b",
+     "label": "P51",
+     "text": "The team ignored the user's suggestion on PR #14025 because such feedback is not requested by the team. | When: 2025-12-12 | Involving: user, team | The team does not ask for this type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "cf79e721-ac98-4e97-9d7e-81a7a0130289",
+     "label": "P52",
+     "text": "The user suggested adding a note to the changelog for a documentation typo fix in PR #14099. | When: 2026-01-12 | Where: doc/en/reference/reference.rst:2546 | Involving: user | To improve traceability of documentation changes.",
+     "type": "experience"
+    },
+    {
+     "id": "c5cb0d70-008a-45ce-85b5-15b7ddc68df9",
+     "label": "P53",
+     "text": "The user suggested adding 'from typing import Literal' to 'src/_pytest/terminal.py' in PR #13728, but the suggestion was ignored by reviewers.",
+     "type": "observation"
+    },
+    {
+     "id": "9d685eb2-2419-48d4-b609-774a933573ee",
+     "label": "P54",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "9c6a81b2-7137-46c2-83be-8577367f19e2",
+     "label": "P55",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'.",
+     "type": "observation"
+    },
+    {
+     "id": "7eb978bd-48aa-4c04-869a-a7a54a4925b4",
+     "label": "P56",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team. | When: 2025-10-01 | Involving: user, team | The team does not prioritize this type of code cleanup.",
+     "type": "world"
+    },
+    {
+     "id": "33a14aa9-474d-4449-a0f7-193b45ec81e1",
+     "label": "P57",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "d5e81935-016f-406e-8d80-52b383647aa8",
+     "label": "P58",
+     "text": "The user suggested a verification step for a hard-coded version string in PR #14099, but the suggestion was ignored by the team. | When: 2026-01-12 | Where: doc/en/reference/reference.rst:20 | Involving: user | The team does not request this type of suggestion during code reviews.",
+     "type": "experience"
+    },
+    {
+     "id": "863ff3b6-64ff-49dc-af69-51d072a932e2",
+     "label": "P59",
+     "text": "The user suggested adding a blank line after the note content in doc/en/how-to/capture-stdout-stderr.rst:164 on PR #14053 to avoid parsing issues. | When: 2025-12-28 | Where: doc/en/how-to/capture-stdout-stderr.rst:164 | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "431f6195-606b-4a41-8903-6fab2c0799a8",
+     "label": "P60",
+     "text": "The team prefers a uniform format for version range rows in documentation, specifically suggesting the use of a consistent style like '8.4+' instead of mixed notation.",
+     "type": "observation"
+    },
+    {
+     "id": "9e0ab56f-e38c-41a2-9798-0e5a598abec7",
+     "label": "P61",
+     "text": "The team prefers a uniform format for version range rows in documentation, specifically suggesting the use of a consistent style like '8.4+' instead of mixed notation. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:85 | Involving: user, bluetech | To maintain logical consistency in the documentation table.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 8,
+   "pr": 14121,
+   "title": "cacheprovider: simplify cache directory creation",
+   "arm": "on",
+   "recalled": 67,
+   "agentComments": 2,
+   "matched": 0,
+   "humanComments": 2,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/cacheprovider.py",
+     "line": 30,
+     "text": "The new `_make_cachedir` implementation catches `errno.ENOTEMPTY` and `errno.EEXIST` but the `errno` module is not imported. Add `import errno` at the top of the file.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/cacheprovider.py",
+     "line": 12,
+     "text": "Removing the public constant `CACHEDIR_TAG_CONTENT` is a backward‑compatible break; external code (including older plugins) may import it. Keep the original name as an alias, e.g. `CACHEDIR_TAG_CONTENT = CACHEDIR_FILES[\"CACHEDIR.TAG\"]`.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "53c2de58-32eb-4bb4-8853-13eea4f152fa",
+     "label": "P1",
+     "text": "The user's suggestion on PR #14105 was ignored by reviewers and is considered outside the scope of what the team requests. | When: 2026-01-13 | Involving: user, team | The team does not prioritize this type of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "c3127b82-a465-406c-a72b-3b7894d02455",
+     "label": "P2",
+     "text": "The user's suggestion on PR #14105 was ignored by reviewers and is considered outside the scope of what the team requests.",
+     "type": "observation"
+    },
+    {
+     "id": "bbdfd79d-624d-421f-8137-e73e3c45d7b5",
+     "label": "P3",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "85c31cef-b3da-4e05-bf34-df84a842aa8d",
+     "label": "P4",
+     "text": "The user's suggestion regarding 'truncated_line_count' was ignored by reviewers, as the team does not prioritize this type of code cleanup. | When: 2026-01-13 | Involving: user, reviewers | The team does not ask for this kind of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "7eb978bd-48aa-4c04-869a-a7a54a4925b4",
+     "label": "P5",
+     "text": "The team ignored the user's suggestion to remove the unused import because such cleanup is not requested by the team. | When: 2025-10-01 | Involving: user, team | The team does not prioritize this type of code cleanup.",
+     "type": "world"
+    },
+    {
+     "id": "ef4c8ac7-2727-483c-823c-27d4f3a50338",
+     "label": "P6",
+     "text": "The user's suggestion regarding 'truncated_line_count' was ignored by reviewers, as the team does not prioritize this type of code cleanup.",
+     "type": "observation"
+    },
+    {
+     "id": "d76869e5-6e84-4852-bf14-3b590c589d72",
+     "label": "P7",
+     "text": "The team ignored the user's suggestion on PR #13728, as the team does not prioritize this type of feedback. | When: 2025-10-01 | Involving: user, team | The team does not ask for this kind of suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "da61fb0e-9cf8-4671-8d0a-c76b56be2630",
+     "label": "P8",
+     "text": "nicoddemus suggested accessing dictionary keys directly in src/_pytest/python_api.py because previous checks already ensure both dictionaries have the same set of keys. | When: 2026-01-13 | Where: src/_pytest/python_api.py:260 | Involving: nicoddemus (reviewer) | Code review feedback for PR #13815",
+     "type": "world"
+    },
+    {
+     "id": "7208d74d-028f-4a7e-afeb-a5e1544d349c",
+     "label": "P9",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "f4ffdb39-0017-47e0-a433-f29a10f561c4",
+     "label": "P10",
+     "text": "The team ignored the user's suggestion on PR #13728 because they do not prioritize this type of code review feedback. | When: 2025-10-01 | Where: PR #13728 | Involving: user, team",
+     "type": "world"
+    },
+    {
+     "id": "48767801-2fc6-41da-a60d-4b88c692a484",
+     "label": "P11",
+     "text": "The user suggested a verification step for a hard-coded version string in PR #14099, but the suggestion was ignored by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "955e7dcd-b878-42c9-a8a1-71819e285de3",
+     "label": "P12",
+     "text": "User suggested a verification check for potential duplicate 'All traceback entries are hidden' lines in PR #14025 at src/_pytest/_code/code.py:1198. | When: 2025-12-12 | Where: src/_pytest/_code/code.py:1198 | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "c3a399ce-716d-4c46-9aa2-f0180178cd1c",
+     "label": "P13",
+     "text": "The team ignored the user's suggestion for PR #14099, as such stylistic changes are not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "79d12143-18f2-4805-b8e4-fd3dfbd41695",
+     "label": "P14",
+     "text": "The team ignored the user's suggestion for PR #14099, as such stylistic changes are not requested by the team. | When: 2026-01-12 | Involving: user, the team | The team does not prioritize this type of stylistic suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "6718bab2-942f-42a8-a6a4-4bd552b6ee51",
+     "label": "P15",
+     "text": "The user's suggestion on PR #14053 was ignored by reviewers and is considered outside the scope of what the team requests.",
+     "type": "observation"
+    },
+    {
+     "id": "80dec148-3515-4b43-813c-663a8b8886a2",
+     "label": "P16",
+     "text": "The team ignored the user's suggestion to update the changelog, as such documentation traceability is not required by the team. | When: 2026-01-12 | Involving: user, team | The team does not prioritize changelog entries for minor documentation typo fixes.",
+     "type": "world"
+    },
+    {
+     "id": "2d6586ba-ebbe-498f-b124-53bdc5f0e0d4",
+     "label": "P17",
+     "text": "The team ignored the user's suggestion regarding the duplicate label warning on PR #14053, as such technical feedback is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "2c08dcde-9b05-4bbc-b70e-c607e902a8eb",
+     "label": "P18",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py.",
+     "type": "observation"
+    },
+    {
+     "id": "c6d88f73-aeee-4b13-a938-3c4316112252",
+     "label": "P19",
+     "text": "The user suggested removing or using the unused variable 'truncated_line_count' in PR #14105 at src/_pytest/assertion/truncate.py:119.",
+     "type": "observation"
+    },
+    {
+     "id": "8725eb43-1fda-4aa0-84cf-a89eebe42a4e",
+     "label": "P20",
+     "text": "nicoddemus confirmed that the test assertion pattern for mapping comparisons needs to be updated from 'Index' to 'Key' to match actual output. | When: 2026-01-25 | Where: PR #13815 | Involving: nicoddemus",
+     "type": "world"
+    },
+    {
+     "id": "93dd2f68-c1ca-4583-8c91-3dd27cc3eeb8",
+     "label": "P21",
+     "text": "The user suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "bee3b578-4a54-40f4-9781-732bc1490846",
+     "label": "P22",
+     "text": "The team ignored the user's suggestion to update the changelog, as such documentation traceability is not required by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "5c0e021f-53fd-4552-ab3b-c6ebf7331167",
+     "label": "P23",
+     "text": "The user suggested removing an unused 'Literal' import from testing/test_terminal.py in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "1990947d-8caf-4c49-aee5-19661d33e2ae",
+     "label": "P24",
+     "text": "Reviewer nicoddemus agreed with the need for order-agnostic key comparison and suggested accessing keys directly. | When: 2026-01-25 | Where: PR #13815 | Involving: nicoddemus",
+     "type": "world"
+    },
+    {
+     "id": "bb6e3c75-18fb-4ef0-a42a-8eb596e4a28b",
+     "label": "P25",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "333d1486-0806-407f-b82c-57f40e4e5ee1",
+     "label": "P26",
+     "text": "User suggested changing Mock(spec=pytest.TerminalReporter) to Mock(spec=TerminalReporter) in testing/test_terminal.py:340 on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:340 | Involving: user | The original reference was incorrect.",
+     "type": "experience"
+    },
+    {
+     "id": "0b8e125f-ec48-456d-9e63-3ed5d9bb4e63",
+     "label": "P27",
+     "text": "The user suggested correcting the type annotation of the `mock_tr` fixture from `pytest.TerminalReporter` to `TerminalReporter` imported from `_pytest.terminal` in testing/test_terminal.py. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: user | The current annotation refers to a non-existent class.",
+     "type": "experience"
+    },
+    {
+     "id": "bea18e00-17b0-49d1-a6e6-b722d5654ce9",
+     "label": "P28",
+     "text": "The user suggested removing or using the unused variable 'truncated_line_count' in PR #14105 at src/_pytest/assertion/truncate.py:119. | When: 2026-01-13 | Where: src/_pytest/assertion/truncate.py:119 | Involving: user | Code review suggestion to avoid dead code.",
+     "type": "experience"
+    },
+    {
+     "id": "ae66db33-6a2d-4d8a-b013-50ed622dfb50",
+     "label": "P29",
+     "text": "The user suggested adding a return type hint of '-> ContextManager[None]' to the '_runtest_for' function in 'src/_pytest/logging.py' during a code review for PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "ecc4613f-d132-4516-82e9-334370b96de8",
+     "label": "P30",
+     "text": "Reviewer bluetech confirmed the user's concern regarding the truncation logic in PR #14105, suggesting that max_lines == 0 and max_chars == 0 should be interpreted as disabling truncation.",
+     "type": "observation"
+    },
+    {
+     "id": "5eabf333-f028-4c3b-8bfe-e4107a9ad9e3",
+     "label": "P31",
+     "text": "The user suggested a fix for an IndentationError in a generated test file within PR #14025, specifically at testing/code/test_excinfo.py:1900. | When: 2025-12-12 | Where: testing/code/test_excinfo.py:1900 | Involving: user | The generated test file used an f-string with incorrect indentation for the 'def test():' line.",
+     "type": "experience"
+    },
+    {
+     "id": "02cf9db8-cefc-4605-844f-7852f67c1fd3",
+     "label": "P32",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews. | When: 2025-05-31 | Involving: user, the team",
+     "type": "world"
+    },
+    {
+     "id": "df8a5e9a-1bba-446b-9f2b-76809dec3b88",
+     "label": "P33",
+     "text": "The user suggested a fix for a test assertion in PR #14025 regarding ExceptionGroup handling, but the suggestion was ignored by the team. | When: 2025-12-12 | Where: testing/code/test_excinfo.py:1902 | Involving: user | The team does not prioritize this type of suggestion during code reviews.",
+     "type": "experience"
+    },
+    {
+     "id": "41a35031-36a9-4a76-9c64-ce9585cae29c",
+     "label": "P34",
+     "text": "The team ignored the user's suggestion on PR #14025 because such feedback is not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "14d74664-b548-4671-a210-123bbec84670",
+     "label": "P35",
+     "text": "The user suggested a verification check for potential duplicate 'All traceback entries are hidden' lines in PR #14025 at src/_pytest/_code/code.py:1198.",
+     "type": "observation"
+    },
+    {
+     "id": "7e8e5f90-b3ff-417e-b8e3-231f30ca38ad",
+     "label": "P36",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "2ad2926b-00d1-4b8c-8152-33755b0a983a",
+     "label": "P37",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "b7d442ee-fc4f-4902-8e25-22fb877c58d8",
+     "label": "P38",
+     "text": "The team ignored the user's suggestion regarding the duplicate label warning, as such technical feedback is not requested by the team. | When: 2025-12-28 | Where: PR #14053 | Involving: user, the team | The team does not prioritize or ask for this specific type of documentation feedback.",
+     "type": "world"
+    },
+    {
+     "id": "85c0f965-f3e6-428b-9bcf-65135dba3804",
+     "label": "P39",
+     "text": "The team ignored the user's suggestion on PR #13728 because such naming clarifications are not requested by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "d02e5bc6-69e7-4ad8-8f59-ef0339db12d2",
+     "label": "P40",
+     "text": "The user suggested a fix for a test assertion in PR #14025 regarding ExceptionGroup handling, but the suggestion was ignored by the team.",
+     "type": "observation"
+    },
+    {
+     "id": "431f6195-606b-4a41-8903-6fab2c0799a8",
+     "label": "P41",
+     "text": "The team prefers a uniform format for version range rows in documentation, specifically suggesting the use of a consistent style like '8.4+' instead of mixed notation.",
+     "type": "observation"
+    },
+    {
+     "id": "db893c71-20c4-41f3-b795-1c89c2b8a252",
+     "label": "P42",
+     "text": "The user suggested changing 'min. Python version' to 'Minimum Python version' in doc/en/backwards-compatibility.rst.",
+     "type": "observation"
+    },
+    {
+     "id": "a6d167c4-8fbf-493d-be38-b6ad3965bcc6",
+     "label": "P43",
+     "text": "The team ignored the user's suggestion on PR #12934 because they do not require that level of detail in code reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "bbc5bde5-2c06-45bd-bf41-1e699e49a013",
+     "label": "P44",
+     "text": "User suggested adding 'from typing import Literal' to 'src/_pytest/terminal.py' in PR #13728, but the suggestion was ignored by reviewers. | When: 2025-10-01 | Where: src/_pytest/terminal.py | Involving: user | The team does not prioritize this type of suggestion.",
+     "type": "experience"
+    },
+    {
+     "id": "33a14aa9-474d-4449-a0f7-193b45ec81e1",
+     "label": "P45",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "9d685eb2-2419-48d4-b609-774a933573ee",
+     "label": "P46",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "157d438a-07e6-48db-a431-4cdafd9e803e",
+     "label": "P47",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "df9f6342-db61-42ad-807f-b4ed6ccd07a7",
+     "label": "P48",
+     "text": "Reviewer bluetech confirmed the user's concern regarding the truncation logic in PR #14105, suggesting that max_lines == 0 and max_chars == 0 should be interpreted as disabling truncation. | When: 2026-01-13 | Where: PR #14105 | Involving: bluetech (reviewer) | The team prefers explicit checks for truncation enablement rather than implicit logic.",
+     "type": "world"
+    },
+    {
+     "id": "cc1156f1-75d1-4ce0-b4a8-5acaccdfd4f9",
+     "label": "P49",
+     "text": "The user suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set.",
+     "type": "observation"
+    },
+    {
+     "id": "c00d20e8-38b7-46f7-929b-c1d70249a3ce",
+     "label": "P50",
+     "text": "Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars.",
+     "type": "observation"
+    },
+    {
+     "id": "ff154787-bff4-481b-b5a4-b871993d2e4e",
+     "label": "P51",
+     "text": "User suggested making key-comparison order-agnostic in PR #13815 by using set comparison for keys. | When: 2026-01-25 | Where: src/_pytest/python_api.py:244 | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "476f6670-2831-4b26-ae5c-e2ad22e7e332",
+     "label": "P52",
+     "text": "User suggested renaming `reported_progress` to `reported_progress_count` in PR #13728 to better reflect that it returns a count rather than a set. | When: 2025-10-01 | Where: src/_pytest/terminal.py:462 | Involving: user | The existing docstring was ambiguous regarding the property's return value.",
+     "type": "experience"
+    },
+    {
+     "id": "d5e81935-016f-406e-8d80-52b383647aa8",
+     "label": "P53",
+     "text": "The user suggested a verification step for a hard-coded version string in PR #14099, but the suggestion was ignored by the team. | When: 2026-01-12 | Where: doc/en/reference/reference.rst:20 | Involving: user | The team does not request this type of suggestion during code reviews.",
+     "type": "experience"
+    },
+    {
+     "id": "d093417d-3c03-4b85-92d6-e11fafe7a617",
+     "label": "P54",
+     "text": "Reviewer bluetech suggested documenting the meaning of 0 in the function docstring for PR #14105.",
+     "type": "observation"
+    },
+    {
+     "id": "3bf937f7-2490-4875-a9f4-0b10e756f7e3",
+     "label": "P55",
+     "text": "The user suggested clarifying a docstring or logic in PR #14105 at src/_pytest/assertion/truncate.py:61 regarding the handling of max_lines and max_chars.",
+     "type": "observation"
+    },
+    {
+     "id": "9c6a81b2-7137-46c2-83be-8577367f19e2",
+     "label": "P56",
+     "text": "The user suggested adding 'import sys' to testing/test_terminal.py in PR #13728 because the tests patch 'sys.stdout.isatty' without importing 'sys'.",
+     "type": "observation"
+    },
+    {
+     "id": "6209f9e2-02c3-49cf-be7c-2415a61ddec4",
+     "label": "P57",
+     "text": "Reviewer bluetech requested a change to doc/en/backwards-compatibility.rst in PR #14099 to update the pytest version documentation to '8.4 3.9+'.",
+     "type": "observation"
+    },
+    {
+     "id": "d456069e-c07c-4c62-aebd-7e2924b7080e",
+     "label": "P58",
+     "text": "The user suggested a fix for an IndentationError in a generated test file within PR #14025, specifically at testing/code/test_excinfo.py:1900.",
+     "type": "observation"
+    },
+    {
+     "id": "357afdd1-bfeb-43c4-8b04-9ef99eb5533f",
+     "label": "P59",
+     "text": "The user suggested improving the truncation summary message in PR #14105 to use the computed truncated_line_count and proper pluralization. | When: 2026-01-13 | Where: src/_pytest/assertion/truncate.py:124 | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "b25d6548-33d6-4c19-b005-bca1c47e4daf",
+     "label": "P60",
+     "text": "User suggested changing 'min. Python version' to 'Minimum Python version' in doc/en/backwards-compatibility.rst to improve consistency and readability. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst | Involving: user",
+     "type": "experience"
+    },
+    {
+     "id": "e08901c0-49a5-4e3f-aadd-3d39b54120d5",
+     "label": "P61",
+     "text": "The user suggested adding a note to the changelog for a documentation typo fix in PR #14099.",
+     "type": "observation"
+    },
+    {
+     "id": "53963732-3471-406e-beda-35dc0e964cc4",
+     "label": "P62",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "e6c6563f-1e7d-4e68-8076-f10c47bd604b",
+     "label": "P63",
+     "text": "The failure output for mapping comparisons in the test suite uses a 'Key' column instead of 'Index', causing test failures when asserting the wrong pattern. | When: 2026-01-25 | Where: testing/python/approx.py:1085 | Involving: user, nicoddemus",
+     "type": "world"
+    },
+    {
+     "id": "3c188aba-2eac-4d18-9744-10620765add9",
+     "label": "P64",
+     "text": "The user's suggestion on PR #14053 was ignored by reviewers and is considered outside the scope of what the team requests. | When: 2025-12-28 | Involving: user, team | The team does not prioritize this type of formatting suggestion.",
+     "type": "world"
+    },
+    {
+     "id": "7a947140-df68-42b6-9bf0-dcbe569b2a8f",
+     "label": "P65",
+     "text": "The user suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 in PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py | Involving: user | The new @contextmanager decorator required an import.",
+     "type": "experience"
+    },
+    {
+     "id": "13ac4969-1e98-4cf3-9a3f-1e79fdffc2d9",
+     "label": "P66",
+     "text": "nicoddemus (reviewer) provided a code suggestion for PR #13815 to fix pytest.approx mapping key order comparison. | When: 2026-01-15 | Where: testing/python/approx.py:1089 | Involving: nicoddemus (reviewer) | Addressing issue #12444 regarding unordered mapping matching in pytest.approx.",
+     "type": "world"
+    },
+    {
+     "id": "32e9efb8-414d-43f0-9609-2d18af1dbd46",
+     "label": "P67",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    }
+   ]
+  },
+  {
+   "k": 9,
+   "pr": 13778,
+   "arm": "on",
+   "error": "LLM JSON completion failed on all models: 404 The model `qwen/qwen3-32b` does not exist or you do not have access to it."
+  }
+ ]
+}

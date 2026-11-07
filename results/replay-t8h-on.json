@@ -1,0 +1,2396 @@
+{
+ "arm": "on",
+ "repo": "pytest-dev/pytest",
+ "bank": "replay-t8h-on-mw60gl1r",
+ "rows": [
+  {
+   "k": 0,
+   "pr": 12934,
+   "title": "use Contextmanagers to handle StopIteration in generators",
+   "arm": "on",
+   "recalled": 0,
+   "agentComments": 2,
+   "matched": 0,
+   "humanComments": 2,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/logging.py",
+     "line": 809,
+     "text": "The new @contextmanager decorator requires an import. Add `from contextlib import contextmanager` at the top of the file.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/logging.py",
+     "line": 839,
+     "text": "Using a context manager for `_runtest_for` changes its return type; ensure callers that relied on the generator protocol (e.g., `yield from`) are updated accordingly. The current wrapper hooks now use `with self._runtest_for(...): yield`, which is correct, but double‑check that any external uses still work.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": []
+  },
+  {
+   "k": 1,
+   "pr": 13728,
+   "title": "terminal: notify terminal emulator about test session progress",
+   "arm": "on",
+   "recalled": 2,
+   "agentComments": 4,
+   "matched": 0,
+   "humanComments": 5,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 299,
+     "text": "The new `TerminalProgressPlugin` uses `Literal` and `Session` in type annotations but they are not imported in this module, which will raise a NameError at import time.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 306,
+     "text": "Similarly, `TerminalReporter` is referenced in the plugin's `__init__` signature without an import; add `from _pytest.terminal import TerminalReporter` or appropriate import.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/_io/terminalwriter.py",
+     "line": 170,
+     "text": "`write_raw` duplicates the Unicode‑encode fallback logic from `write`. Consider factoring this into a shared helper to avoid code duplication.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 317,
+     "text": "The progress plugin is always registered when `reporter.isatty()` is true. Provide a way to disable it via a config option (e.g., `--disable-terminal-progress`) to match the documentation's \"can be disabled\" instructions.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P1",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P2",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 2,
+   "pr": 14025,
+   "title": "don't crash if exceptiongroup has only hidden tb frames",
+   "arm": "on",
+   "recalled": 9,
+   "agentComments": 1,
+   "matched": 0,
+   "humanComments": 1,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "testing/code/test_excinfo.py",
+     "line": 1902,
+     "text": "When `group=True` the raised exception is an `ExceptionGroup`, but the assertion still looks for `ValueError: bar`. Adjust the expected output to match the `ExceptionGroup` representation (e.g., `*ExceptionGroup: *`).",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "6cda2cbd-ec4f-4d3e-876a-67156bba6a2f",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "7ea2ecff-681a-48b0-b925-9cba99b29e32",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P3",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P4",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "a33c92a1-bb7e-4d0a-bc4a-e51803a02955",
+     "label": "P5",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "e8f44622-3ecc-44de-af16-1eee3933e2de",
+     "label": "P6",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728 | Involving: The-Compiler (reviewer) | To ensure compatibility and provide user control for terminal notifications on long-term support Linux versions.",
+     "type": "world"
+    },
+    {
+     "id": "8f7ee385-5dd8-4fd7-a97a-77520370b753",
+     "label": "P7",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "c884faf7-7335-48b6-aa13-606d392df046",
+     "label": "P8",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "8301bd43-a27b-429c-a1c0-2910a0a18315",
+     "label": "P9",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Feedback on terminal emulator test session progress notification.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 3,
+   "pr": 13963,
+   "title": "Ensure subtest's context kwargs are JSON serializable",
+   "arm": "on",
+   "recalled": 15,
+   "agentComments": 1,
+   "matched": 0,
+   "humanComments": 3,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/subtests.py",
+     "line": 61,
+     "text": "`saferepr` is used in `__post_init__` but not imported in this module. Add `from _pytest._io.saferepr import saferepr` at the top to avoid NameError.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "6d3683de-6d34-4b87-88d4-e1fd770a229a",
+     "label": "P1",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "6cda2cbd-ec4f-4d3e-876a-67156bba6a2f",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "b483a46e-239d-4d63-a09f-619f7a0651ae",
+     "label": "P3",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "4c121897-b2e8-4389-9d11-c4a4e321e989",
+     "label": "P4",
+     "kind": "observation",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "7ea2ecff-681a-48b0-b925-9cba99b29e32",
+     "label": "P5",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "08d7674a-9bae-40a6-a699-1d36002459a1",
+     "label": "P6",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "81dc4b4b-366a-4681-bb4b-6023a203cfc5",
+     "label": "P7",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "a33c92a1-bb7e-4d0a-bc4a-e51803a02955",
+     "label": "P8",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P9",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "8f7ee385-5dd8-4fd7-a97a-77520370b753",
+     "label": "P10",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "7879622b-5641-4435-a9da-77f6ec631221",
+     "label": "P11",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "e8f44622-3ecc-44de-af16-1eee3933e2de",
+     "label": "P12",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728 | Involving: The-Compiler (reviewer) | To ensure compatibility and provide user control for terminal notifications on long-term support Linux versions.",
+     "type": "world"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P13",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "c884faf7-7335-48b6-aa13-606d392df046",
+     "label": "P14",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "8301bd43-a27b-429c-a1c0-2910a0a18315",
+     "label": "P15",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Feedback on terminal emulator test session progress notification.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 4,
+   "pr": 14053,
+   "title": "docs: clarify capture fixture precedence over -s",
+   "arm": "on",
+   "recalled": 21,
+   "agentComments": 2,
+   "matched": 0,
+   "humanComments": 1,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "doc/en/how-to/capture-stdout-stderr.rst",
+     "line": 164,
+     "text": "The note about capture fixtures taking precedence over ``-s`` appears after the section heading. It might be clearer to place it earlier in the section, so readers see the precedence rule before the detailed examples.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "changelog/13731.doc.rst",
+     "line": 1,
+     "text": "The changelog entry references the ref label ``<accessing-captured-output>``. Ensure that the label is defined exactly as used in the documentation; otherwise the link will be broken.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "6cda2cbd-ec4f-4d3e-876a-67156bba6a2f",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "4c121897-b2e8-4389-9d11-c4a4e321e989",
+     "label": "P2",
+     "kind": "observation",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "81dc4b4b-366a-4681-bb4b-6023a203cfc5",
+     "label": "P3",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "7ea2ecff-681a-48b0-b925-9cba99b29e32",
+     "label": "P4",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "b483a46e-239d-4d63-a09f-619f7a0651ae",
+     "label": "P5",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "f244df07-34a0-4686-b2e1-a459e180ea10",
+     "label": "P6",
+     "kind": "observation",
+     "text": "The-Compiler noted that the current approach does not guarantee successful serialization in src/_pytest/subtests.py:67.",
+     "type": "observation"
+    },
+    {
+     "id": "6d3683de-6d34-4b87-88d4-e1fd770a229a",
+     "label": "P7",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "08d7674a-9bae-40a6-a699-1d36002459a1",
+     "label": "P8",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "df10dbc1-c5e4-4e48-9852-20bc35fc1fae",
+     "label": "P9",
+     "kind": "observation",
+     "text": "The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "76d8330c-ad5b-420f-9008-f5162f2832b6",
+     "label": "P10",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. (2025-11-13 22:52: Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963.) (2025-11-13 22:50: Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report.)",
+     "type": "observation"
+    },
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P11",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "e8f44622-3ecc-44de-af16-1eee3933e2de",
+     "label": "P12",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728 | Involving: The-Compiler (reviewer) | To ensure compatibility and provide user control for terminal notifications on long-term support Linux versions.",
+     "type": "world"
+    },
+    {
+     "id": "a33c92a1-bb7e-4d0a-bc4a-e51803a02955",
+     "label": "P13",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "8f7ee385-5dd8-4fd7-a97a-77520370b753",
+     "label": "P14",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "c884faf7-7335-48b6-aa13-606d392df046",
+     "label": "P15",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "21d05d7f-33fd-4ed5-9b7b-a0be2f49ce09",
+     "label": "P16",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963, noting that the current approach does not guarantee successful serialization. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | The-Compiler argues that ASCII-formatted pickle output is not significantly more useful than binary formats and that the PR fails to address the underlying serialization reliability issue.",
+     "type": "world"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P17",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "278ba83d-c14c-428c-bdd2-8a22439fec16",
+     "label": "P18",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "8301bd43-a27b-429c-a1c0-2910a0a18315",
+     "label": "P19",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Feedback on terminal emulator test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "7879622b-5641-4435-a9da-77f6ec631221",
+     "label": "P20",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "b6dc8c45-f438-4ca8-a256-9c1c104fc975",
+     "label": "P21",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To improve string rendering and serialization in subtests.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 5,
+   "pr": 14099,
+   "title": "docs: actualize pytest_version",
+   "arm": "on",
+   "recalled": 22,
+   "agentComments": 1,
+   "matched": 0,
+   "humanComments": 1,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "doc/en/reference/reference.rst",
+     "line": 22,
+     "text": "The hard‑coded version string should be kept in sync with the package version; consider generating it from ``pytest.__version__`` during the docs build rather than maintaining a literal copy.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "f244df07-34a0-4686-b2e1-a459e180ea10",
+     "label": "P1",
+     "kind": "observation",
+     "text": "The-Compiler noted that the current approach does not guarantee successful serialization in src/_pytest/subtests.py:67.",
+     "type": "observation"
+    },
+    {
+     "id": "6d3683de-6d34-4b87-88d4-e1fd770a229a",
+     "label": "P2",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "df10dbc1-c5e4-4e48-9852-20bc35fc1fae",
+     "label": "P3",
+     "kind": "observation",
+     "text": "The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "6cda2cbd-ec4f-4d3e-876a-67156bba6a2f",
+     "label": "P4",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "b483a46e-239d-4d63-a09f-619f7a0651ae",
+     "label": "P5",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "7ea2ecff-681a-48b0-b925-9cba99b29e32",
+     "label": "P6",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "76d8330c-ad5b-420f-9008-f5162f2832b6",
+     "label": "P7",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. (2025-11-13 22:52: Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963.) (2025-11-13 22:50: Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report.)",
+     "type": "observation"
+    },
+    {
+     "id": "81dc4b4b-366a-4681-bb4b-6023a203cfc5",
+     "label": "P8",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "4c121897-b2e8-4389-9d11-c4a4e321e989",
+     "label": "P9",
+     "kind": "observation",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "08d7674a-9bae-40a6-a699-1d36002459a1",
+     "label": "P10",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "a33c92a1-bb7e-4d0a-bc4a-e51803a02955",
+     "label": "P11",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "278ba83d-c14c-428c-bdd2-8a22439fec16",
+     "label": "P12",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "21d05d7f-33fd-4ed5-9b7b-a0be2f49ce09",
+     "label": "P13",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963, noting that the current approach does not guarantee successful serialization. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | The-Compiler argues that ASCII-formatted pickle output is not significantly more useful than binary formats and that the PR fails to address the underlying serialization reliability issue.",
+     "type": "world"
+    },
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P14",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "8f7ee385-5dd8-4fd7-a97a-77520370b753",
+     "label": "P15",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "7879622b-5641-4435-a9da-77f6ec631221",
+     "label": "P16",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "b6dc8c45-f438-4ca8-a256-9c1c104fc975",
+     "label": "P17",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To improve string rendering and serialization in subtests.",
+     "type": "world"
+    },
+    {
+     "id": "7a87e3a5-9cff-4a4e-bf1e-3d92ff8eb474",
+     "label": "P18",
+     "kind": "human",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic explanations. | When: 2025-12-27 | Where: doc/en/how-to/capture-stdout-stderr.rst:143 | Involving: nicoddemus (reviewer) | The note is considered advanced and currently obstructs the explanation of basic features.",
+     "type": "world"
+    },
+    {
+     "id": "c884faf7-7335-48b6-aa13-606d392df046",
+     "label": "P19",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "e8f44622-3ecc-44de-af16-1eee3933e2de",
+     "label": "P20",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728 | Involving: The-Compiler (reviewer) | To ensure compatibility and provide user control for terminal notifications on long-term support Linux versions.",
+     "type": "world"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P21",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "8301bd43-a27b-429c-a1c0-2910a0a18315",
+     "label": "P22",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Feedback on terminal emulator test session progress notification.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 6,
+   "pr": 14105,
+   "title": "[truncate explanation] Fix edge case when we truncate due to max_chars",
+   "arm": "on",
+   "recalled": 24,
+   "agentComments": 6,
+   "matched": 1,
+   "humanComments": 2,
+   "humanCovered": 1,
+   "outcomes": [
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 81,
+     "text": "When max_lines==0 and the input exceeds tolerable_max_chars, the code falls into the else branch, truncating to input_lines[:0] (an empty list). Subsequent logic then accesses truncated_explanation[-1] which will raise an IndexError. The function should handle the max_lines==0 case explicitly before attempting to truncate by character count.",
+     "precedents": [],
+     "matchedHuman": 2681921524,
+     "matchedReviewer": "bluetech"
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 81,
+     "text": "Add a guard for max_lines==0 that skips the line‑truncation step and proceeds directly to character truncation, or returns the original input if it fits within tolerable_max_chars.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 90,
+     "text": "The variable 'need_to_truncate_char' is computed but the subsequent logic still assumes truncated_explanation has at least one element when adding the ellipsis. Ensure that truncated_explanation is non‑empty before appending '...' to avoid IndexError in edge cases.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 101,
+     "text": "The calculation of truncated_line_count uses int(need_to_truncate_char) to account for a partially truncated line, but this may double‑count when both line and character truncation occur. Verify that the count matches the expected number of hidden lines in all scenarios.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_assertion.py",
+     "line": 1394,
+     "text": "The new test 'test_truncates_full_line_because_of_max_chars' expects the truncation message to appear after an ellipsis line. Ensure that the implementation consistently places the ellipsis before the message, even when max_lines==0 or max_chars==0.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_assertion.py",
+     "line": 1408,
+     "text": "Consider adding a test for the case where both max_lines and max_chars are zero to confirm that no truncation occurs and no errors are raised.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "b483a46e-239d-4d63-a09f-619f7a0651ae",
+     "label": "P1",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "81dc4b4b-366a-4681-bb4b-6023a203cfc5",
+     "label": "P2",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "6d3683de-6d34-4b87-88d4-e1fd770a229a",
+     "label": "P3",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "f244df07-34a0-4686-b2e1-a459e180ea10",
+     "label": "P4",
+     "kind": "observation",
+     "text": "The-Compiler noted that the current approach does not guarantee successful serialization in src/_pytest/subtests.py:67.",
+     "type": "observation"
+    },
+    {
+     "id": "7ea2ecff-681a-48b0-b925-9cba99b29e32",
+     "label": "P5",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "6cda2cbd-ec4f-4d3e-876a-67156bba6a2f",
+     "label": "P6",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "08d7674a-9bae-40a6-a699-1d36002459a1",
+     "label": "P7",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "df10dbc1-c5e4-4e48-9852-20bc35fc1fae",
+     "label": "P8",
+     "kind": "observation",
+     "text": "The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "4c121897-b2e8-4389-9d11-c4a4e321e989",
+     "label": "P9",
+     "kind": "observation",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "7c5729a0-d80c-4e25-a5a7-98d107596b73",
+     "label": "P10",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst.",
+     "type": "observation"
+    },
+    {
+     "id": "76d8330c-ad5b-420f-9008-f5162f2832b6",
+     "label": "P11",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. (2025-11-13 22:52: Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963.) (2025-11-13 22:50: Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report.)",
+     "type": "observation"
+    },
+    {
+     "id": "e8f44622-3ecc-44de-af16-1eee3933e2de",
+     "label": "P12",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728 | Involving: The-Compiler (reviewer) | To ensure compatibility and provide user control for terminal notifications on long-term support Linux versions.",
+     "type": "world"
+    },
+    {
+     "id": "8f7ee385-5dd8-4fd7-a97a-77520370b753",
+     "label": "P13",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "a33c92a1-bb7e-4d0a-bc4a-e51803a02955",
+     "label": "P14",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "21d05d7f-33fd-4ed5-9b7b-a0be2f49ce09",
+     "label": "P15",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963, noting that the current approach does not guarantee successful serialization. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | The-Compiler argues that ASCII-formatted pickle output is not significantly more useful than binary formats and that the PR fails to address the underlying serialization reliability issue.",
+     "type": "world"
+    },
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P16",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "7a87e3a5-9cff-4a4e-bf1e-3d92ff8eb474",
+     "label": "P17",
+     "kind": "human",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic explanations. | When: 2025-12-27 | Where: doc/en/how-to/capture-stdout-stderr.rst:143 | Involving: nicoddemus (reviewer) | The note is considered advanced and currently obstructs the explanation of basic features.",
+     "type": "world"
+    },
+    {
+     "id": "c884faf7-7335-48b6-aa13-606d392df046",
+     "label": "P18",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P19",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "8301bd43-a27b-429c-a1c0-2910a0a18315",
+     "label": "P20",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Feedback on terminal emulator test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "278ba83d-c14c-428c-bdd2-8a22439fec16",
+     "label": "P21",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "96244c75-bfe3-4df8-8944-0dc09bcbba6c",
+     "label": "P22",
+     "kind": "human",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+' for logical consistency. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:87 | Involving: bluetech (reviewer) | To keep documentation logical.",
+     "type": "world"
+    },
+    {
+     "id": "7879622b-5641-4435-a9da-77f6ec631221",
+     "label": "P23",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "b6dc8c45-f438-4ca8-a256-9c1c104fc975",
+     "label": "P24",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To improve string rendering and serialization in subtests.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 7,
+   "pr": 13815,
+   "title": "fix(testing): `pytest.approx` correctly take account Mapping keys order to compare them",
+   "arm": "on",
+   "recalled": 28,
+   "agentComments": 1,
+   "matched": 1,
+   "humanComments": 3,
+   "humanCovered": 1,
+   "outcomes": [
+    {
+     "path": "src/_pytest/python_api.py",
+     "line": 246,
+     "text": "The change to compare `self.expected.keys() != other_side.keys()` will treat dictionaries with the same keys but different insertion order as mismatched. The original intent was to ignore key order, so the comparison should use `set(self.expected.keys()) != set(other_side.keys())` instead.",
+     "precedents": [
+      "P13"
+     ],
+     "matchedHuman": 2685866897,
+     "matchedReviewer": "nicoddemus"
+    }
+   ],
+   "precedents": [
+    {
+     "id": "169a6773-63ad-48d0-b925-1f5d30c3e47a",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+'.",
+     "type": "observation"
+    },
+    {
+     "id": "6d3683de-6d34-4b87-88d4-e1fd770a229a",
+     "label": "P2",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "f244df07-34a0-4686-b2e1-a459e180ea10",
+     "label": "P3",
+     "kind": "observation",
+     "text": "The-Compiler noted that the current approach does not guarantee successful serialization in src/_pytest/subtests.py:67.",
+     "type": "observation"
+    },
+    {
+     "id": "6cda2cbd-ec4f-4d3e-876a-67156bba6a2f",
+     "label": "P4",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "b483a46e-239d-4d63-a09f-619f7a0651ae",
+     "label": "P5",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "df10dbc1-c5e4-4e48-9852-20bc35fc1fae",
+     "label": "P6",
+     "kind": "observation",
+     "text": "The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "7ea2ecff-681a-48b0-b925-9cba99b29e32",
+     "label": "P7",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "76d8330c-ad5b-420f-9008-f5162f2832b6",
+     "label": "P8",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. (2025-11-13 22:52: Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963.) (2025-11-13 22:50: Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report.)",
+     "type": "observation"
+    },
+    {
+     "id": "4c121897-b2e8-4389-9d11-c4a4e321e989",
+     "label": "P9",
+     "kind": "observation",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "81dc4b4b-366a-4681-bb4b-6023a203cfc5",
+     "label": "P10",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "08d7674a-9bae-40a6-a699-1d36002459a1",
+     "label": "P11",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "7c5729a0-d80c-4e25-a5a7-98d107596b73",
+     "label": "P12",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst.",
+     "type": "observation"
+    },
+    {
+     "id": "a33c92a1-bb7e-4d0a-bc4a-e51803a02955",
+     "label": "P13",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "21d05d7f-33fd-4ed5-9b7b-a0be2f49ce09",
+     "label": "P14",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963, noting that the current approach does not guarantee successful serialization. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | The-Compiler argues that ASCII-formatted pickle output is not significantly more useful than binary formats and that the PR fails to address the underlying serialization reliability issue.",
+     "type": "world"
+    },
+    {
+     "id": "96244c75-bfe3-4df8-8944-0dc09bcbba6c",
+     "label": "P15",
+     "kind": "human",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+' for logical consistency. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:87 | Involving: bluetech (reviewer) | To keep documentation logical.",
+     "type": "world"
+    },
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P16",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P17",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "278ba83d-c14c-428c-bdd2-8a22439fec16",
+     "label": "P18",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "7879622b-5641-4435-a9da-77f6ec631221",
+     "label": "P19",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "bb5f0b2e-15a5-4c29-b224-6681417131ad",
+     "label": "P20",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:104 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "8f7ee385-5dd8-4fd7-a97a-77520370b753",
+     "label": "P21",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "841f93b6-7ccd-4ae5-84b0-815514a3d15c",
+     "label": "P22",
+     "kind": "human",
+     "text": "Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py | Involving: bluetech (reviewer) | To facilitate easier local reasoning about the function's behavior.",
+     "type": "world"
+    },
+    {
+     "id": "d7a5b6c3-7357-4632-b5f8-cdf07056ae6e",
+     "label": "P23",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:92 | Involving: bluetech (reviewer) | To improve code readability and maintainability by making the truncation condition more explicit.",
+     "type": "world"
+    },
+    {
+     "id": "b6dc8c45-f438-4ca8-a256-9c1c104fc975",
+     "label": "P24",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To improve string rendering and serialization in subtests.",
+     "type": "world"
+    },
+    {
+     "id": "e8f44622-3ecc-44de-af16-1eee3933e2de",
+     "label": "P25",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728 | Involving: The-Compiler (reviewer) | To ensure compatibility and provide user control for terminal notifications on long-term support Linux versions.",
+     "type": "world"
+    },
+    {
+     "id": "c884faf7-7335-48b6-aa13-606d392df046",
+     "label": "P26",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "7a87e3a5-9cff-4a4e-bf1e-3d92ff8eb474",
+     "label": "P27",
+     "kind": "human",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic explanations. | When: 2025-12-27 | Where: doc/en/how-to/capture-stdout-stderr.rst:143 | Involving: nicoddemus (reviewer) | The note is considered advanced and currently obstructs the explanation of basic features.",
+     "type": "world"
+    },
+    {
+     "id": "8301bd43-a27b-429c-a1c0-2910a0a18315",
+     "label": "P28",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Feedback on terminal emulator test session progress notification.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 8,
+   "pr": 14121,
+   "title": "cacheprovider: simplify cache directory creation",
+   "arm": "on",
+   "recalled": 31,
+   "agentComments": 1,
+   "matched": 0,
+   "humanComments": 2,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/cacheprovider.py",
+     "line": 15,
+     "text": "Missing import for errno used in _make_cachedir. Add `import errno` to avoid NameError.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "6d3683de-6d34-4b87-88d4-e1fd770a229a",
+     "label": "P1",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "6cda2cbd-ec4f-4d3e-876a-67156bba6a2f",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "f244df07-34a0-4686-b2e1-a459e180ea10",
+     "label": "P3",
+     "kind": "observation",
+     "text": "The-Compiler noted that the current approach does not guarantee successful serialization in src/_pytest/subtests.py:67.",
+     "type": "observation"
+    },
+    {
+     "id": "df10dbc1-c5e4-4e48-9852-20bc35fc1fae",
+     "label": "P4",
+     "kind": "observation",
+     "text": "The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "81dc4b4b-366a-4681-bb4b-6023a203cfc5",
+     "label": "P5",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "b483a46e-239d-4d63-a09f-619f7a0651ae",
+     "label": "P6",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "08d7674a-9bae-40a6-a699-1d36002459a1",
+     "label": "P7",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "7ea2ecff-681a-48b0-b925-9cba99b29e32",
+     "label": "P8",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "76d8330c-ad5b-420f-9008-f5162f2832b6",
+     "label": "P9",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. (2025-11-13 22:52: Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963.) (2025-11-13 22:50: Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report.)",
+     "type": "observation"
+    },
+    {
+     "id": "169a6773-63ad-48d0-b925-1f5d30c3e47a",
+     "label": "P10",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+'. (2026-01-12 11:51: Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars.) (2026-01-12 11:51: Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars.) (2026-01-12 11:40: Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled.) (2026-01-12 11:40: Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check.)",
+     "type": "observation"
+    },
+    {
+     "id": "4c121897-b2e8-4389-9d11-c4a4e321e989",
+     "label": "P11",
+     "kind": "observation",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "7c5729a0-d80c-4e25-a5a7-98d107596b73",
+     "label": "P12",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst.",
+     "type": "observation"
+    },
+    {
+     "id": "a33c92a1-bb7e-4d0a-bc4a-e51803a02955",
+     "label": "P13",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "e73a1cac-d998-4918-9589-f9c8d4f4b933",
+     "label": "P14",
+     "kind": "human",
+     "text": "nicoddemus reviewed PR #13815 and suggested accessing dictionary keys directly in src/_pytest/python_api.py because previous checks already ensure key set equality. | When: 2026-01-13 | Where: src/_pytest/python_api.py:260 | Involving: nicoddemus (reviewer) | Code optimization for pytest.approx testing logic.",
+     "type": "world"
+    },
+    {
+     "id": "8f7ee385-5dd8-4fd7-a97a-77520370b753",
+     "label": "P15",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "7879622b-5641-4435-a9da-77f6ec631221",
+     "label": "P16",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "bb5f0b2e-15a5-4c29-b224-6681417131ad",
+     "label": "P17",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:104 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "761ea7aa-465a-457c-a444-a4d73df25cb9",
+     "label": "P18",
+     "kind": "human",
+     "text": "nicoddemus requested a rewrite of the test in testing/python/approx.py:1074 using pytester to verify the output message and suggested using more dictionary keys for better coverage. | When: 2026-01-13 | Where: testing/python/approx.py:1074 | Involving: nicoddemus (reviewer) | To improve test coverage and verify output messages for PR #13815.",
+     "type": "world"
+    },
+    {
+     "id": "8301bd43-a27b-429c-a1c0-2910a0a18315",
+     "label": "P19",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Feedback on terminal emulator test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "8f7cacf0-19de-4ba2-a839-9e1aacdb7a15",
+     "label": "P20",
+     "kind": "human",
+     "text": "nicoddemus reviewed PR #13815 regarding pytest.approx mapping key order comparison and suggested a test case for unordered mapping matching. | When: 2026-01-15 | Where: testing/python/approx.py:1089 | Involving: nicoddemus (reviewer) | To address issue #12444 in pytest.",
+     "type": "world"
+    },
+    {
+     "id": "b6dc8c45-f438-4ca8-a256-9c1c104fc975",
+     "label": "P21",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To improve string rendering and serialization in subtests.",
+     "type": "world"
+    },
+    {
+     "id": "21d05d7f-33fd-4ed5-9b7b-a0be2f49ce09",
+     "label": "P22",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963, noting that the current approach does not guarantee successful serialization. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | The-Compiler argues that ASCII-formatted pickle output is not significantly more useful than binary formats and that the PR fails to address the underlying serialization reliability issue.",
+     "type": "world"
+    },
+    {
+     "id": "841f93b6-7ccd-4ae5-84b0-815514a3d15c",
+     "label": "P23",
+     "kind": "human",
+     "text": "Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py | Involving: bluetech (reviewer) | To facilitate easier local reasoning about the function's behavior.",
+     "type": "world"
+    },
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P24",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "e8f44622-3ecc-44de-af16-1eee3933e2de",
+     "label": "P25",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728 | Involving: The-Compiler (reviewer) | To ensure compatibility and provide user control for terminal notifications on long-term support Linux versions.",
+     "type": "world"
+    },
+    {
+     "id": "c884faf7-7335-48b6-aa13-606d392df046",
+     "label": "P26",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "278ba83d-c14c-428c-bdd2-8a22439fec16",
+     "label": "P27",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "7a87e3a5-9cff-4a4e-bf1e-3d92ff8eb474",
+     "label": "P28",
+     "kind": "human",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic explanations. | When: 2025-12-27 | Where: doc/en/how-to/capture-stdout-stderr.rst:143 | Involving: nicoddemus (reviewer) | The note is considered advanced and currently obstructs the explanation of basic features.",
+     "type": "world"
+    },
+    {
+     "id": "d7a5b6c3-7357-4632-b5f8-cdf07056ae6e",
+     "label": "P29",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:92 | Involving: bluetech (reviewer) | To improve code readability and maintainability by making the truncation condition more explicit.",
+     "type": "world"
+    },
+    {
+     "id": "96244c75-bfe3-4df8-8944-0dc09bcbba6c",
+     "label": "P30",
+     "kind": "human",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+' for logical consistency. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:87 | Involving: bluetech (reviewer) | To keep documentation logical.",
+     "type": "world"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P31",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 9,
+   "pr": 13778,
+   "title": "Upload junit reports codecov",
+   "arm": "on",
+   "recalled": 35,
+   "agentComments": 5,
+   "matched": 3,
+   "humanComments": 8,
+   "humanCovered": 3,
+   "outcomes": [
+    {
+     "path": "tox.ini",
+     "line": 62,
+     "text": "The doctesting command now includes the JUnit flag via _PYTEST_TOX_POSARGS_JUNIT. Consider adding a comment explaining why this flag is needed for CI reporting, or documenting it in the tox.ini header so contributors understand its purpose.",
+     "precedents": [],
+     "matchedHuman": 2505901964,
+     "matchedReviewer": "webknjaz"
+    },
+    {
+     "path": ".github/workflows/test.yml",
+     "line": 277,
+     "text": "You set _PYTEST_TOX_POSARGS_JUNIT in the env section for both test jobs. It might be clearer to define this variable once at the job level or in a reusable step to avoid duplication.",
+     "precedents": [],
+     "matchedHuman": 2505901128,
+     "matchedReviewer": "webknjaz"
+    },
+    {
+     "path": ".github/workflows/test.yml",
+     "line": 292,
+     "text": "The codecov action is pinned to a specific commit. If the action updates, you may want to use the latest tag or a more flexible reference to avoid breaking changes in the future.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "changelog/12689.contrib.rst",
+     "line": 1,
+     "text": "The changelog entry uses a short description. For consistency with other entries, consider starting with a capital letter and ending with a period.",
+     "precedents": [],
+     "matchedHuman": 2561959294,
+     "matchedReviewer": "webknjaz"
+    },
+    {
+     "path": "AUTHORS",
+     "line": 14,
+     "text": "You added Alejandro Villate to AUTHORS. Ensure the name is spelled correctly and matches the contributor's GitHub handle for consistency.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "169a6773-63ad-48d0-b925-1f5d30c3e47a",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+'. (2026-01-12 11:51: Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars.) (2026-01-12 11:51: Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars.) (2026-01-12 11:40: Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled.) (2026-01-12 11:40: Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check.)",
+     "type": "observation"
+    },
+    {
+     "id": "f244df07-34a0-4686-b2e1-a459e180ea10",
+     "label": "P2",
+     "kind": "observation",
+     "text": "The-Compiler noted that the current approach does not guarantee successful serialization in src/_pytest/subtests.py:67.",
+     "type": "observation"
+    },
+    {
+     "id": "7ea2ecff-681a-48b0-b925-9cba99b29e32",
+     "label": "P3",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "6d3683de-6d34-4b87-88d4-e1fd770a229a",
+     "label": "P4",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "fa02cd31-faff-4b19-8b05-92b1a5e1dfa3",
+     "label": "P5",
+     "kind": "observation",
+     "text": "nicoddemus requested a rewrite of the test in testing/python/approx.py:1074 using pytester in PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "76d8330c-ad5b-420f-9008-f5162f2832b6",
+     "label": "P6",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. (2025-11-13 22:52: Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963.) (2025-11-13 22:50: Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report.)",
+     "type": "observation"
+    },
+    {
+     "id": "6cda2cbd-ec4f-4d3e-876a-67156bba6a2f",
+     "label": "P7",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "df10dbc1-c5e4-4e48-9852-20bc35fc1fae",
+     "label": "P8",
+     "kind": "observation",
+     "text": "The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "b483a46e-239d-4d63-a09f-619f7a0651ae",
+     "label": "P9",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "81dc4b4b-366a-4681-bb4b-6023a203cfc5",
+     "label": "P10",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "4c121897-b2e8-4389-9d11-c4a4e321e989",
+     "label": "P11",
+     "kind": "observation",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "8e22695a-f312-4972-a510-840a56c49073",
+     "label": "P12",
+     "kind": "observation",
+     "text": "nicoddemus suggested accessing dictionary keys directly in src/_pytest/python_api.py:260 in PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "7c5729a0-d80c-4e25-a5a7-98d107596b73",
+     "label": "P13",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst.",
+     "type": "observation"
+    },
+    {
+     "id": "08d7674a-9bae-40a6-a699-1d36002459a1",
+     "label": "P14",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "b2684405-4105-40b0-a2df-10844ddba22d",
+     "label": "P15",
+     "kind": "observation",
+     "text": "nicoddemus suggested a test case for unordered mapping matching in PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "96244c75-bfe3-4df8-8944-0dc09bcbba6c",
+     "label": "P16",
+     "kind": "human",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+' for logical consistency. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:87 | Involving: bluetech (reviewer) | To keep documentation logical.",
+     "type": "world"
+    },
+    {
+     "id": "841f93b6-7ccd-4ae5-84b0-815514a3d15c",
+     "label": "P17",
+     "kind": "human",
+     "text": "Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py | Involving: bluetech (reviewer) | To facilitate easier local reasoning about the function's behavior.",
+     "type": "world"
+    },
+    {
+     "id": "bb5f0b2e-15a5-4c29-b224-6681417131ad",
+     "label": "P18",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:104 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "d7a5b6c3-7357-4632-b5f8-cdf07056ae6e",
+     "label": "P19",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:92 | Involving: bluetech (reviewer) | To improve code readability and maintainability by making the truncation condition more explicit.",
+     "type": "world"
+    },
+    {
+     "id": "a33c92a1-bb7e-4d0a-bc4a-e51803a02955",
+     "label": "P20",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P21",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "383ff902-96b0-45ed-b5ba-e27ab164d1cd",
+     "label": "P22",
+     "kind": "human",
+     "text": "bluetech reviewed PR #14121 and suggested keeping TemporaryDirectory due to its rmtree implementation details. | When: 2026-01-18 | Where: src/_pytest/cacheprovider.py:83 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "278ba83d-c14c-428c-bdd2-8a22439fec16",
+     "label": "P23",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "c884faf7-7335-48b6-aa13-606d392df046",
+     "label": "P24",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "21d05d7f-33fd-4ed5-9b7b-a0be2f49ce09",
+     "label": "P25",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963, noting that the current approach does not guarantee successful serialization. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | The-Compiler argues that ASCII-formatted pickle output is not significantly more useful than binary formats and that the PR fails to address the underlying serialization reliability issue.",
+     "type": "world"
+    },
+    {
+     "id": "761ea7aa-465a-457c-a444-a4d73df25cb9",
+     "label": "P26",
+     "kind": "human",
+     "text": "nicoddemus requested a rewrite of the test in testing/python/approx.py:1074 using pytester to verify the output message and suggested using more dictionary keys for better coverage. | When: 2026-01-13 | Where: testing/python/approx.py:1074 | Involving: nicoddemus (reviewer) | To improve test coverage and verify output messages for PR #13815.",
+     "type": "world"
+    },
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P27",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "7879622b-5641-4435-a9da-77f6ec631221",
+     "label": "P28",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "e8f44622-3ecc-44de-af16-1eee3933e2de",
+     "label": "P29",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728 | Involving: The-Compiler (reviewer) | To ensure compatibility and provide user control for terminal notifications on long-term support Linux versions.",
+     "type": "world"
+    },
+    {
+     "id": "cc4bceb9-abe8-499b-abbf-07d537762b74",
+     "label": "P30",
+     "kind": "human",
+     "text": "nicoddemus suggested a simplified implementation for cache directory creation in PR #14121 to handle concurrent pytest execution and directory permissions. | When: 2026-01-25 | Where: src/_pytest/cacheprovider.py:88 | Involving: nicoddemus (reviewer) | To address race conditions and permission settings during cache directory creation.",
+     "type": "world"
+    },
+    {
+     "id": "4a68debc-d95f-4bb6-8993-33ee6c69a006",
+     "label": "P31",
+     "kind": "human",
+     "text": "bluetech suggested implementing the TODO regarding ignore_cleanup_errors=True for Python 3.10+ support in the TemporaryDirectory code. | When: 2026-01-18 | Where: src/_pytest/cacheprovider.py:83 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "b6dc8c45-f438-4ca8-a256-9c1c104fc975",
+     "label": "P32",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To improve string rendering and serialization in subtests.",
+     "type": "world"
+    },
+    {
+     "id": "e73a1cac-d998-4918-9589-f9c8d4f4b933",
+     "label": "P33",
+     "kind": "human",
+     "text": "nicoddemus reviewed PR #13815 and suggested accessing dictionary keys directly in src/_pytest/python_api.py because previous checks already ensure key set equality. | When: 2026-01-13 | Where: src/_pytest/python_api.py:260 | Involving: nicoddemus (reviewer) | Code optimization for pytest.approx testing logic.",
+     "type": "world"
+    },
+    {
+     "id": "8f7ee385-5dd8-4fd7-a97a-77520370b753",
+     "label": "P34",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "8f7cacf0-19de-4ba2-a839-9e1aacdb7a15",
+     "label": "P35",
+     "kind": "human",
+     "text": "nicoddemus reviewed PR #13815 regarding pytest.approx mapping key order comparison and suggested a test case for unordered mapping matching. | When: 2026-01-15 | Where: testing/python/approx.py:1089 | Involving: nicoddemus (reviewer) | To address issue #12444 in pytest.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 10,
+   "pr": 14179,
+   "title": "doc: fix ~75 typos and grammar issues across documentation",
+   "arm": "on",
+   "recalled": 45,
+   "agentComments": 2,
+   "matched": 0,
+   "humanComments": 23,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "doc/en/backwards-compatibility.rst",
+     "line": 53,
+     "text": "The heading line is truncated to \"Foc\" – it should read the full title, e.g. \"Focus primarily on smooth transition – stance (pre 6.0)\".",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "doc/en/backwards-compatibility.rst",
+     "line": 53,
+     "text": "The phrase \"Focus primary\" is grammatically incorrect; it should be \"Focus primarily\" to match the intended meaning.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "169a6773-63ad-48d0-b925-1f5d30c3e47a",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+'. (2026-01-12 11:51: Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars.) (2026-01-12 11:51: Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars.) (2026-01-12 11:40: Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled.) (2026-01-12 11:40: Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check.)",
+     "type": "observation"
+    },
+    {
+     "id": "7c5729a0-d80c-4e25-a5a7-98d107596b73",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst.",
+     "type": "observation"
+    },
+    {
+     "id": "a9f8fcc4-015b-4a9f-a66e-f11269f1f733",
+     "label": "P3",
+     "kind": "observation",
+     "text": "webknjaz provided feedback on PR #13778, noting that the changelog entry lacks a full stop and a capital letter, and advising that notes should be higher-level and approachable.",
+     "type": "observation"
+    },
+    {
+     "id": "fa02cd31-faff-4b19-8b05-92b1a5e1dfa3",
+     "label": "P4",
+     "kind": "observation",
+     "text": "nicoddemus requested a rewrite of the test in testing/python/approx.py:1074 using pytester in PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "f244df07-34a0-4686-b2e1-a459e180ea10",
+     "label": "P5",
+     "kind": "observation",
+     "text": "The-Compiler noted that the current approach does not guarantee successful serialization in src/_pytest/subtests.py:67.",
+     "type": "observation"
+    },
+    {
+     "id": "8e22695a-f312-4972-a510-840a56c49073",
+     "label": "P6",
+     "kind": "observation",
+     "text": "nicoddemus suggested accessing dictionary keys directly in src/_pytest/python_api.py:260 in PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "4c121897-b2e8-4389-9d11-c4a4e321e989",
+     "label": "P7",
+     "kind": "observation",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "6cda2cbd-ec4f-4d3e-876a-67156bba6a2f",
+     "label": "P8",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "b483a46e-239d-4d63-a09f-619f7a0651ae",
+     "label": "P9",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "7ea2ecff-681a-48b0-b925-9cba99b29e32",
+     "label": "P10",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "6d3683de-6d34-4b87-88d4-e1fd770a229a",
+     "label": "P11",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "df10dbc1-c5e4-4e48-9852-20bc35fc1fae",
+     "label": "P12",
+     "kind": "observation",
+     "text": "The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "6e13bf2c-7afa-463e-9488-6c853255fcd8",
+     "label": "P13",
+     "kind": "observation",
+     "text": "webknjaz suggested simplifying the junit report filename in .github/workflows/test.yml by removing the dynamic naming convention for PR #13778.",
+     "type": "observation"
+    },
+    {
+     "id": "31043f92-3793-439d-bcc7-ec4a5c6aa9a9",
+     "label": "P14",
+     "kind": "observation",
+     "text": "webknjaz requested a change to the .github/workflows/test.yml file in PR #13778, specifically suggesting the addition of 'files: junit.xml' at line 303.",
+     "type": "observation"
+    },
+    {
+     "id": "d0b8133f-8989-43c5-97f1-34239a5d22cb",
+     "label": "P15",
+     "kind": "observation",
+     "text": "webknjaz suggested updating the _PYTEST_TOX_POSARGS_JUNIT configuration in .github/workflows/test.yml to include --junitxml=junit-${{ matrix.name }}.xml.",
+     "type": "observation"
+    },
+    {
+     "id": "08d7674a-9bae-40a6-a699-1d36002459a1",
+     "label": "P16",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "b2684405-4105-40b0-a2df-10844ddba22d",
+     "label": "P17",
+     "kind": "observation",
+     "text": "nicoddemus suggested a test case for unordered mapping matching in PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "76d8330c-ad5b-420f-9008-f5162f2832b6",
+     "label": "P18",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. (2025-11-13 22:52: Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963.) (2025-11-13 22:50: Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report.)",
+     "type": "observation"
+    },
+    {
+     "id": "719961e2-60e1-46b7-93bb-2088e9128e29",
+     "label": "P19",
+     "kind": "observation",
+     "text": "webknjaz recommended integrating specific environment variables into tox.ini:57 for PR #13778.",
+     "type": "observation"
+    },
+    {
+     "id": "81dc4b4b-366a-4681-bb4b-6023a203cfc5",
+     "label": "P20",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "1f2e2446-8669-4d4f-b843-038500104d12",
+     "label": "P21",
+     "kind": "observation",
+     "text": "webknjaz suggested a change to tox.ini:46 in PR #13778 to update pytest command configurations.",
+     "type": "observation"
+    },
+    {
+     "id": "1df48bfd-a9ed-43b0-9a68-d92e4b401830",
+     "label": "P22",
+     "kind": "observation",
+     "text": "webknjaz suggested adding _PYTEST_TOX_POSARGS_JUNIT: --junitxml=junit-${{ matrix.name }}.xml to the .github/workflows/test.yml file in PR #13778.",
+     "type": "observation"
+    },
+    {
+     "id": "2cc431ef-421d-4f30-b193-4a4ab8a0bd0f",
+     "label": "P23",
+     "kind": "observation",
+     "text": "nicoddemus suggested a simplified implementation for cache directory creation in src/_pytest/cacheprovider.py:88 in PR #14121.",
+     "type": "observation"
+    },
+    {
+     "id": "59e880c9-76ca-48b2-9336-419df72d3ded",
+     "label": "P24",
+     "kind": "observation",
+     "text": "webknjaz suggested adding _PYTEST_TOX_POSARGS_JUNIT: --junitxml=junit.xml to .github/workflows/test.yml at line 288 in PR #13778.",
+     "type": "observation"
+    },
+    {
+     "id": "a5ce1dac-f095-4550-b34b-64d8cdbcf774",
+     "label": "P25",
+     "kind": "observation",
+     "text": "bluetech suggested implementing the TODO regarding ignore_cleanup_errors=True for Python 3.10+ support in the TemporaryDirectory code.",
+     "type": "observation"
+    },
+    {
+     "id": "4eddf581-4806-463d-9721-e63a0b1f11c6",
+     "label": "P26",
+     "kind": "observation",
+     "text": "bluetech suggested keeping TemporaryDirectory due to its rmtree implementation details in PR #14121.",
+     "type": "observation"
+    },
+    {
+     "id": "7a87e3a5-9cff-4a4e-bf1e-3d92ff8eb474",
+     "label": "P27",
+     "kind": "human",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic explanations. | When: 2025-12-27 | Where: doc/en/how-to/capture-stdout-stderr.rst:143 | Involving: nicoddemus (reviewer) | The note is considered advanced and currently obstructs the explanation of basic features.",
+     "type": "world"
+    },
+    {
+     "id": "a86905a6-68fc-4412-a0e0-e18bc304da1e",
+     "label": "P28",
+     "kind": "human",
+     "text": "webknjaz provided feedback on PR #13778, noting that the changelog entry lacks a full stop and a capital letter, and advising that notes should be higher-level and approachable. | When: 2025-11-25 | Where: changelog/12689.contrib.rst | Involving: webknjaz (reviewer), user (PR author) | To ensure consistent writing style and quality in the project's changelog.",
+     "type": "world"
+    },
+    {
+     "id": "841f93b6-7ccd-4ae5-84b0-815514a3d15c",
+     "label": "P29",
+     "kind": "human",
+     "text": "Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py | Involving: bluetech (reviewer) | To facilitate easier local reasoning about the function's behavior.",
+     "type": "world"
+    },
+    {
+     "id": "96244c75-bfe3-4df8-8944-0dc09bcbba6c",
+     "label": "P30",
+     "kind": "human",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+' for logical consistency. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:87 | Involving: bluetech (reviewer) | To keep documentation logical.",
+     "type": "world"
+    },
+    {
+     "id": "bb5f0b2e-15a5-4c29-b224-6681417131ad",
+     "label": "P31",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:104 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "d7a5b6c3-7357-4632-b5f8-cdf07056ae6e",
+     "label": "P32",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:92 | Involving: bluetech (reviewer) | To improve code readability and maintainability by making the truncation condition more explicit.",
+     "type": "world"
+    },
+    {
+     "id": "a33c92a1-bb7e-4d0a-bc4a-e51803a02955",
+     "label": "P33",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P34",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "c884faf7-7335-48b6-aa13-606d392df046",
+     "label": "P35",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "b6dc8c45-f438-4ca8-a256-9c1c104fc975",
+     "label": "P36",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To improve string rendering and serialization in subtests.",
+     "type": "world"
+    },
+    {
+     "id": "21d05d7f-33fd-4ed5-9b7b-a0be2f49ce09",
+     "label": "P37",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963, noting that the current approach does not guarantee successful serialization. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | The-Compiler argues that ASCII-formatted pickle output is not significantly more useful than binary formats and that the PR fails to address the underlying serialization reliability issue.",
+     "type": "world"
+    },
+    {
+     "id": "761ea7aa-465a-457c-a444-a4d73df25cb9",
+     "label": "P38",
+     "kind": "human",
+     "text": "nicoddemus requested a rewrite of the test in testing/python/approx.py:1074 using pytester to verify the output message and suggested using more dictionary keys for better coverage. | When: 2026-01-13 | Where: testing/python/approx.py:1074 | Involving: nicoddemus (reviewer) | To improve test coverage and verify output messages for PR #13815.",
+     "type": "world"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P39",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "20b059c9-a571-4b01-841c-7d6bff228a50",
+     "label": "P40",
+     "kind": "human",
+     "text": "webknjaz requested a change to the .github/workflows/test.yml file in PR #13778, specifically suggesting the addition of 'files: junit.xml' at line 303. | When: 2025-11-25 | Where: .github/workflows/test.yml | Involving: webknjaz (reviewer) | Code review feedback for PR #13778 regarding junit report uploads to codecov.",
+     "type": "world"
+    },
+    {
+     "id": "8f7ee385-5dd8-4fd7-a97a-77520370b753",
+     "label": "P41",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "278ba83d-c14c-428c-bdd2-8a22439fec16",
+     "label": "P42",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "e73a1cac-d998-4918-9589-f9c8d4f4b933",
+     "label": "P43",
+     "kind": "human",
+     "text": "nicoddemus reviewed PR #13815 and suggested accessing dictionary keys directly in src/_pytest/python_api.py because previous checks already ensure key set equality. | When: 2026-01-13 | Where: src/_pytest/python_api.py:260 | Involving: nicoddemus (reviewer) | Code optimization for pytest.approx testing logic.",
+     "type": "world"
+    },
+    {
+     "id": "8116c4a3-2fa8-440e-91f1-66947fe4091d",
+     "label": "P44",
+     "kind": "human",
+     "text": "webknjaz suggested simplifying the junit report filename in .github/workflows/test.yml by removing the dynamic naming convention for PR #13778. | When: 2025-11-25 | Where: .github/workflows/test.yml | Involving: webknjaz (reviewer) | The current dynamic naming produces files that are not utilized.",
+     "type": "world"
+    },
+    {
+     "id": "2f6808b9-afbf-4b42-8b09-74882ad982c8",
+     "label": "P45",
+     "kind": "human",
+     "text": "Reviewer webknjaz suggested a change to tox.ini:46 in PR #13778 to update pytest command configurations. | When: 2025-11-08 | Where: PR #13778 | Involving: webknjaz (reviewer) | Code review feedback for 'Upload junit reports codecov'",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 11,
+   "pr": 14050,
+   "title": "Fix: assertrepr_compare respects dict insertion order",
+   "arm": "on",
+   "recalled": 46,
+   "agentComments": 6,
+   "matched": 2,
+   "humanComments": 5,
+   "humanCovered": 2,
+   "outcomes": [
+    {
+     "path": "src/_pytest/_io/pprint.py",
+     "line": 164,
+     "text": "The variable name `object` shadows the built‑in `object`. While this is harmless, it can be confusing when reading the code. Consider renaming it to `obj` or `d` for clarity.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/_io/saferepr.py",
+     "line": 80,
+     "text": "`repr_dict` now uses `islice` to iterate over the dictionary keys, but the import of `islice` is placed after the module docstring. Moving the import to the top of the file (after the `__future__` import) would keep all imports together and improve readability.",
+     "precedents": [],
+     "matchedHuman": 2649147862,
+     "matchedReviewer": "nicoddemus"
+    },
+    {
+     "path": "testing/io/test_saferepr.py",
+     "line": 194,
+     "text": "The test `test_saferepr_dict_truncation_preserves_insertion_order` sets `s.maxdict = 1` and expects the output to be `{'b': 2, ...}`. However, `SafeRepr.repr_dict` will include the first key and then the ellipsis only if `n > self.maxdict`. Since `n == 5` and `maxdict == 1`, the ellipsis is added correctly. Just double‑check that the ellipsis string (`'...'`) matches the one used in the implementation; otherwise the test may fail on a different platform where the ellipsis character differs.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_assertion.py",
+     "line": 2213,
+     "text": "The assertion diff test checks that the diff output contains lines starting with `+` followed by the key. The current implementation of `assertrepr_compare` uses `reprlib.Repr` which may still sort keys if `repr_dict` is not correctly overridden. Ensure that the overridden `repr_dict` is actually used by the assertion machinery; otherwise the test could pass by coincidence if the dict happens to be sorted by insertion order in CPython 3.12+. A regression test that explicitly creates a dict with a non‑sorted insertion order would catch this.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/pytester_assertions.py",
+     "line": 28,
+     "text": "The `obtained` dictionary keys are reordered compared to `expected`. While dictionary order is preserved in Python 3.7+, keeping the same order as the `expected` dict makes the diff output more readable. Consider constructing `obtained` in the same order as `expected` to avoid any accidental reordering.",
+     "precedents": [],
+     "matchedHuman": 2649149642,
+     "matchedReviewer": "nicoddemus"
+    },
+    {
+     "path": "src/_pytest/_io/saferepr.py",
+     "line": 78,
+     "text": "`repr_dict` currently does not handle the case where `self.maxdict` is set to 0, which would result in an empty list of pieces and then an ellipsis being appended. This would produce `{...}` even when the dict is non‑empty. Adding a guard for `self.maxdict <= 0` would make the behavior explicit and avoid potential confusion.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "8e22695a-f312-4972-a510-840a56c49073",
+     "label": "P1",
+     "kind": "observation",
+     "text": "nicoddemus suggested accessing dictionary keys directly in src/_pytest/python_api.py:260 in PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "f244df07-34a0-4686-b2e1-a459e180ea10",
+     "label": "P2",
+     "kind": "observation",
+     "text": "The-Compiler noted that the current approach does not guarantee successful serialization in src/_pytest/subtests.py:67.",
+     "type": "observation"
+    },
+    {
+     "id": "b2684405-4105-40b0-a2df-10844ddba22d",
+     "label": "P3",
+     "kind": "observation",
+     "text": "nicoddemus suggested a test case for unordered mapping matching in PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "6d3683de-6d34-4b87-88d4-e1fd770a229a",
+     "label": "P4",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring of the state handling logic in src/_pytest/terminal.py for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "df10dbc1-c5e4-4e48-9852-20bc35fc1fae",
+     "label": "P5",
+     "kind": "observation",
+     "text": "The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "fa02cd31-faff-4b19-8b05-92b1a5e1dfa3",
+     "label": "P6",
+     "kind": "observation",
+     "text": "nicoddemus requested a rewrite of the test in testing/python/approx.py:1074 using pytester in PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "169a6773-63ad-48d0-b925-1f5d30c3e47a",
+     "label": "P7",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+'. (2026-01-12 11:51: Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars.) (2026-01-12 11:51: Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars.) (2026-01-12 11:40: Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled.) (2026-01-12 11:40: Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check.)",
+     "type": "observation"
+    },
+    {
+     "id": "6cda2cbd-ec4f-4d3e-876a-67156bba6a2f",
+     "label": "P8",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "76d8330c-ad5b-420f-9008-f5162f2832b6",
+     "label": "P9",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. (2025-11-13 22:52: Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963.) (2025-11-13 22:50: Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report.)",
+     "type": "observation"
+    },
+    {
+     "id": "31043f92-3793-439d-bcc7-ec4a5c6aa9a9",
+     "label": "P10",
+     "kind": "observation",
+     "text": "webknjaz requested a change to the .github/workflows/test.yml file in PR #13778, specifically suggesting the addition of 'files: junit.xml' at line 303.",
+     "type": "observation"
+    },
+    {
+     "id": "a9f8fcc4-015b-4a9f-a66e-f11269f1f733",
+     "label": "P11",
+     "kind": "observation",
+     "text": "webknjaz provided feedback on PR #13778, noting that the changelog entry lacks a full stop and a capital letter, and advising that notes should be higher-level and approachable.",
+     "type": "observation"
+    },
+    {
+     "id": "6e13bf2c-7afa-463e-9488-6c853255fcd8",
+     "label": "P12",
+     "kind": "observation",
+     "text": "webknjaz suggested simplifying the junit report filename in .github/workflows/test.yml by removing the dynamic naming convention for PR #13778.",
+     "type": "observation"
+    },
+    {
+     "id": "d0b8133f-8989-43c5-97f1-34239a5d22cb",
+     "label": "P13",
+     "kind": "observation",
+     "text": "webknjaz suggested updating the _PYTEST_TOX_POSARGS_JUNIT configuration in .github/workflows/test.yml to include --junitxml=junit-${{ matrix.name }}.xml.",
+     "type": "observation"
+    },
+    {
+     "id": "b483a46e-239d-4d63-a09f-619f7a0651ae",
+     "label": "P14",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "1f2e2446-8669-4d4f-b843-038500104d12",
+     "label": "P15",
+     "kind": "observation",
+     "text": "webknjaz suggested a change to tox.ini:46 in PR #13778 to update pytest command configurations.",
+     "type": "observation"
+    },
+    {
+     "id": "7ea2ecff-681a-48b0-b925-9cba99b29e32",
+     "label": "P16",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "1df48bfd-a9ed-43b0-9a68-d92e4b401830",
+     "label": "P17",
+     "kind": "observation",
+     "text": "webknjaz suggested adding _PYTEST_TOX_POSARGS_JUNIT: --junitxml=junit-${{ matrix.name }}.xml to the .github/workflows/test.yml file in PR #13778.",
+     "type": "observation"
+    },
+    {
+     "id": "59e880c9-76ca-48b2-9336-419df72d3ded",
+     "label": "P18",
+     "kind": "observation",
+     "text": "webknjaz suggested adding _PYTEST_TOX_POSARGS_JUNIT: --junitxml=junit.xml to .github/workflows/test.yml at line 288 in PR #13778.",
+     "type": "observation"
+    },
+    {
+     "id": "2cc431ef-421d-4f30-b193-4a4ab8a0bd0f",
+     "label": "P19",
+     "kind": "observation",
+     "text": "nicoddemus suggested a simplified implementation for cache directory creation in src/_pytest/cacheprovider.py:88 in PR #14121.",
+     "type": "observation"
+    },
+    {
+     "id": "4c121897-b2e8-4389-9d11-c4a4e321e989",
+     "label": "P20",
+     "kind": "observation",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.",
+     "type": "observation"
+    },
+    {
+     "id": "08d7674a-9bae-40a6-a699-1d36002459a1",
+     "label": "P21",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "a5ce1dac-f095-4550-b34b-64d8cdbcf774",
+     "label": "P22",
+     "kind": "observation",
+     "text": "bluetech suggested implementing the TODO regarding ignore_cleanup_errors=True for Python 3.10+ support in the TemporaryDirectory code.",
+     "type": "observation"
+    },
+    {
+     "id": "719961e2-60e1-46b7-93bb-2088e9128e29",
+     "label": "P23",
+     "kind": "observation",
+     "text": "webknjaz recommended integrating specific environment variables into tox.ini:57 for PR #13778.",
+     "type": "observation"
+    },
+    {
+     "id": "81dc4b4b-366a-4681-bb4b-6023a203cfc5",
+     "label": "P24",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions in PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "4eddf581-4806-463d-9721-e63a0b1f11c6",
+     "label": "P25",
+     "kind": "observation",
+     "text": "bluetech suggested keeping TemporaryDirectory due to its rmtree implementation details in PR #14121.",
+     "type": "observation"
+    },
+    {
+     "id": "7c5729a0-d80c-4e25-a5a7-98d107596b73",
+     "label": "P26",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst.",
+     "type": "observation"
+    },
+    {
+     "id": "8f7cacf0-19de-4ba2-a839-9e1aacdb7a15",
+     "label": "P27",
+     "kind": "human",
+     "text": "nicoddemus reviewed PR #13815 regarding pytest.approx mapping key order comparison and suggested a test case for unordered mapping matching. | When: 2026-01-15 | Where: testing/python/approx.py:1089 | Involving: nicoddemus (reviewer) | To address issue #12444 in pytest.",
+     "type": "world"
+    },
+    {
+     "id": "e73a1cac-d998-4918-9589-f9c8d4f4b933",
+     "label": "P28",
+     "kind": "human",
+     "text": "nicoddemus reviewed PR #13815 and suggested accessing dictionary keys directly in src/_pytest/python_api.py because previous checks already ensure key set equality. | When: 2026-01-13 | Where: src/_pytest/python_api.py:260 | Involving: nicoddemus (reviewer) | Code optimization for pytest.approx testing logic.",
+     "type": "world"
+    },
+    {
+     "id": "bb5f0b2e-15a5-4c29-b224-6681417131ad",
+     "label": "P29",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:104 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "761ea7aa-465a-457c-a444-a4d73df25cb9",
+     "label": "P30",
+     "kind": "human",
+     "text": "nicoddemus requested a rewrite of the test in testing/python/approx.py:1074 using pytester to verify the output message and suggested using more dictionary keys for better coverage. | When: 2026-01-13 | Where: testing/python/approx.py:1074 | Involving: nicoddemus (reviewer) | To improve test coverage and verify output messages for PR #13815.",
+     "type": "world"
+    },
+    {
+     "id": "d7a5b6c3-7357-4632-b5f8-cdf07056ae6e",
+     "label": "P31",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:92 | Involving: bluetech (reviewer) | To improve code readability and maintainability by making the truncation condition more explicit.",
+     "type": "world"
+    },
+    {
+     "id": "841f93b6-7ccd-4ae5-84b0-815514a3d15c",
+     "label": "P32",
+     "kind": "human",
+     "text": "Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py | Involving: bluetech (reviewer) | To facilitate easier local reasoning about the function's behavior.",
+     "type": "world"
+    },
+    {
+     "id": "c0bed963-75da-4c9e-b6d5-aab493092015",
+     "label": "P33",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "b6dc8c45-f438-4ca8-a256-9c1c104fc975",
+     "label": "P34",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that _idval_from_value might be a better alternative to saferepr for handling subtest context kwargs in PR #13963. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To improve string rendering and serialization in subtests.",
+     "type": "world"
+    },
+    {
+     "id": "21d05d7f-33fd-4ed5-9b7b-a0be2f49ce09",
+     "label": "P35",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable in PR #13963, noting that the current approach does not guarantee successful serialization. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | The-Compiler argues that ASCII-formatted pickle output is not significantly more useful than binary formats and that the PR fails to address the underlying serialization reliability issue.",
+     "type": "world"
+    },
+    {
+     "id": "a2cb1a02-2c1a-446c-8d06-d55ca307b5f5",
+     "label": "P36",
+     "kind": "human",
+     "text": "webknjaz requested a documentation update for PR #14179 to include references to pytest.RaisesGroup.matches and pytest.RaisesExc.matches methods. | When: 2026-02-11 | Where: doc/en/how-to/assert.rst:221 | Involving: webknjaz (reviewer) | To improve documentation clarity regarding matching outside of context managers.",
+     "type": "world"
+    },
+    {
+     "id": "a33c92a1-bb7e-4d0a-bc4a-e51803a02955",
+     "label": "P37",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring of the state handling logic in src/_pytest/terminal.py to improve readability and simplicity. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "7fc79a53-de92-4fd2-b77b-7ffe3f0dd61e",
+     "label": "P38",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested a documentation update in PR #14179 to link the class :class:`~collections.abc.Mapping` in the changelog entry. | When: 2026-02-11 | Where: changelog/12444.bugfix.rst | Involving: webknjaz (reviewer) | Improve documentation accuracy and cross-referencing.",
+     "type": "world"
+    },
+    {
+     "id": "7879622b-5641-4435-a9da-77f6ec631221",
+     "label": "P39",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "278ba83d-c14c-428c-bdd2-8a22439fec16",
+     "label": "P40",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "8f7ee385-5dd8-4fd7-a97a-77520370b753",
+     "label": "P41",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress.",
+     "type": "world"
+    },
+    {
+     "id": "c884faf7-7335-48b6-aa13-606d392df046",
+     "label": "P42",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "95a4184c-7566-496b-94f7-7777a11b4705",
+     "label": "P43",
+     "kind": "human",
+     "text": "Reviewer webknjaz confirmed that PR #14179 correctly fixes admonitions that were previously parsed as RST comments and not displayed. | When: 2026-02-11 | Where: doc/en/reference/fixtures.rst | Involving: webknjaz (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "8a1ea690-dd95-4e5b-b132-b6193514d791",
+     "label": "P44",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "96244c75-bfe3-4df8-8944-0dc09bcbba6c",
+     "label": "P45",
+     "kind": "human",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+' for logical consistency. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:87 | Involving: bluetech (reviewer) | To keep documentation logical.",
+     "type": "world"
+    },
+    {
+     "id": "573d23de-55f4-412f-af3b-ecc15b44fd75",
+     "label": "P46",
+     "kind": "human",
+     "text": "PR #14179 fixes approximately 75 typos and grammar issues in the documentation. | When: 2026-02-11",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 12,
+   "pr": 14200,
+   "arm": "on",
+   "error": "recall failed: \"fetch failed\""
+  }
+ ]
+}

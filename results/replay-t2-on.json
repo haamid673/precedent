@@ -1,0 +1,3548 @@
+{
+ "arm": "on",
+ "repo": "pytest-dev/pytest",
+ "bank": "replay-t2-on-mw51h8c6",
+ "rows": [
+  {
+   "k": 0,
+   "pr": 12934,
+   "title": "use Contextmanagers to handle StopIteration in generators",
+   "arm": "on",
+   "recalled": 0,
+   "agentComments": 3,
+   "matched": 0,
+   "humanComments": 2,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/logging.py",
+     "line": 809,
+     "text": "The new `@contextmanager` decorator is used but `contextmanager` is not imported. Add `from contextlib import contextmanager` at the top of the module.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/logging.py",
+     "line": 839,
+     "text": "Applying `@contextmanager` to a method works, but the return type annotation should reflect that it returns a context manager, not a plain generator. Consider updating the return annotation to `Iterator[None]` or adding a comment clarifying the intent.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "changelog/12929.bugfix.rst",
+     "line": null,
+     "text": "The changelog filename (`12929.bugfix.rst`) does not match the PR number (12934). Rename the file to `12934.bugfix.rst` to keep the changelog indexing consistent.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": []
+  },
+  {
+   "k": 1,
+   "pr": 13728,
+   "title": "terminal: notify terminal emulator about test session progress",
+   "arm": "on",
+   "recalled": 10,
+   "agentComments": 6,
+   "matched": 0,
+   "humanComments": 5,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 720,
+     "text": "The `_emit_progress` method uses `Literal` in its type annotation but `Literal` is not imported in this module. Add `from typing import Literal` at the top to avoid a NameError at import time.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/terminal.py",
+     "line": 718,
+     "text": "The signature `def __init__(self, tr: TerminalReporter) -> None:` and later `self._session: Session | None` use the PEP 604 union syntax (`|`). Pytest still supports Python 3.8, which does not understand this syntax. Prefer `Optional[Session]` (and import `Optional` from `typing`) for broader compatibility.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_terminal.py",
+     "line": 13,
+     "text": "The test module uses `StringIO` and `sys` but does not import them, leading to NameError when the tests run. Add `from io import StringIO` and `import sys`.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_terminal.py",
+     "line": 38,
+     "text": "The fixture `mock_tr` annotates its return type as `pytest.TerminalReporter`, which does not exist in the `pytest` namespace. Use the actual class `TerminalReporter` from `_pytest.terminal` for correct typing.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_terminal.py",
+     "line": 40,
+     "text": "`Mock(spec=pytest.TerminalReporter)` suffers from the same incorrect reference as above. Change the spec to `TerminalReporter` (imported from `_pytest.terminal`).",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/test_terminal.py",
+     "line": 45,
+     "text": "The test suite patches `sys.stdout.isatty` but does not import `sys`. Ensure `import sys` is present; otherwise the patch will raise a NameError.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "64f5707e-7b8e-454b-915b-da52db3245ee",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "7f1b9293-19bb-4ced-b21d-72f059ce7e67",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "1d58a1fd-ab1e-4760-9d17-42cb9b397e7b",
+     "label": "P3",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "115520bc-d6b9-48f9-a2ba-d5e99ac921cf",
+     "label": "P4",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "01340421-8be3-4e52-9dc7-3dfbbb37b805",
+     "label": "P5",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for decorators, so the bot should not repeat this type of suggestion. | Involving: maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    },
+    {
+     "id": "4c00d1bb-6e77-4575-872b-08cec029d925",
+     "label": "P6",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers. | When: 2025-05-31 | Involving: Maintainers | Maintainers did not raise the concern when suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "e5dbe38d-6ca7-4884-b359-0c16d0aad0b4",
+     "label": "P7",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934. | When: 2025-05-31 | Where: PR #12934 | Involving: Precedent (automated review bot) | To keep changelog indexing consistent.",
+     "type": "world"
+    },
+    {
+     "id": "7e3966bd-08df-43fe-a938-afbc11c3c987",
+     "label": "P8",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager. | Involving: maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "f130e71d-b60b-49c5-ac33-093a6dd2fdfc",
+     "label": "P9",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 on PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py:809 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "cae0ae61-1c0f-4dbb-911e-bbac4af037a6",
+     "label": "P10",
+     "kind": "agent",
+     "text": "The automated review bot Precedent suggested updating a return type annotation to 'Iterator[None]' or adding a clarifying comment on PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py:839 | Involving: Precedent (automated review bot)",
+     "type": "experience"
+    }
+   ]
+  },
+  {
+   "k": 2,
+   "pr": 14025,
+   "title": "don't crash if exceptiongroup has only hidden tb frames",
+   "arm": "on",
+   "recalled": 35,
+   "agentComments": 2,
+   "matched": 0,
+   "humanComments": 1,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/_code/code.py",
+     "line": 1199,
+     "text": "When `traceback` is empty we now set `reprtraceback.extraline`. Ensure this extra line is also added for the `--full-trace` path where hidden frames are shown, otherwise the message may be misleading for users who explicitly request full trace.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "testing/code/test_excinfo.py",
+     "line": 1899,
+     "text": "The assertion `result.stdout.fnmatch_lines([\"*ValueError: bar\"])` only matches the bare `ValueError` case. When `group=True` the outer exception is an `ExceptionGroup`, so the output differs. Adjust the expectation to handle both cases (e.g., match either `ValueError` or `ExceptionGroup`).",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "1ad80e81-8dac-4830-8bb2-5e0a975bf0f7",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "d51eef8a-d882-4a14-b100-a07035f269a8",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers.",
+     "type": "observation"
+    },
+    {
+     "id": "395416d3-44c9-492c-9596-aeae8790c754",
+     "label": "P3",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "64f5707e-7b8e-454b-915b-da52db3245ee",
+     "label": "P4",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "04e9c26a-832f-4381-8031-1d6823fd32b9",
+     "label": "P5",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for decorators.",
+     "type": "observation"
+    },
+    {
+     "id": "08c47ffe-afee-460c-b20a-7e81b2c595e7",
+     "label": "P6",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements.",
+     "type": "observation"
+    },
+    {
+     "id": "57449371-2f98-47f5-aa35-eb2d5b5beaf4",
+     "label": "P7",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager.",
+     "type": "observation"
+    },
+    {
+     "id": "7f1b9293-19bb-4ced-b21d-72f059ce7e67",
+     "label": "P8",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "26c462ed-7046-4e35-a8ee-ef84acbe9321",
+     "label": "P9",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "5fc61a6b-4a2c-44a2-bcea-0b38d5895cd8",
+     "label": "P10",
+     "kind": "observation",
+     "text": "The automated review bot Precedent suggested updating a return type annotation to 'Iterator[None]' or adding a clarifying comment on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "4caac4be-f055-434d-970c-a870943be584",
+     "label": "P11",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "02090a11-27fe-4b6a-acaa-a41a32b93c58",
+     "label": "P12",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "2940ff1d-de99-43af-a506-0ed737fe5448",
+     "label": "P13",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "1d58a1fd-ab1e-4760-9d17-42cb9b397e7b",
+     "label": "P14",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "115520bc-d6b9-48f9-a2ba-d5e99ac921cf",
+     "label": "P15",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "9a76439e-e21d-4994-8ccc-6b0f8e2c2eed",
+     "label": "P16",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To ensure compatibility and provide control for users on long-term support Linux versions like Ubuntu 22.04 and 24.04.",
+     "type": "world"
+    },
+    {
+     "id": "779fb819-30bf-4468-95e5-17ced003b55b",
+     "label": "P17",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "38d6cdce-06bd-40f2-97c2-26396f390cd4",
+     "label": "P18",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal emulator test session progress notifications.",
+     "type": "world"
+    },
+    {
+     "id": "4a44289b-f69c-4a8f-bc09-c5ed160fd8a0",
+     "label": "P19",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "80825e02-00bd-41b5-bbf1-18243f8366b1",
+     "label": "P20",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules. | Involving: Maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "a56c986d-0504-48ff-9f4b-f41293297e6f",
+     "label": "P21",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports for patches, so Precedent should stop suggesting them. | When: 2025-10-01 | Involving: Precedent (automated review bot), maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "a4c9f4a1-8cca-4e7e-a668-336b9ef34093",
+     "label": "P22",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "01340421-8be3-4e52-9dc7-3dfbbb37b805",
+     "label": "P23",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for decorators, so the bot should not repeat this type of suggestion. | Involving: maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    },
+    {
+     "id": "7e3966bd-08df-43fe-a938-afbc11c3c987",
+     "label": "P24",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager. | Involving: maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "e5dbe38d-6ca7-4884-b359-0c16d0aad0b4",
+     "label": "P25",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934. | When: 2025-05-31 | Where: PR #12934 | Involving: Precedent (automated review bot) | To keep changelog indexing consistent.",
+     "type": "world"
+    },
+    {
+     "id": "9923282e-3b0b-4155-8559-430de8b2b80b",
+     "label": "P26",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations, so the bot should not repeat this suggestion. | When: 2025-10-01 | Involving: maintainers | Maintainers did not raise this concern on PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "4c00d1bb-6e77-4575-872b-08cec029d925",
+     "label": "P27",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers. | When: 2025-05-31 | Involving: Maintainers | Maintainers did not raise the concern when suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "163655e3-97b4-491a-bfc9-9b31553138ce",
+     "label": "P28",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "39cbc40f-e923-4cb0-a285-9023c9707a95",
+     "label": "P29",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested adding 'import sys' to testing/test_terminal.py to avoid a NameError when patching sys.stdout.isatty. | When: 2025-10-01 | Where: PR #13728 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "d33c2968-8304-441d-b7b8-556eac76ec22",
+     "label": "P30",
+     "kind": "agent",
+     "text": "The automated review bot Precedent suggested changing a mock spec to TerminalReporter on PR #13728, but maintainers did not support this suggestion. | When: 2025-10-01 | Where: testing/test_terminal.py:40 | Involving: Precedent (automated review bot) | Maintainers do not want this specific type of review comment.",
+     "type": "world"
+    },
+    {
+     "id": "23f6b58f-2a67-411b-87d3-0b1ae0ef380d",
+     "label": "P31",
+     "kind": "agent",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews. | When: 2025-10-01 | Involving: assistant | Maintainers indicated this is not a desired review comment.",
+     "type": "experience"
+    },
+    {
+     "id": "74045c2c-474b-4983-955a-69acf33a7c21",
+     "label": "P32",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested replacing PEP 604 union syntax with Optional for Python 3.8 compatibility on PR #13728. | When: 2025-10-01 | Where: src/_pytest/terminal.py:718 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "593a7460-5bc6-42c9-a982-ca8c26187c55",
+     "label": "P33",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:38 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "12526390-a53c-4991-bdb9-46b0ec90133c",
+     "label": "P34",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested adding missing imports for StringIO and sys to testing/test_terminal.py on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py | Involving: Precedent (automated review bot) | The test module was missing imports, causing NameError.",
+     "type": "experience"
+    },
+    {
+     "id": "f130e71d-b60b-49c5-ac33-093a6dd2fdfc",
+     "label": "P35",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 on PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py:809 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 3,
+   "pr": 13963,
+   "title": "Ensure subtest's context kwargs are JSON serializable",
+   "arm": "on",
+   "recalled": 49,
+   "agentComments": 1,
+   "matched": 0,
+   "humanComments": 3,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "src/_pytest/subtests.py",
+     "line": 63,
+     "text": "The new `__post_init__` implementation references `saferepr` but the function is not imported in this module. Add `from _pytest._io.saferepr import saferepr` to the imports at the top of the file.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "ce5043eb-fa9d-4b4a-8322-0f4fdc9f7062",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "8503cb48-e725-436e-9bfc-ee9922ba5d3f",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules.",
+     "type": "observation"
+    },
+    {
+     "id": "4923758b-edab-457b-a062-fd4857f688c6",
+     "label": "P3",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "57449371-2f98-47f5-aa35-eb2d5b5beaf4",
+     "label": "P4",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager.",
+     "type": "observation"
+    },
+    {
+     "id": "04e9c26a-832f-4381-8031-1d6823fd32b9",
+     "label": "P5",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for decorators.",
+     "type": "observation"
+    },
+    {
+     "id": "1f7e0e0f-c360-46e0-8bee-89113a59a53e",
+     "label": "P6",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "64f5707e-7b8e-454b-915b-da52db3245ee",
+     "label": "P7",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "08c47ffe-afee-460c-b20a-7e81b2c595e7",
+     "label": "P8",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements.",
+     "type": "observation"
+    },
+    {
+     "id": "db8c09c2-78a4-4492-9dce-91dc3509abdd",
+     "label": "P9",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports for patches.",
+     "type": "observation"
+    },
+    {
+     "id": "5fc61a6b-4a2c-44a2-bcea-0b38d5895cd8",
+     "label": "P10",
+     "kind": "observation",
+     "text": "The automated review bot Precedent suggested updating a return type annotation to 'Iterator[None]' or adding a clarifying comment on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "4caac4be-f055-434d-970c-a870943be584",
+     "label": "P11",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "958255e9-7e5f-4542-8b30-8ee88579db8d",
+     "label": "P12",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from typing import Literal' to src/_pytest/terminal.py:720 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "7646c602-5d53-4606-8d73-5447024d5a8a",
+     "label": "P13",
+     "kind": "observation",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "1ad80e81-8dac-4830-8bb2-5e0a975bf0f7",
+     "label": "P14",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "5b2d570f-4845-4726-b9b4-4eed3834b2f2",
+     "label": "P15",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8.",
+     "type": "observation"
+    },
+    {
+     "id": "9b24ba17-abb1-4473-aa91-dd1cd70bcfd2",
+     "label": "P16",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing a mock spec to TerminalReporter on PR #13728, but maintainers did not support this suggestion.",
+     "type": "observation"
+    },
+    {
+     "id": "b3f73fce-1285-4abd-9a96-f76e633f5bba",
+     "label": "P17",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'import sys' to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "3b5b51aa-75d6-45e0-8cc9-4998920cacb4",
+     "label": "P18",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding missing imports for StringIO and sys to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "f8113d53-76b2-4bb8-825e-916494e40116",
+     "label": "P19",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested replacing PEP 604 union syntax with Optional for Python 3.8 compatibility on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "d51eef8a-d882-4a14-b100-a07035f269a8",
+     "label": "P20",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers.",
+     "type": "observation"
+    },
+    {
+     "id": "02090a11-27fe-4b6a-acaa-a41a32b93c58",
+     "label": "P21",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "4b10c6fd-f8b7-411f-b1d3-2c86922d762e",
+     "label": "P22",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "7f1b9293-19bb-4ced-b21d-72f059ce7e67",
+     "label": "P23",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "26c462ed-7046-4e35-a8ee-ef84acbe9321",
+     "label": "P24",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. (2025-09-15 14:54: webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.)",
+     "type": "observation"
+    },
+    {
+     "id": "395416d3-44c9-492c-9596-aeae8790c754",
+     "label": "P25",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "2940ff1d-de99-43af-a506-0ed737fe5448",
+     "label": "P26",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "1d58a1fd-ab1e-4760-9d17-42cb9b397e7b",
+     "label": "P27",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "779fb819-30bf-4468-95e5-17ced003b55b",
+     "label": "P28",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "519672b1-0986-4e85-88e2-a4a53d47400c",
+     "label": "P29",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "9a76439e-e21d-4994-8ccc-6b0f8e2c2eed",
+     "label": "P30",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To ensure compatibility and provide control for users on long-term support Linux versions like Ubuntu 22.04 and 24.04.",
+     "type": "world"
+    },
+    {
+     "id": "115520bc-d6b9-48f9-a2ba-d5e99ac921cf",
+     "label": "P31",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "4a44289b-f69c-4a8f-bc09-c5ed160fd8a0",
+     "label": "P32",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "38d6cdce-06bd-40f2-97c2-26396f390cd4",
+     "label": "P33",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal emulator test session progress notifications.",
+     "type": "world"
+    },
+    {
+     "id": "9923282e-3b0b-4155-8559-430de8b2b80b",
+     "label": "P34",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations, so the bot should not repeat this suggestion. | When: 2025-10-01 | Involving: maintainers | Maintainers did not raise this concern on PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "23f6b58f-2a67-411b-87d3-0b1ae0ef380d",
+     "label": "P35",
+     "kind": "agent",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews. | When: 2025-10-01 | Involving: assistant | Maintainers indicated this is not a desired review comment.",
+     "type": "experience"
+    },
+    {
+     "id": "7e3966bd-08df-43fe-a938-afbc11c3c987",
+     "label": "P36",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager. | Involving: maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "a4c9f4a1-8cca-4e7e-a668-336b9ef34093",
+     "label": "P37",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "01340421-8be3-4e52-9dc7-3dfbbb37b805",
+     "label": "P38",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for decorators, so the bot should not repeat this type of suggestion. | Involving: maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    },
+    {
+     "id": "593a7460-5bc6-42c9-a982-ca8c26187c55",
+     "label": "P39",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:38 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "80825e02-00bd-41b5-bbf1-18243f8366b1",
+     "label": "P40",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules. | Involving: Maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "d33c2968-8304-441d-b7b8-556eac76ec22",
+     "label": "P41",
+     "kind": "agent",
+     "text": "The automated review bot Precedent suggested changing a mock spec to TerminalReporter on PR #13728, but maintainers did not support this suggestion. | When: 2025-10-01 | Where: testing/test_terminal.py:40 | Involving: Precedent (automated review bot) | Maintainers do not want this specific type of review comment.",
+     "type": "world"
+    },
+    {
+     "id": "cae0ae61-1c0f-4dbb-911e-bbac4af037a6",
+     "label": "P42",
+     "kind": "agent",
+     "text": "The automated review bot Precedent suggested updating a return type annotation to 'Iterator[None]' or adding a clarifying comment on PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py:839 | Involving: Precedent (automated review bot)",
+     "type": "experience"
+    },
+    {
+     "id": "a56c986d-0504-48ff-9f4b-f41293297e6f",
+     "label": "P43",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports for patches, so Precedent should stop suggesting them. | When: 2025-10-01 | Involving: Precedent (automated review bot), maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "c9793343-11f9-4cf4-bb2a-ad508cc5bdac",
+     "label": "P44",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding ExceptionGroup assertion adjustments in this context, so the assistant should not repeat this suggestion. | When: 2025-12-12 | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "3bc1d744-2883-4283-89ff-5ae56e5f69e6",
+     "label": "P45",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested adding 'from typing import Literal' to src/_pytest/terminal.py:720 on PR #13728 to fix a potential NameError. | When: 2025-10-01 | Where: src/_pytest/terminal.py:720 | Involving: Precedent (automated review bot) | The method _emit_progress used Literal without importing it.",
+     "type": "world"
+    },
+    {
+     "id": "74045c2c-474b-4983-955a-69acf33a7c21",
+     "label": "P46",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested replacing PEP 604 union syntax with Optional for Python 3.8 compatibility on PR #13728. | When: 2025-10-01 | Where: src/_pytest/terminal.py:718 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "f130e71d-b60b-49c5-ac33-093a6dd2fdfc",
+     "label": "P47",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 on PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py:809 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "163655e3-97b4-491a-bfc9-9b31553138ce",
+     "label": "P48",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "0d5b0ca6-31d7-4457-b947-29adf1275bc3",
+     "label": "P49",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding the addition of extra lines to reprtraceback when traceback is empty. | When: 2025-12-12 | Involving: Maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 4,
+   "pr": 14053,
+   "title": "docs: clarify capture fixture precedence over -s",
+   "arm": "on",
+   "recalled": 58,
+   "agentComments": 1,
+   "matched": 0,
+   "humanComments": 1,
+   "humanCovered": 0,
+   "outcomes": [
+    {
+     "path": "doc/en/how-to/capture-stdout-stderr.rst",
+     "line": 108,
+     "text": "The new label ``_accessing-captured-output`` may conflict with an existing label in the documentation. Please verify that this anchor is unique to avoid Sphinx duplicate label warnings.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "64f5707e-7b8e-454b-915b-da52db3245ee",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "1ad80e81-8dac-4830-8bb2-5e0a975bf0f7",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "d51eef8a-d882-4a14-b100-a07035f269a8",
+     "label": "P3",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers.",
+     "type": "observation"
+    },
+    {
+     "id": "8503cb48-e725-436e-9bfc-ee9922ba5d3f",
+     "label": "P4",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules.",
+     "type": "observation"
+    },
+    {
+     "id": "395416d3-44c9-492c-9596-aeae8790c754",
+     "label": "P5",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "db8c09c2-78a4-4492-9dce-91dc3509abdd",
+     "label": "P6",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports for patches.",
+     "type": "observation"
+    },
+    {
+     "id": "1f7e0e0f-c360-46e0-8bee-89113a59a53e",
+     "label": "P7",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "7646c602-5d53-4606-8d73-5447024d5a8a",
+     "label": "P8",
+     "kind": "observation",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "ce5043eb-fa9d-4b4a-8322-0f4fdc9f7062",
+     "label": "P9",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "7f1b9293-19bb-4ced-b21d-72f059ce7e67",
+     "label": "P10",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "04e9c26a-832f-4381-8031-1d6823fd32b9",
+     "label": "P11",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for decorators.",
+     "type": "observation"
+    },
+    {
+     "id": "4caac4be-f055-434d-970c-a870943be584",
+     "label": "P12",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "9b24ba17-abb1-4473-aa91-dd1cd70bcfd2",
+     "label": "P13",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing a mock spec to TerminalReporter on PR #13728, but maintainers did not support this suggestion.",
+     "type": "observation"
+    },
+    {
+     "id": "b3f73fce-1285-4abd-9a96-f76e633f5bba",
+     "label": "P14",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'import sys' to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "4923758b-edab-457b-a062-fd4857f688c6",
+     "label": "P15",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "26c462ed-7046-4e35-a8ee-ef84acbe9321",
+     "label": "P16",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. (2025-09-15 14:54: webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.)",
+     "type": "observation"
+    },
+    {
+     "id": "57449371-2f98-47f5-aa35-eb2d5b5beaf4",
+     "label": "P17",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager.",
+     "type": "observation"
+    },
+    {
+     "id": "08c47ffe-afee-460c-b20a-7e81b2c595e7",
+     "label": "P18",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements.",
+     "type": "observation"
+    },
+    {
+     "id": "d0a8f516-9bc1-403b-b0af-4228ee94e7b1",
+     "label": "P19",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding ExceptionGroup assertion adjustments in this context.",
+     "type": "observation"
+    },
+    {
+     "id": "958255e9-7e5f-4542-8b30-8ee88579db8d",
+     "label": "P20",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from typing import Literal' to src/_pytest/terminal.py:720 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "625f1707-3ef4-462a-8eec-df6355894e4a",
+     "label": "P21",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py:67 be made directly serializable on PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "5b2d570f-4845-4726-b9b4-4eed3834b2f2",
+     "label": "P22",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8.",
+     "type": "observation"
+    },
+    {
+     "id": "e0dc7b99-2b3c-4546-95c3-52a57901cc66",
+     "label": "P23",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding an extra line to reprtraceback when traceback is empty for the --full-trace path on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "3b5b51aa-75d6-45e0-8cc9-4998920cacb4",
+     "label": "P24",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding missing imports for StringIO and sys to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "666cb9d6-576e-4d43-bf03-3e5e33c2fea9",
+     "label": "P25",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the addition of extra lines to reprtraceback when traceback is empty.",
+     "type": "observation"
+    },
+    {
+     "id": "f8113d53-76b2-4bb8-825e-916494e40116",
+     "label": "P26",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested replacing PEP 604 union syntax with Optional for Python 3.8 compatibility on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "26d2a9fc-3437-4a41-8864-05570e967936",
+     "label": "P27",
+     "kind": "observation",
+     "text": "Reviewer bluetech suggested using _idval_from_value instead of saferepr for PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "0191fb01-d107-4ba3-9e69-e535ec4f9a0f",
+     "label": "P28",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adjusting an assertion in PR #14025 to handle ExceptionGroup cases when group=True.",
+     "type": "observation"
+    },
+    {
+     "id": "5fc61a6b-4a2c-44a2-bcea-0b38d5895cd8",
+     "label": "P29",
+     "kind": "observation",
+     "text": "The automated review bot Precedent suggested updating a return type annotation to 'Iterator[None]' or adding a clarifying comment on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "4b10c6fd-f8b7-411f-b1d3-2c86922d762e",
+     "label": "P30",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "02090a11-27fe-4b6a-acaa-a41a32b93c58",
+     "label": "P31",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "1d58a1fd-ab1e-4760-9d17-42cb9b397e7b",
+     "label": "P32",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "9a76439e-e21d-4994-8ccc-6b0f8e2c2eed",
+     "label": "P33",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To ensure compatibility and provide control for users on long-term support Linux versions like Ubuntu 22.04 and 24.04.",
+     "type": "world"
+    },
+    {
+     "id": "4a44289b-f69c-4a8f-bc09-c5ed160fd8a0",
+     "label": "P34",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "2940ff1d-de99-43af-a506-0ed737fe5448",
+     "label": "P35",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "779fb819-30bf-4468-95e5-17ced003b55b",
+     "label": "P36",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "115520bc-d6b9-48f9-a2ba-d5e99ac921cf",
+     "label": "P37",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "fc178fcd-a869-4346-93b0-47f8b2f355ce",
+     "label": "P38",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "14b756db-a812-4424-8e8e-9afed050b78c",
+     "label": "P39",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable via pickle protocol 0, noting that the output is not truly human-readable and suggesting protocol 4 would be more robust. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | Code review feedback on PR #13963",
+     "type": "world"
+    },
+    {
+     "id": "38d6cdce-06bd-40f2-97c2-26396f390cd4",
+     "label": "P40",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal emulator test session progress notifications.",
+     "type": "world"
+    },
+    {
+     "id": "519672b1-0986-4e85-88e2-a4a53d47400c",
+     "label": "P41",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "4e294610-d93d-4e52-b4dd-43a38b93b556",
+     "label": "P42",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that saferepr might be non-optimal for PR #13963 and recommended using _idval_from_value for better string conversion. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | Improving subtest context kwargs serialization",
+     "type": "world"
+    },
+    {
+     "id": "23f6b58f-2a67-411b-87d3-0b1ae0ef380d",
+     "label": "P43",
+     "kind": "agent",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews. | When: 2025-10-01 | Involving: assistant | Maintainers indicated this is not a desired review comment.",
+     "type": "experience"
+    },
+    {
+     "id": "80825e02-00bd-41b5-bbf1-18243f8366b1",
+     "label": "P44",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules. | Involving: Maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "a56c986d-0504-48ff-9f4b-f41293297e6f",
+     "label": "P45",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports for patches, so Precedent should stop suggesting them. | When: 2025-10-01 | Involving: Precedent (automated review bot), maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "a4c9f4a1-8cca-4e7e-a668-336b9ef34093",
+     "label": "P46",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "9923282e-3b0b-4155-8559-430de8b2b80b",
+     "label": "P47",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations, so the bot should not repeat this suggestion. | When: 2025-10-01 | Involving: maintainers | Maintainers did not raise this concern on PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "01340421-8be3-4e52-9dc7-3dfbbb37b805",
+     "label": "P48",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for decorators, so the bot should not repeat this type of suggestion. | Involving: maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    },
+    {
+     "id": "39cbc40f-e923-4cb0-a285-9023c9707a95",
+     "label": "P49",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested adding 'import sys' to testing/test_terminal.py to avoid a NameError when patching sys.stdout.isatty. | When: 2025-10-01 | Where: PR #13728 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "4c00d1bb-6e77-4575-872b-08cec029d925",
+     "label": "P50",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers. | When: 2025-05-31 | Involving: Maintainers | Maintainers did not raise the concern when suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "593a7460-5bc6-42c9-a982-ca8c26187c55",
+     "label": "P51",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:38 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "d33c2968-8304-441d-b7b8-556eac76ec22",
+     "label": "P52",
+     "kind": "agent",
+     "text": "The automated review bot Precedent suggested changing a mock spec to TerminalReporter on PR #13728, but maintainers did not support this suggestion. | When: 2025-10-01 | Where: testing/test_terminal.py:40 | Involving: Precedent (automated review bot) | Maintainers do not want this specific type of review comment.",
+     "type": "world"
+    },
+    {
+     "id": "7e3966bd-08df-43fe-a938-afbc11c3c987",
+     "label": "P53",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager. | Involving: maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "e3443c2d-59e9-412c-b1b7-6ac35297820f",
+     "label": "P54",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for 'saferepr' in 'src/_pytest/subtests.py'. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "3bc1d744-2883-4283-89ff-5ae56e5f69e6",
+     "label": "P55",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested adding 'from typing import Literal' to src/_pytest/terminal.py:720 on PR #13728 to fix a potential NameError. | When: 2025-10-01 | Where: src/_pytest/terminal.py:720 | Involving: Precedent (automated review bot) | The method _emit_progress used Literal without importing it.",
+     "type": "world"
+    },
+    {
+     "id": "e5dbe38d-6ca7-4884-b359-0c16d0aad0b4",
+     "label": "P56",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934. | When: 2025-05-31 | Where: PR #12934 | Involving: Precedent (automated review bot) | To keep changelog indexing consistent.",
+     "type": "world"
+    },
+    {
+     "id": "c9793343-11f9-4cf4-bb2a-ad508cc5bdac",
+     "label": "P57",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding ExceptionGroup assertion adjustments in this context, so the assistant should not repeat this suggestion. | When: 2025-12-12 | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "163655e3-97b4-491a-bfc9-9b31553138ce",
+     "label": "P58",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 5,
+   "pr": 14099,
+   "title": "docs: actualize pytest_version",
+   "arm": "on",
+   "recalled": 63,
+   "agentComments": 2,
+   "matched": 1,
+   "humanComments": 1,
+   "humanCovered": 1,
+   "outcomes": [
+    {
+     "path": "doc/en/backwards-compatibility.rst",
+     "line": 85,
+     "text": "The version specifier for the 8.4 release is now shown as \"8.4\" without a trailing plus. For consistency with the other rows (e.g. \"9.0+\" and \"7.1 - 7.4\"), consider using \"8.4+\" or explicitly stating the supported range, otherwise readers might wonder whether 8.4+ is intended.",
+     "precedents": [],
+     "matchedHuman": 2681969146,
+     "matchedReviewer": "bluetech"
+    },
+    {
+     "path": "doc/en/reference/reference.rst",
+     "line": 20,
+     "text": "The hard‑coded version string `'9.0.2'` will need to be updated again for every future release. It might be worth adding a comment reminding maintainers to keep this in sync, or consider generating it from `pytest.__version__` if feasible.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "8503cb48-e725-436e-9bfc-ee9922ba5d3f",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules.",
+     "type": "observation"
+    },
+    {
+     "id": "ce5043eb-fa9d-4b4a-8322-0f4fdc9f7062",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "db8c09c2-78a4-4492-9dce-91dc3509abdd",
+     "label": "P3",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports for patches.",
+     "type": "observation"
+    },
+    {
+     "id": "484f9b37-bce4-4bd8-88e7-be0af45cd45f",
+     "label": "P4",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for 'saferepr' in 'src/_pytest/subtests.py'.",
+     "type": "observation"
+    },
+    {
+     "id": "625f1707-3ef4-462a-8eec-df6355894e4a",
+     "label": "P5",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py:67 be made directly serializable on PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "1f7e0e0f-c360-46e0-8bee-89113a59a53e",
+     "label": "P6",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "1fbdf926-c96c-47ca-be6a-5a83986f0a73",
+     "label": "P7",
+     "kind": "observation",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable via pickle protocol 0 in src/_pytest/subtests.py:67 on PR #13963, suggesting protocol 4 would be more robust.",
+     "type": "observation"
+    },
+    {
+     "id": "2b0a3952-1d6a-4214-b808-d2bf35f9c02d",
+     "label": "P8",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding an import for 'saferepr' in 'src/_pytest/subtests.py' on PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "64f5707e-7b8e-454b-915b-da52db3245ee",
+     "label": "P9",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "7646c602-5d53-4606-8d73-5447024d5a8a",
+     "label": "P10",
+     "kind": "observation",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "958255e9-7e5f-4542-8b30-8ee88579db8d",
+     "label": "P11",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from typing import Literal' to src/_pytest/terminal.py:720 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "4923758b-edab-457b-a062-fd4857f688c6",
+     "label": "P12",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "b3f73fce-1285-4abd-9a96-f76e633f5bba",
+     "label": "P13",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'import sys' to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "d51eef8a-d882-4a14-b100-a07035f269a8",
+     "label": "P14",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers.",
+     "type": "observation"
+    },
+    {
+     "id": "04e9c26a-832f-4381-8031-1d6823fd32b9",
+     "label": "P15",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for decorators.",
+     "type": "observation"
+    },
+    {
+     "id": "02090a11-27fe-4b6a-acaa-a41a32b93c58",
+     "label": "P16",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "4caac4be-f055-434d-970c-a870943be584",
+     "label": "P17",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "3b5b51aa-75d6-45e0-8cc9-4998920cacb4",
+     "label": "P18",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding missing imports for StringIO and sys to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "5b2d570f-4845-4726-b9b4-4eed3834b2f2",
+     "label": "P19",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8.",
+     "type": "observation"
+    },
+    {
+     "id": "f8113d53-76b2-4bb8-825e-916494e40116",
+     "label": "P20",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested replacing PEP 604 union syntax with Optional for Python 3.8 compatibility on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "d0a8f516-9bc1-403b-b0af-4228ee94e7b1",
+     "label": "P21",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding ExceptionGroup assertion adjustments in this context.",
+     "type": "observation"
+    },
+    {
+     "id": "1ad80e81-8dac-4830-8bb2-5e0a975bf0f7",
+     "label": "P22",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "5fc61a6b-4a2c-44a2-bcea-0b38d5895cd8",
+     "label": "P23",
+     "kind": "observation",
+     "text": "The automated review bot Precedent suggested updating a return type annotation to 'Iterator[None]' or adding a clarifying comment on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "57449371-2f98-47f5-aa35-eb2d5b5beaf4",
+     "label": "P24",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager.",
+     "type": "observation"
+    },
+    {
+     "id": "26d2a9fc-3437-4a41-8864-05570e967936",
+     "label": "P25",
+     "kind": "observation",
+     "text": "Reviewer bluetech suggested using _idval_from_value instead of saferepr for PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "666cb9d6-576e-4d43-bf03-3e5e33c2fea9",
+     "label": "P26",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the addition of extra lines to reprtraceback when traceback is empty.",
+     "type": "observation"
+    },
+    {
+     "id": "4b10c6fd-f8b7-411f-b1d3-2c86922d762e",
+     "label": "P27",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "0191fb01-d107-4ba3-9e69-e535ec4f9a0f",
+     "label": "P28",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adjusting an assertion in PR #14025 to handle ExceptionGroup cases when group=True.",
+     "type": "observation"
+    },
+    {
+     "id": "20e1905e-4d15-4f14-af1d-eaa18dbdeefc",
+     "label": "P29",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst.",
+     "type": "observation"
+    },
+    {
+     "id": "7f1b9293-19bb-4ced-b21d-72f059ce7e67",
+     "label": "P30",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "08c47ffe-afee-460c-b20a-7e81b2c595e7",
+     "label": "P31",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements.",
+     "type": "observation"
+    },
+    {
+     "id": "395416d3-44c9-492c-9596-aeae8790c754",
+     "label": "P32",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "e0dc7b99-2b3c-4546-95c3-52a57901cc66",
+     "label": "P33",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding an extra line to reprtraceback when traceback is empty for the --full-trace path on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "9b24ba17-abb1-4473-aa91-dd1cd70bcfd2",
+     "label": "P34",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing a mock spec to TerminalReporter on PR #13728, but maintainers did not support this suggestion.",
+     "type": "observation"
+    },
+    {
+     "id": "26c462ed-7046-4e35-a8ee-ef84acbe9321",
+     "label": "P35",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. (2025-09-15 14:54: webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.)",
+     "type": "observation"
+    },
+    {
+     "id": "2940ff1d-de99-43af-a506-0ed737fe5448",
+     "label": "P36",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "fc178fcd-a869-4346-93b0-47f8b2f355ce",
+     "label": "P37",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "14b756db-a812-4424-8e8e-9afed050b78c",
+     "label": "P38",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable via pickle protocol 0, noting that the output is not truly human-readable and suggesting protocol 4 would be more robust. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | Code review feedback on PR #13963",
+     "type": "world"
+    },
+    {
+     "id": "1d58a1fd-ab1e-4760-9d17-42cb9b397e7b",
+     "label": "P39",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "4e294610-d93d-4e52-b4dd-43a38b93b556",
+     "label": "P40",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that saferepr might be non-optimal for PR #13963 and recommended using _idval_from_value for better string conversion. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | Improving subtest context kwargs serialization",
+     "type": "world"
+    },
+    {
+     "id": "4a44289b-f69c-4a8f-bc09-c5ed160fd8a0",
+     "label": "P41",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "779fb819-30bf-4468-95e5-17ced003b55b",
+     "label": "P42",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "9a76439e-e21d-4994-8ccc-6b0f8e2c2eed",
+     "label": "P43",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To ensure compatibility and provide control for users on long-term support Linux versions like Ubuntu 22.04 and 24.04.",
+     "type": "world"
+    },
+    {
+     "id": "630e7406-b0d4-463a-b664-681eb2772023",
+     "label": "P44",
+     "kind": "human",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic explanations. | When: 2025-12-27 | Where: doc/en/how-to/capture-stdout-stderr.rst:143 | Involving: nicoddemus (reviewer) | The note contains advanced information that interrupts the explanation of basic features.",
+     "type": "world"
+    },
+    {
+     "id": "519672b1-0986-4e85-88e2-a4a53d47400c",
+     "label": "P45",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "115520bc-d6b9-48f9-a2ba-d5e99ac921cf",
+     "label": "P46",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "38d6cdce-06bd-40f2-97c2-26396f390cd4",
+     "label": "P47",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal emulator test session progress notifications.",
+     "type": "world"
+    },
+    {
+     "id": "8e603353-31e7-4a9e-90b7-f57efbf28246",
+     "label": "P48",
+     "kind": "agent",
+     "text": "Maintainers do not want the review bot Precedent to suggest potential label conflicts in documentation. | Involving: maintainers | Maintainers did not raise the concern suggested by the bot, indicating it is not a desired review comment.",
+     "type": "world"
+    },
+    {
+     "id": "a4c9f4a1-8cca-4e7e-a668-336b9ef34093",
+     "label": "P49",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "23f6b58f-2a67-411b-87d3-0b1ae0ef380d",
+     "label": "P50",
+     "kind": "agent",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews. | When: 2025-10-01 | Involving: assistant | Maintainers indicated this is not a desired review comment.",
+     "type": "experience"
+    },
+    {
+     "id": "80825e02-00bd-41b5-bbf1-18243f8366b1",
+     "label": "P51",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules. | Involving: Maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "e3443c2d-59e9-412c-b1b7-6ac35297820f",
+     "label": "P52",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for 'saferepr' in 'src/_pytest/subtests.py'. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "a56c986d-0504-48ff-9f4b-f41293297e6f",
+     "label": "P53",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports for patches, so Precedent should stop suggesting them. | When: 2025-10-01 | Involving: Precedent (automated review bot), maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "01340421-8be3-4e52-9dc7-3dfbbb37b805",
+     "label": "P54",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for decorators, so the bot should not repeat this type of suggestion. | Involving: maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    },
+    {
+     "id": "9923282e-3b0b-4155-8559-430de8b2b80b",
+     "label": "P55",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations, so the bot should not repeat this suggestion. | When: 2025-10-01 | Involving: maintainers | Maintainers did not raise this concern on PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "7e3966bd-08df-43fe-a938-afbc11c3c987",
+     "label": "P56",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager. | Involving: maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "74045c2c-474b-4983-955a-69acf33a7c21",
+     "label": "P57",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested replacing PEP 604 union syntax with Optional for Python 3.8 compatibility on PR #13728. | When: 2025-10-01 | Where: src/_pytest/terminal.py:718 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "d33c2968-8304-441d-b7b8-556eac76ec22",
+     "label": "P58",
+     "kind": "agent",
+     "text": "The automated review bot Precedent suggested changing a mock spec to TerminalReporter on PR #13728, but maintainers did not support this suggestion. | When: 2025-10-01 | Where: testing/test_terminal.py:40 | Involving: Precedent (automated review bot) | Maintainers do not want this specific type of review comment.",
+     "type": "world"
+    },
+    {
+     "id": "3bc1d744-2883-4283-89ff-5ae56e5f69e6",
+     "label": "P59",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested adding 'from typing import Literal' to src/_pytest/terminal.py:720 on PR #13728 to fix a potential NameError. | When: 2025-10-01 | Where: src/_pytest/terminal.py:720 | Involving: Precedent (automated review bot) | The method _emit_progress used Literal without importing it.",
+     "type": "world"
+    },
+    {
+     "id": "163655e3-97b4-491a-bfc9-9b31553138ce",
+     "label": "P60",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "cae0ae61-1c0f-4dbb-911e-bbac4af037a6",
+     "label": "P61",
+     "kind": "agent",
+     "text": "The automated review bot Precedent suggested updating a return type annotation to 'Iterator[None]' or adding a clarifying comment on PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py:839 | Involving: Precedent (automated review bot)",
+     "type": "experience"
+    },
+    {
+     "id": "593a7460-5bc6-42c9-a982-ca8c26187c55",
+     "label": "P62",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:38 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "c9793343-11f9-4cf4-bb2a-ad508cc5bdac",
+     "label": "P63",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding ExceptionGroup assertion adjustments in this context, so the assistant should not repeat this suggestion. | When: 2025-12-12 | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 6,
+   "pr": 14105,
+   "title": "[truncate explanation] Fix edge case when we truncate due to max_chars",
+   "arm": "on",
+   "recalled": 70,
+   "agentComments": 4,
+   "matched": 2,
+   "humanComments": 2,
+   "humanCovered": 2,
+   "outcomes": [
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 85,
+     "text": "The early‑return branch `if max_lines == 0 or len(input_lines) <= max_lines + 2:` skips character‑based truncation entirely when `max_lines` is zero. This contradicts the docstring which says \"If max_chars=0, no truncation by character count is performed\" – we still need to enforce `max_chars` when `max_lines` is disabled.",
+     "precedents": [],
+     "matchedHuman": 2681921524,
+     "matchedReviewer": "bluetech"
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 115,
+     "text": "Ellipsis is appended unconditionally (`truncated_explanation[-1] += \"...\"`) even when no truncation actually occurred. This will corrupt output for cases where the input fits within both limits.",
+     "precedents": [],
+     "matchedHuman": 2681957683,
+     "matchedReviewer": "bluetech"
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 112,
+     "text": "If `input_lines` is empty, `truncated_explanation[-1]` will raise an IndexError. Guard against empty input before accessing the last element.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/assertion/truncate.py",
+     "line": 124,
+     "text": "`truncated_line_count` is calculated but never used later in the function. Either use it to build the truncation message or remove the variable to avoid dead code.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "395416d3-44c9-492c-9596-aeae8790c754",
+     "label": "P1",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "db8c09c2-78a4-4492-9dce-91dc3509abdd",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports for patches.",
+     "type": "observation"
+    },
+    {
+     "id": "4caac4be-f055-434d-970c-a870943be584",
+     "label": "P3",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "8503cb48-e725-436e-9bfc-ee9922ba5d3f",
+     "label": "P4",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules.",
+     "type": "observation"
+    },
+    {
+     "id": "7f1b9293-19bb-4ced-b21d-72f059ce7e67",
+     "label": "P5",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "08c47ffe-afee-460c-b20a-7e81b2c595e7",
+     "label": "P6",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements.",
+     "type": "observation"
+    },
+    {
+     "id": "5fc61a6b-4a2c-44a2-bcea-0b38d5895cd8",
+     "label": "P7",
+     "kind": "observation",
+     "text": "The automated review bot Precedent suggested updating a return type annotation to 'Iterator[None]' or adding a clarifying comment on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "e0dc7b99-2b3c-4546-95c3-52a57901cc66",
+     "label": "P8",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding an extra line to reprtraceback when traceback is empty for the --full-trace path on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "28916fb4-c00f-4a1c-8e39-bc83211eaebc",
+     "label": "P9",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested updating the version specifier for the 8.4 release to '8.4+' for consistency with other documentation rows.",
+     "type": "observation"
+    },
+    {
+     "id": "0191fb01-d107-4ba3-9e69-e535ec4f9a0f",
+     "label": "P10",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adjusting an assertion in PR #14025 to handle ExceptionGroup cases when group=True.",
+     "type": "observation"
+    },
+    {
+     "id": "f8113d53-76b2-4bb8-825e-916494e40116",
+     "label": "P11",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested replacing PEP 604 union syntax with Optional for Python 3.8 compatibility on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "484f9b37-bce4-4bd8-88e7-be0af45cd45f",
+     "label": "P12",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for 'saferepr' in 'src/_pytest/subtests.py'.",
+     "type": "observation"
+    },
+    {
+     "id": "d0b84417-eaec-416a-974e-de080ce6594a",
+     "label": "P13",
+     "kind": "observation",
+     "text": "Reviewer bluetech echoed the suggestion to change the version specifier to '8.4+' on PR #14099.",
+     "type": "observation"
+    },
+    {
+     "id": "9b24ba17-abb1-4473-aa91-dd1cd70bcfd2",
+     "label": "P14",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing a mock spec to TerminalReporter on PR #13728, but maintainers did not support this suggestion.",
+     "type": "observation"
+    },
+    {
+     "id": "b3f73fce-1285-4abd-9a96-f76e633f5bba",
+     "label": "P15",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'import sys' to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "26d2a9fc-3437-4a41-8864-05570e967936",
+     "label": "P16",
+     "kind": "observation",
+     "text": "Reviewer bluetech suggested using _idval_from_value instead of saferepr for PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "666cb9d6-576e-4d43-bf03-3e5e33c2fea9",
+     "label": "P17",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the addition of extra lines to reprtraceback when traceback is empty.",
+     "type": "observation"
+    },
+    {
+     "id": "26c462ed-7046-4e35-a8ee-ef84acbe9321",
+     "label": "P18",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. (2025-09-15 14:54: webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.)",
+     "type": "observation"
+    },
+    {
+     "id": "2b0a3952-1d6a-4214-b808-d2bf35f9c02d",
+     "label": "P19",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding an import for 'saferepr' in 'src/_pytest/subtests.py' on PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "ce5043eb-fa9d-4b4a-8322-0f4fdc9f7062",
+     "label": "P20",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "4923758b-edab-457b-a062-fd4857f688c6",
+     "label": "P21",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "5b2d570f-4845-4726-b9b4-4eed3834b2f2",
+     "label": "P22",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8.",
+     "type": "observation"
+    },
+    {
+     "id": "4b10c6fd-f8b7-411f-b1d3-2c86922d762e",
+     "label": "P23",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "ad5c1e24-07e5-4379-a366-9e7e5881a6ad",
+     "label": "P24",
+     "kind": "observation",
+     "text": "Maintainers value automated review comments regarding documentation consistency.",
+     "type": "observation"
+    },
+    {
+     "id": "3920341c-ac68-4e41-a4cc-a317ff9a8d5d",
+     "label": "P25",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested that the label _accessing-captured-output on PR #14053 might conflict with existing documentation labels.",
+     "type": "observation"
+    },
+    {
+     "id": "64f5707e-7b8e-454b-915b-da52db3245ee",
+     "label": "P26",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "84df5996-939b-49f1-b2f1-e02780837883",
+     "label": "P27",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested updating hard-coded version strings or automating them on PR #14099.",
+     "type": "observation"
+    },
+    {
+     "id": "1ad80e81-8dac-4830-8bb2-5e0a975bf0f7",
+     "label": "P28",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "1f7e0e0f-c360-46e0-8bee-89113a59a53e",
+     "label": "P29",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "958255e9-7e5f-4542-8b30-8ee88579db8d",
+     "label": "P30",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from typing import Literal' to src/_pytest/terminal.py:720 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "57449371-2f98-47f5-aa35-eb2d5b5beaf4",
+     "label": "P31",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager.",
+     "type": "observation"
+    },
+    {
+     "id": "04e9c26a-832f-4381-8031-1d6823fd32b9",
+     "label": "P32",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for decorators.",
+     "type": "observation"
+    },
+    {
+     "id": "3b5b51aa-75d6-45e0-8cc9-4998920cacb4",
+     "label": "P33",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding missing imports for StringIO and sys to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "7646c602-5d53-4606-8d73-5447024d5a8a",
+     "label": "P34",
+     "kind": "observation",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "d51eef8a-d882-4a14-b100-a07035f269a8",
+     "label": "P35",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers.",
+     "type": "observation"
+    },
+    {
+     "id": "02090a11-27fe-4b6a-acaa-a41a32b93c58",
+     "label": "P36",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "625f1707-3ef4-462a-8eec-df6355894e4a",
+     "label": "P37",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py:67 be made directly serializable on PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "d0a8f516-9bc1-403b-b0af-4228ee94e7b1",
+     "label": "P38",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding ExceptionGroup assertion adjustments in this context.",
+     "type": "observation"
+    },
+    {
+     "id": "1fbdf926-c96c-47ca-be6a-5a83986f0a73",
+     "label": "P39",
+     "kind": "observation",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable via pickle protocol 0 in src/_pytest/subtests.py:67 on PR #13963, suggesting protocol 4 would be more robust.",
+     "type": "observation"
+    },
+    {
+     "id": "87100cae-4b2c-4e94-9d1a-9caa02346114",
+     "label": "P40",
+     "kind": "observation",
+     "text": "Maintainers do not want the review bot Precedent to suggest potential label conflicts in documentation.",
+     "type": "observation"
+    },
+    {
+     "id": "20e1905e-4d15-4f14-af1d-eaa18dbdeefc",
+     "label": "P41",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst.",
+     "type": "observation"
+    },
+    {
+     "id": "9a76439e-e21d-4994-8ccc-6b0f8e2c2eed",
+     "label": "P42",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To ensure compatibility and provide control for users on long-term support Linux versions like Ubuntu 22.04 and 24.04.",
+     "type": "world"
+    },
+    {
+     "id": "1d58a1fd-ab1e-4760-9d17-42cb9b397e7b",
+     "label": "P43",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "630e7406-b0d4-463a-b664-681eb2772023",
+     "label": "P44",
+     "kind": "human",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic explanations. | When: 2025-12-27 | Where: doc/en/how-to/capture-stdout-stderr.rst:143 | Involving: nicoddemus (reviewer) | The note contains advanced information that interrupts the explanation of basic features.",
+     "type": "world"
+    },
+    {
+     "id": "115520bc-d6b9-48f9-a2ba-d5e99ac921cf",
+     "label": "P45",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "2940ff1d-de99-43af-a506-0ed737fe5448",
+     "label": "P46",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "4a44289b-f69c-4a8f-bc09-c5ed160fd8a0",
+     "label": "P47",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "779fb819-30bf-4468-95e5-17ced003b55b",
+     "label": "P48",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "38d6cdce-06bd-40f2-97c2-26396f390cd4",
+     "label": "P49",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal emulator test session progress notifications.",
+     "type": "world"
+    },
+    {
+     "id": "afdce156-eda4-458c-b0a0-c06016c65cef",
+     "label": "P50",
+     "kind": "human",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+' for logical consistency. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:87 | Involving: bluetech (reviewer) | To keep documentation logical.",
+     "type": "world"
+    },
+    {
+     "id": "fc178fcd-a869-4346-93b0-47f8b2f355ce",
+     "label": "P51",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "519672b1-0986-4e85-88e2-a4a53d47400c",
+     "label": "P52",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "14b756db-a812-4424-8e8e-9afed050b78c",
+     "label": "P53",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable via pickle protocol 0, noting that the output is not truly human-readable and suggesting protocol 4 would be more robust. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | Code review feedback on PR #13963",
+     "type": "world"
+    },
+    {
+     "id": "4e294610-d93d-4e52-b4dd-43a38b93b556",
+     "label": "P54",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that saferepr might be non-optimal for PR #13963 and recommended using _idval_from_value for better string conversion. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | Improving subtest context kwargs serialization",
+     "type": "world"
+    },
+    {
+     "id": "10866089-ce98-4c11-9edc-8cf2b4dc56ba",
+     "label": "P55",
+     "kind": "agent",
+     "text": "Maintainers did not adopt the suggestion from Precedent, indicating they do not want this type of review comment. | When: 2026-01-12 | Where: PR #14099 | Involving: maintainers",
+     "type": "world"
+    },
+    {
+     "id": "9630c656-75ce-4325-9a51-7d517adb2882",
+     "label": "P56",
+     "kind": "agent",
+     "text": "Maintainers confirmed they value automated review comments regarding documentation consistency. | When: 2026-01-12 | Involving: maintainers",
+     "type": "world"
+    },
+    {
+     "id": "163655e3-97b4-491a-bfc9-9b31553138ce",
+     "label": "P57",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "01340421-8be3-4e52-9dc7-3dfbbb37b805",
+     "label": "P58",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for decorators, so the bot should not repeat this type of suggestion. | Involving: maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    },
+    {
+     "id": "0d5b0ca6-31d7-4457-b947-29adf1275bc3",
+     "label": "P59",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding the addition of extra lines to reprtraceback when traceback is empty. | When: 2025-12-12 | Involving: Maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    },
+    {
+     "id": "80825e02-00bd-41b5-bbf1-18243f8366b1",
+     "label": "P60",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules. | Involving: Maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "74045c2c-474b-4983-955a-69acf33a7c21",
+     "label": "P61",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested replacing PEP 604 union syntax with Optional for Python 3.8 compatibility on PR #13728. | When: 2025-10-01 | Where: src/_pytest/terminal.py:718 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "d5c472f2-146c-4267-b1a9-1b83a72a7f0d",
+     "label": "P62",
+     "kind": "agent",
+     "text": "Reviewer bluetech echoed the suggestion to change the version specifier to '8.4+' on PR #14099. | When: 2026-01-12 | Where: PR #14099 | Involving: bluetech (reviewer) | To maintain logical consistency in the documentation.",
+     "type": "world"
+    },
+    {
+     "id": "41629fa0-56d5-4eb6-bf89-df33b0e173e9",
+     "label": "P63",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested updating the version specifier for the 8.4 release to '8.4+' for consistency with other documentation rows. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:85 | Involving: Precedent (automated review bot) | To ensure consistency with other version specifiers like '9.0+' and '7.1 - 7.4'.",
+     "type": "world"
+    },
+    {
+     "id": "a56c986d-0504-48ff-9f4b-f41293297e6f",
+     "label": "P64",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports for patches, so Precedent should stop suggesting them. | When: 2025-10-01 | Involving: Precedent (automated review bot), maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "9923282e-3b0b-4155-8559-430de8b2b80b",
+     "label": "P65",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations, so the bot should not repeat this suggestion. | When: 2025-10-01 | Involving: maintainers | Maintainers did not raise this concern on PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "d33c2968-8304-441d-b7b8-556eac76ec22",
+     "label": "P66",
+     "kind": "agent",
+     "text": "The automated review bot Precedent suggested changing a mock spec to TerminalReporter on PR #13728, but maintainers did not support this suggestion. | When: 2025-10-01 | Where: testing/test_terminal.py:40 | Involving: Precedent (automated review bot) | Maintainers do not want this specific type of review comment.",
+     "type": "world"
+    },
+    {
+     "id": "cae0ae61-1c0f-4dbb-911e-bbac4af037a6",
+     "label": "P67",
+     "kind": "agent",
+     "text": "The automated review bot Precedent suggested updating a return type annotation to 'Iterator[None]' or adding a clarifying comment on PR #12934. | When: 2025-05-31 | Where: src/_pytest/logging.py:839 | Involving: Precedent (automated review bot)",
+     "type": "experience"
+    },
+    {
+     "id": "593a7460-5bc6-42c9-a982-ca8c26187c55",
+     "label": "P68",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728. | When: 2025-10-01 | Where: testing/test_terminal.py:38 | Involving: Precedent (automated review bot)",
+     "type": "world"
+    },
+    {
+     "id": "23f6b58f-2a67-411b-87d3-0b1ae0ef380d",
+     "label": "P69",
+     "kind": "agent",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews. | When: 2025-10-01 | Involving: assistant | Maintainers indicated this is not a desired review comment.",
+     "type": "experience"
+    },
+    {
+     "id": "4c00d1bb-6e77-4575-872b-08cec029d925",
+     "label": "P70",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers. | When: 2025-05-31 | Involving: Maintainers | Maintainers did not raise the concern when suggested by Precedent.",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 7,
+   "pr": 13815,
+   "title": "fix(testing): `pytest.approx` correctly take account Mapping keys order to compare them",
+   "arm": "on",
+   "recalled": 75,
+   "agentComments": 3,
+   "matched": 2,
+   "humanComments": 3,
+   "humanCovered": 2,
+   "outcomes": [
+    {
+     "path": "src/_pytest/python_api.py",
+     "line": 244,
+     "text": "The key‑order check `if self.expected.keys() != other_side.keys():` makes the comparison order‑sensitive, which defeats the purpose of mapping comparison. It should use a set comparison (as before) to ignore order and avoid false failures when the same keys appear in a different order.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "src/_pytest/python_api.py",
+     "line": 257,
+     "text": "Because the key‑order check above is now order‑sensitive, the loop `other_value = other_side[approx_key]` could raise a `KeyError` for mismatched keys. Restoring the set‑based key check ensures the loop is safe and the error message for different keys is emitted correctly.",
+     "precedents": [],
+     "matchedHuman": 2685866897,
+     "matchedReviewer": "nicoddemus"
+    },
+    {
+     "path": "testing/python/approx.py",
+     "line": 1085,
+     "text": "The fnmatch pattern `\"*comparison failed.**Mismatched elements: 2 / 4:*\"` contains a double asterisk after the period, which likely was meant to be a single wildcard. Consider changing it to `\"*comparison failed.*Mismatched elements: 2 / 4:*\"` for clarity.",
+     "precedents": [],
+     "matchedHuman": 2693974304,
+     "matchedReviewer": "nicoddemus"
+    }
+   ],
+   "precedents": [
+    {
+     "id": "db8c09c2-78a4-4492-9dce-91dc3509abdd",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports for patches.",
+     "type": "observation"
+    },
+    {
+     "id": "8503cb48-e725-436e-9bfc-ee9922ba5d3f",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules.",
+     "type": "observation"
+    },
+    {
+     "id": "08c47ffe-afee-460c-b20a-7e81b2c595e7",
+     "label": "P3",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements.",
+     "type": "observation"
+    },
+    {
+     "id": "1ad80e81-8dac-4830-8bb2-5e0a975bf0f7",
+     "label": "P4",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "64f5707e-7b8e-454b-915b-da52db3245ee",
+     "label": "P5",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "04e9c26a-832f-4381-8031-1d6823fd32b9",
+     "label": "P6",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for decorators.",
+     "type": "observation"
+    },
+    {
+     "id": "4923758b-edab-457b-a062-fd4857f688c6",
+     "label": "P7",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "4caac4be-f055-434d-970c-a870943be584",
+     "label": "P8",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "2b0a3952-1d6a-4214-b808-d2bf35f9c02d",
+     "label": "P9",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding an import for 'saferepr' in 'src/_pytest/subtests.py' on PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "ce5043eb-fa9d-4b4a-8322-0f4fdc9f7062",
+     "label": "P10",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "57449371-2f98-47f5-aa35-eb2d5b5beaf4",
+     "label": "P11",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager.",
+     "type": "observation"
+    },
+    {
+     "id": "484f9b37-bce4-4bd8-88e7-be0af45cd45f",
+     "label": "P12",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for 'saferepr' in 'src/_pytest/subtests.py'.",
+     "type": "observation"
+    },
+    {
+     "id": "d0b84417-eaec-416a-974e-de080ce6594a",
+     "label": "P13",
+     "kind": "observation",
+     "text": "Reviewer bluetech echoed the suggestion to change the version specifier to '8.4+' on PR #14099.",
+     "type": "observation"
+    },
+    {
+     "id": "625f1707-3ef4-462a-8eec-df6355894e4a",
+     "label": "P14",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py:67 be made directly serializable on PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "26d2a9fc-3437-4a41-8864-05570e967936",
+     "label": "P15",
+     "kind": "observation",
+     "text": "Reviewer bluetech suggested using _idval_from_value instead of saferepr for PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "1fbdf926-c96c-47ca-be6a-5a83986f0a73",
+     "label": "P16",
+     "kind": "observation",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable via pickle protocol 0 in src/_pytest/subtests.py:67 on PR #13963, suggesting protocol 4 would be more robust.",
+     "type": "observation"
+    },
+    {
+     "id": "87100cae-4b2c-4e94-9d1a-9caa02346114",
+     "label": "P17",
+     "kind": "observation",
+     "text": "Maintainers do not want the review bot Precedent to suggest potential label conflicts in documentation.",
+     "type": "observation"
+    },
+    {
+     "id": "9b24ba17-abb1-4473-aa91-dd1cd70bcfd2",
+     "label": "P18",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing a mock spec to TerminalReporter on PR #13728, but maintainers did not support this suggestion.",
+     "type": "observation"
+    },
+    {
+     "id": "1f7e0e0f-c360-46e0-8bee-89113a59a53e",
+     "label": "P19",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "f8113d53-76b2-4bb8-825e-916494e40116",
+     "label": "P20",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested replacing PEP 604 union syntax with Optional for Python 3.8 compatibility on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "7f1b9293-19bb-4ced-b21d-72f059ce7e67",
+     "label": "P21",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "28916fb4-c00f-4a1c-8e39-bc83211eaebc",
+     "label": "P22",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested updating the version specifier for the 8.4 release to '8.4+' for consistency with other documentation rows.",
+     "type": "observation"
+    },
+    {
+     "id": "7646c602-5d53-4606-8d73-5447024d5a8a",
+     "label": "P23",
+     "kind": "observation",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "b3f73fce-1285-4abd-9a96-f76e633f5bba",
+     "label": "P24",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'import sys' to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "5fc61a6b-4a2c-44a2-bcea-0b38d5895cd8",
+     "label": "P25",
+     "kind": "observation",
+     "text": "The automated review bot Precedent suggested updating a return type annotation to 'Iterator[None]' or adding a clarifying comment on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "3b5b51aa-75d6-45e0-8cc9-4998920cacb4",
+     "label": "P26",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding missing imports for StringIO and sys to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "ad5c1e24-07e5-4379-a366-9e7e5881a6ad",
+     "label": "P27",
+     "kind": "observation",
+     "text": "Maintainers value automated review comments regarding documentation consistency.",
+     "type": "observation"
+    },
+    {
+     "id": "5b2d570f-4845-4726-b9b4-4eed3834b2f2",
+     "label": "P28",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8.",
+     "type": "observation"
+    },
+    {
+     "id": "84df5996-939b-49f1-b2f1-e02780837883",
+     "label": "P29",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested updating hard-coded version strings or automating them on PR #14099.",
+     "type": "observation"
+    },
+    {
+     "id": "02090a11-27fe-4b6a-acaa-a41a32b93c58",
+     "label": "P30",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "d0a8f516-9bc1-403b-b0af-4228ee94e7b1",
+     "label": "P31",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding ExceptionGroup assertion adjustments in this context.",
+     "type": "observation"
+    },
+    {
+     "id": "d51eef8a-d882-4a14-b100-a07035f269a8",
+     "label": "P32",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers.",
+     "type": "observation"
+    },
+    {
+     "id": "958255e9-7e5f-4542-8b30-8ee88579db8d",
+     "label": "P33",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from typing import Literal' to src/_pytest/terminal.py:720 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "3920341c-ac68-4e41-a4cc-a317ff9a8d5d",
+     "label": "P34",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested that the label _accessing-captured-output on PR #14053 might conflict with existing documentation labels.",
+     "type": "observation"
+    },
+    {
+     "id": "0191fb01-d107-4ba3-9e69-e535ec4f9a0f",
+     "label": "P35",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adjusting an assertion in PR #14025 to handle ExceptionGroup cases when group=True.",
+     "type": "observation"
+    },
+    {
+     "id": "4b10c6fd-f8b7-411f-b1d3-2c86922d762e",
+     "label": "P36",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "666cb9d6-576e-4d43-bf03-3e5e33c2fea9",
+     "label": "P37",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the addition of extra lines to reprtraceback when traceback is empty.",
+     "type": "observation"
+    },
+    {
+     "id": "e0dc7b99-2b3c-4546-95c3-52a57901cc66",
+     "label": "P38",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding an extra line to reprtraceback when traceback is empty for the --full-trace path on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "395416d3-44c9-492c-9596-aeae8790c754",
+     "label": "P39",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "20e1905e-4d15-4f14-af1d-eaa18dbdeefc",
+     "label": "P40",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst.",
+     "type": "observation"
+    },
+    {
+     "id": "26c462ed-7046-4e35-a8ee-ef84acbe9321",
+     "label": "P41",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. (2025-09-15 14:54: webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.)",
+     "type": "observation"
+    },
+    {
+     "id": "2940ff1d-de99-43af-a506-0ed737fe5448",
+     "label": "P42",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "afdce156-eda4-458c-b0a0-c06016c65cef",
+     "label": "P43",
+     "kind": "human",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+' for logical consistency. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:87 | Involving: bluetech (reviewer) | To keep documentation logical.",
+     "type": "world"
+    },
+    {
+     "id": "779fb819-30bf-4468-95e5-17ced003b55b",
+     "label": "P44",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "fc178fcd-a869-4346-93b0-47f8b2f355ce",
+     "label": "P45",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "f3920375-8a5b-417e-ae0d-6c50a3545a5d",
+     "label": "P46",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:92 | Involving: bluetech (reviewer) | To improve code readability and consistency in PR #14105.",
+     "type": "world"
+    },
+    {
+     "id": "1d58a1fd-ab1e-4760-9d17-42cb9b397e7b",
+     "label": "P47",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "4a44289b-f69c-4a8f-bc09-c5ed160fd8a0",
+     "label": "P48",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "9a76439e-e21d-4994-8ccc-6b0f8e2c2eed",
+     "label": "P49",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To ensure compatibility and provide control for users on long-term support Linux versions like Ubuntu 22.04 and 24.04.",
+     "type": "world"
+    },
+    {
+     "id": "14b756db-a812-4424-8e8e-9afed050b78c",
+     "label": "P50",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable via pickle protocol 0, noting that the output is not truly human-readable and suggesting protocol 4 would be more robust. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | Code review feedback on PR #13963",
+     "type": "world"
+    },
+    {
+     "id": "519672b1-0986-4e85-88e2-a4a53d47400c",
+     "label": "P51",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "659d7a56-85ed-4cfa-8733-f44d765ee195",
+     "label": "P52",
+     "kind": "human",
+     "text": "Reviewer bluetech proposed a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:104 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "4e294610-d93d-4e52-b4dd-43a38b93b556",
+     "label": "P53",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that saferepr might be non-optimal for PR #13963 and recommended using _idval_from_value for better string conversion. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | Improving subtest context kwargs serialization",
+     "type": "world"
+    },
+    {
+     "id": "115520bc-d6b9-48f9-a2ba-d5e99ac921cf",
+     "label": "P54",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "689e914a-7b49-4008-a2f0-f4e46bdedce3",
+     "label": "P55",
+     "kind": "human",
+     "text": "Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py | Involving: bluetech (reviewer) | To make local reasoning about the function easier.",
+     "type": "world"
+    },
+    {
+     "id": "630e7406-b0d4-463a-b664-681eb2772023",
+     "label": "P56",
+     "kind": "human",
+     "text": "Reviewer nicoddemus requested moving a note to the bottom of the page in doc/en/how-to/capture-stdout-stderr.rst to improve the flow of basic explanations. | When: 2025-12-27 | Where: doc/en/how-to/capture-stdout-stderr.rst:143 | Involving: nicoddemus (reviewer) | The note contains advanced information that interrupts the explanation of basic features.",
+     "type": "world"
+    },
+    {
+     "id": "38d6cdce-06bd-40f2-97c2-26396f390cd4",
+     "label": "P57",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. | When: 2025-09-25 | Where: changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal emulator test session progress notifications.",
+     "type": "world"
+    },
+    {
+     "id": "10866089-ce98-4c11-9edc-8cf2b4dc56ba",
+     "label": "P58",
+     "kind": "agent",
+     "text": "Maintainers did not adopt the suggestion from Precedent, indicating they do not want this type of review comment. | When: 2026-01-12 | Where: PR #14099 | Involving: maintainers",
+     "type": "world"
+    },
+    {
+     "id": "9fa49d41-8557-4544-8807-750fc3f79b6a",
+     "label": "P59",
+     "kind": "agent",
+     "text": "The assistant learned to avoid suggesting guards against IndexError for empty input in future reviews as maintainers do not request them. | When: 2026-01-13 | Involving: assistant | To align with maintainer preferences observed in PR #14105.",
+     "type": "experience"
+    },
+    {
+     "id": "64e7b624-0cde-41db-960f-fffa270bd153",
+     "label": "P60",
+     "kind": "agent",
+     "text": "Maintainers of the project prefer and encourage detailed review comments like the one provided by Precedent. | Involving: Project maintainers",
+     "type": "world"
+    },
+    {
+     "id": "5dd8b686-92b3-4e70-8ead-16bbd9532b4a",
+     "label": "P61",
+     "kind": "agent",
+     "text": "bluetech (reviewer) confirmed the bug identified by Precedent and proposed a minimal code fix for PR #14105. | When: 2026-01-13 | Where: PR #14105 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "01340421-8be3-4e52-9dc7-3dfbbb37b805",
+     "label": "P62",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for decorators, so the bot should not repeat this type of suggestion. | Involving: maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    },
+    {
+     "id": "33176b51-fea7-4e43-9c73-1d29f21ca1d9",
+     "label": "P63",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding unused variables, so the bot should not repeat this type of suggestion. | When: 2026-01-13 | Involving: maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    },
+    {
+     "id": "0c519eac-c814-4735-82d9-dbb5ebb7d307",
+     "label": "P64",
+     "kind": "agent",
+     "text": "Maintainers of the project approve of the type of review comments provided by Precedent. | Involving: Project maintainers",
+     "type": "world"
+    },
+    {
+     "id": "80825e02-00bd-41b5-bbf1-18243f8366b1",
+     "label": "P65",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules. | Involving: Maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "a56c986d-0504-48ff-9f4b-f41293297e6f",
+     "label": "P66",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports for patches, so Precedent should stop suggesting them. | When: 2025-10-01 | Involving: Precedent (automated review bot), maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "e3443c2d-59e9-412c-b1b7-6ac35297820f",
+     "label": "P67",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for 'saferepr' in 'src/_pytest/subtests.py'. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "e5dbe38d-6ca7-4884-b359-0c16d0aad0b4",
+     "label": "P68",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934. | When: 2025-05-31 | Where: PR #12934 | Involving: Precedent (automated review bot) | To keep changelog indexing consistent.",
+     "type": "world"
+    },
+    {
+     "id": "89960b39-b0f8-4804-8e8c-e10f8bc5a64f",
+     "label": "P69",
+     "kind": "agent",
+     "text": "The automated review bot Precedent suggested a guard against IndexError for empty input_lines in PR #14105, but maintainers did not support this suggestion. | When: 2026-01-13 | Where: src/_pytest/assertion/truncate.py:112 | Involving: Precedent (automated review bot), maintainers | The maintainers indicated they do not want this specific type of review comment.",
+     "type": "world"
+    },
+    {
+     "id": "a4c9f4a1-8cca-4e7e-a668-336b9ef34093",
+     "label": "P70",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "23f6b58f-2a67-411b-87d3-0b1ae0ef380d",
+     "label": "P71",
+     "kind": "agent",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews. | When: 2025-10-01 | Involving: assistant | Maintainers indicated this is not a desired review comment.",
+     "type": "experience"
+    },
+    {
+     "id": "9923282e-3b0b-4155-8559-430de8b2b80b",
+     "label": "P72",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations, so the bot should not repeat this suggestion. | When: 2025-10-01 | Involving: maintainers | Maintainers did not raise this concern on PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "d5c472f2-146c-4267-b1a9-1b83a72a7f0d",
+     "label": "P73",
+     "kind": "agent",
+     "text": "Reviewer bluetech echoed the suggestion to change the version specifier to '8.4+' on PR #14099. | When: 2026-01-12 | Where: PR #14099 | Involving: bluetech (reviewer) | To maintain logical consistency in the documentation.",
+     "type": "world"
+    },
+    {
+     "id": "335c33c7-4fb8-445c-beb8-04d843497d8b",
+     "label": "P74",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested adding an import for 'saferepr' in 'src/_pytest/subtests.py' on PR #13963. | When: 2025-12-20 | Where: src/_pytest/subtests.py | Involving: Precedent (automated review bot)",
+     "type": "experience"
+    },
+    {
+     "id": "9630c656-75ce-4325-9a51-7d517adb2882",
+     "label": "P75",
+     "kind": "agent",
+     "text": "Maintainers confirmed they value automated review comments regarding documentation consistency. | When: 2026-01-12 | Involving: maintainers",
+     "type": "world"
+    }
+   ]
+  },
+  {
+   "k": 8,
+   "pr": 14121,
+   "arm": "on",
+   "error": "LLM JSON completion failed on all models: no JSON found in model output"
+  },
+  {
+   "k": 9,
+   "pr": 13778,
+   "title": "Upload junit reports codecov",
+   "arm": "on",
+   "recalled": 95,
+   "agentComments": 5,
+   "matched": 2,
+   "humanComments": 8,
+   "humanCovered": 2,
+   "outcomes": [
+    {
+     "path": ".github/workflows/test.yml",
+     "line": 279,
+     "text": "The `_PYTEST_TOX_POSARGS_JUNIT` environment variable is set for the whole \"Test without coverage\" and \"Test with coverage\" steps. This makes the `--junitxml` flag apply to all tox commands, including those that may not expect it (e.g., coverage runs). Consider scoping the variable to the specific doctesting tox environment or adding a dedicated tox env for JUnit generation to avoid unintended side‑effects.",
+     "precedents": [],
+     "matchedHuman": 2505901128,
+     "matchedReviewer": "webknjaz"
+    },
+    {
+     "path": "tox.ini",
+     "line": 73,
+     "text": "Injecting `{env:_PYTEST_TOX_POSARGS_JUNIT:}` into `_PYTEST_T0X_DEFAULT_POSARGS` means the JUnit flag is appended to every tox command, not just doctesting. This can lead to duplicate `junit.xml` files or interfere with other test configurations. It would be clearer to add the flag only in the doctesting command definition.",
+     "precedents": [],
+     "matchedHuman": 2505899428,
+     "matchedReviewer": "webknjaz"
+    },
+    {
+     "path": ".github/workflows/test.yml",
+     "line": 306,
+     "text": "The Codecov upload step pins the action to a specific commit hash. For better maintainability and security, prefer using a released version tag (e.g., `codecov/codecov-action@v3`) unless a specific commit is required.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "doc/en/continuous-integration.rst",
+     "line": null,
+     "text": "Add a brief note about the new JUnit report upload to Codecov in the CI documentation, so contributors are aware of the additional `--junitxml` flag and the corresponding Codecov step.",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    },
+    {
+     "path": "changelog/12689.contrib.rst",
+     "line": 1,
+     "text": "Consider adding a reference to the related issue or PR number in the changelog entry for traceability (e.g., \"Closes #XYZ\").",
+     "precedents": [],
+     "matchedHuman": null,
+     "matchedReviewer": null
+    }
+   ],
+   "precedents": [
+    {
+     "id": "d51eef8a-d882-4a14-b100-a07035f269a8",
+     "label": "P1",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers.",
+     "type": "observation"
+    },
+    {
+     "id": "db8c09c2-78a4-4492-9dce-91dc3509abdd",
+     "label": "P2",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports for patches.",
+     "type": "observation"
+    },
+    {
+     "id": "5537a20a-0579-4661-99a9-e1044cb1aace",
+     "label": "P3",
+     "kind": "observation",
+     "text": "Reviewer bluetech confirmed the logic concern regarding truncation settings in PR #14105.",
+     "type": "observation"
+    },
+    {
+     "id": "8503cb48-e725-436e-9bfc-ee9922ba5d3f",
+     "label": "P4",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules.",
+     "type": "observation"
+    },
+    {
+     "id": "ce5043eb-fa9d-4b4a-8322-0f4fdc9f7062",
+     "label": "P5",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "b581fd17-5ac3-4465-95f2-b8c96bf53438",
+     "label": "P6",
+     "kind": "observation",
+     "text": "Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for PR #14105.",
+     "type": "observation"
+    },
+    {
+     "id": "1b16e5e0-a2ca-4f28-acc6-57e5b64d1bb1",
+     "label": "P7",
+     "kind": "observation",
+     "text": "bluetech (reviewer) confirmed the bug identified by Precedent and proposed a minimal code fix for PR #14105.",
+     "type": "observation"
+    },
+    {
+     "id": "484f9b37-bce4-4bd8-88e7-be0af45cd45f",
+     "label": "P8",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for 'saferepr' in 'src/_pytest/subtests.py'.",
+     "type": "observation"
+    },
+    {
+     "id": "4af82afa-7148-4eb1-888a-a2d78bd14f81",
+     "label": "P9",
+     "kind": "observation",
+     "text": "Maintainers of the project prefer review comments that identify potential runtime errors like KeyErrors in order-sensitive loops.",
+     "type": "observation"
+    },
+    {
+     "id": "7646c602-5d53-4606-8d73-5447024d5a8a",
+     "label": "P10",
+     "kind": "observation",
+     "text": "The assistant learned to avoid suggesting changes to mock specs for TerminalReporter in future reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "1ad80e81-8dac-4830-8bb2-5e0a975bf0f7",
+     "label": "P11",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "73f191f7-e72f-48d0-92b4-9a02972ce47f",
+     "label": "P12",
+     "kind": "observation",
+     "text": "Project maintainers prefer and encourage detailed review comments like the one provided by Precedent.",
+     "type": "observation"
+    },
+    {
+     "id": "d0b84417-eaec-416a-974e-de080ce6594a",
+     "label": "P13",
+     "kind": "observation",
+     "text": "Reviewer bluetech echoed the suggestion to change the version specifier to '8.4+' on PR #14099.",
+     "type": "observation"
+    },
+    {
+     "id": "e4d5b900-e773-4f37-a762-0be674ba09dd",
+     "label": "P14",
+     "kind": "observation",
+     "text": "Project maintainers value and desire review comments regarding code clarity and pattern corrections.",
+     "type": "observation"
+    },
+    {
+     "id": "71d3446f-5649-4acd-8f15-6d19717b787e",
+     "label": "P15",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding unused variables.",
+     "type": "observation"
+    },
+    {
+     "id": "4923758b-edab-457b-a062-fd4857f688c6",
+     "label": "P16",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations.",
+     "type": "observation"
+    },
+    {
+     "id": "ad5c1e24-07e5-4379-a366-9e7e5881a6ad",
+     "label": "P17",
+     "kind": "observation",
+     "text": "Maintainers value automated review comments regarding documentation consistency.",
+     "type": "observation"
+    },
+    {
+     "id": "c4d926da-9814-490c-b10c-a997e10ecb3b",
+     "label": "P18",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested removing unused variable 'truncated_line_count' in PR #14105 at src/_pytest/assertion/truncate.py:124.",
+     "type": "observation"
+    },
+    {
+     "id": "d0a8f516-9bc1-403b-b0af-4228ee94e7b1",
+     "label": "P19",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding ExceptionGroup assertion adjustments in this context.",
+     "type": "observation"
+    },
+    {
+     "id": "57449371-2f98-47f5-aa35-eb2d5b5beaf4",
+     "label": "P20",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the return type annotation of methods decorated with @contextmanager.",
+     "type": "observation"
+    },
+    {
+     "id": "fd127273-d43d-4dc0-9249-7728fb2e4dca",
+     "label": "P21",
+     "kind": "observation",
+     "text": "Reviewer bluetech proposed a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars.",
+     "type": "observation"
+    },
+    {
+     "id": "84df5996-939b-49f1-b2f1-e02780837883",
+     "label": "P22",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested updating hard-coded version strings or automating them on PR #14099.",
+     "type": "observation"
+    },
+    {
+     "id": "5b2d570f-4845-4726-b9b4-4eed3834b2f2",
+     "label": "P23",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8.",
+     "type": "observation"
+    },
+    {
+     "id": "7683f4b8-2637-4b52-bdee-796845a667e6",
+     "label": "P24",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested adding documentation to the function docstring in src/_pytest/assertion/truncate.py explaining that '0' values for max_lines and max_chars indicate that truncation is disabled.",
+     "type": "observation"
+    },
+    {
+     "id": "10ee4041-75fc-4c33-b7f8-eeef3e7bdac1",
+     "label": "P25",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus requested a rewrite of the test in testing/python/approx.py:1074 using pytester on PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "28916fb4-c00f-4a1c-8e39-bc83211eaebc",
+     "label": "P26",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested updating the version specifier for the 8.4 release to '8.4+' for consistency with other documentation rows.",
+     "type": "observation"
+    },
+    {
+     "id": "04e9c26a-832f-4381-8031-1d6823fd32b9",
+     "label": "P27",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments suggesting imports for decorators.",
+     "type": "observation"
+    },
+    {
+     "id": "1f7e0e0f-c360-46e0-8bee-89113a59a53e",
+     "label": "P28",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested changing the return type annotation of fixture `mock_tr` from `pytest.TerminalReporter` to `_pytest.terminal.TerminalReporter` on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "395416d3-44c9-492c-9596-aeae8790c754",
+     "label": "P29",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "666cb9d6-576e-4d43-bf03-3e5e33c2fea9",
+     "label": "P30",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding the addition of extra lines to reprtraceback when traceback is empty.",
+     "type": "observation"
+    },
+    {
+     "id": "76d88c5e-3efa-4b48-adb9-f1a48954e59a",
+     "label": "P31",
+     "kind": "observation",
+     "text": "Maintainers do not want review comments regarding key-order sensitivity in mapping comparisons.",
+     "type": "observation"
+    },
+    {
+     "id": "e0dc7b99-2b3c-4546-95c3-52a57901cc66",
+     "label": "P32",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding an extra line to reprtraceback when traceback is empty for the --full-trace path on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "08c47ffe-afee-460c-b20a-7e81b2c595e7",
+     "label": "P33",
+     "kind": "observation",
+     "text": "The-Compiler suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements.",
+     "type": "observation"
+    },
+    {
+     "id": "4caac4be-f055-434d-970c-a870943be584",
+     "label": "P34",
+     "kind": "observation",
+     "text": "The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "c2a643da-f0a8-4a38-a30f-6a1e4ecbd850",
+     "label": "P35",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus confirmed the need for the fnmatch pattern correction on PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "85802bf7-1847-420a-ab6c-e1359d733579",
+     "label": "P36",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) identified a logic error in src/_pytest/assertion/truncate.py where character-based truncation is skipped when max_lines is zero.",
+     "type": "observation"
+    },
+    {
+     "id": "56b2ce11-a5f9-4f6c-a93e-e8372c2cfa82",
+     "label": "P37",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) identified a bug in src/_pytest/assertion/truncate.py where an ellipsis is appended even when no truncation occurs.",
+     "type": "observation"
+    },
+    {
+     "id": "31d4be3e-76b5-4ea9-8845-d416fed9ac04",
+     "label": "P38",
+     "kind": "observation",
+     "text": "The assistant learned to avoid suggesting guards against IndexError for empty input in future reviews.",
+     "type": "observation"
+    },
+    {
+     "id": "64f5707e-7b8e-454b-915b-da52db3245ee",
+     "label": "P39",
+     "kind": "observation",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures.",
+     "type": "observation"
+    },
+    {
+     "id": "4b10c6fd-f8b7-411f-b1d3-2c86922d762e",
+     "label": "P40",
+     "kind": "observation",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025.",
+     "type": "observation"
+    },
+    {
+     "id": "26c462ed-7046-4e35-a8ee-ef84acbe9321",
+     "label": "P41",
+     "kind": "observation",
+     "text": "The-Compiler suggested adding support for Kitty terminal emulator in the changelog for PR #13728. (2025-09-15 14:54: webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress.)",
+     "type": "observation"
+    },
+    {
+     "id": "7f1b9293-19bb-4ced-b21d-72f059ce7e67",
+     "label": "P42",
+     "kind": "observation",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "b3f73fce-1285-4abd-9a96-f76e633f5bba",
+     "label": "P43",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'import sys' to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "0a4d17d5-d575-4843-9dc7-a1d42a3964da",
+     "label": "P44",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) and nicoddemus identified a potential KeyError in src/_pytest/python_api.py:257 on PR #13815 due to order-sensitive key checks.",
+     "type": "observation"
+    },
+    {
+     "id": "625f1707-3ef4-462a-8eec-df6355894e4a",
+     "label": "P45",
+     "kind": "observation",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py:67 be made directly serializable on PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "87100cae-4b2c-4e94-9d1a-9caa02346114",
+     "label": "P46",
+     "kind": "observation",
+     "text": "Maintainers do not want the review bot Precedent to suggest potential label conflicts in documentation.",
+     "type": "observation"
+    },
+    {
+     "id": "2b0a3952-1d6a-4214-b808-d2bf35f9c02d",
+     "label": "P47",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding an import for 'saferepr' in 'src/_pytest/subtests.py' on PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "ef23e98b-ec66-4e95-a763-efbaf6bb8b26",
+     "label": "P48",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested a guard against IndexError for empty input_lines in PR #14105, but maintainers did not support this suggestion.",
+     "type": "observation"
+    },
+    {
+     "id": "1fbdf926-c96c-47ca-be6a-5a83986f0a73",
+     "label": "P49",
+     "kind": "observation",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable via pickle protocol 0 in src/_pytest/subtests.py:67 on PR #13963, suggesting protocol 4 would be more robust.",
+     "type": "observation"
+    },
+    {
+     "id": "0191fb01-d107-4ba3-9e69-e535ec4f9a0f",
+     "label": "P50",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adjusting an assertion in PR #14025 to handle ExceptionGroup cases when group=True.",
+     "type": "observation"
+    },
+    {
+     "id": "958255e9-7e5f-4542-8b30-8ee88579db8d",
+     "label": "P51",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from typing import Literal' to src/_pytest/terminal.py:720 on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "3b5b51aa-75d6-45e0-8cc9-4998920cacb4",
+     "label": "P52",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding missing imports for StringIO and sys to testing/test_terminal.py on PR #13728.",
+     "type": "observation"
+    },
+    {
+     "id": "aec11d6c-2d83-4b6f-968d-e797c4f516aa",
+     "label": "P53",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested correcting a double asterisk in an fnmatch pattern to a single wildcard on PR #13815 in testing/python/approx.py:1085.",
+     "type": "observation"
+    },
+    {
+     "id": "fa62627c-3ad3-46f8-9134-5b940f2b2ce4",
+     "label": "P54",
+     "kind": "observation",
+     "text": "Reviewer nicoddemus suggested accessing dictionary keys directly in src/_pytest/python_api.py:260 on PR #13815.",
+     "type": "observation"
+    },
+    {
+     "id": "26d2a9fc-3437-4a41-8864-05570e967936",
+     "label": "P55",
+     "kind": "observation",
+     "text": "Reviewer bluetech suggested using _idval_from_value instead of saferepr for PR #13963.",
+     "type": "observation"
+    },
+    {
+     "id": "02090a11-27fe-4b6a-acaa-a41a32b93c58",
+     "label": "P56",
+     "kind": "observation",
+     "text": "Precedent (automated review bot) suggested adding 'from contextlib import contextmanager' to src/_pytest/logging.py:809 on PR #12934.",
+     "type": "observation"
+    },
+    {
+     "id": "afdce156-eda4-458c-b0a0-c06016c65cef",
+     "label": "P57",
+     "kind": "human",
+     "text": "Reviewer bluetech requested a documentation update in PR #14099 to change the pytest version suggestion to '8.4 3.9+' for logical consistency. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:87 | Involving: bluetech (reviewer) | To keep documentation logical.",
+     "type": "world"
+    },
+    {
+     "id": "689e914a-7b49-4008-a2f0-f4e46bdedce3",
+     "label": "P58",
+     "kind": "human",
+     "text": "Reviewer bluetech requested adding documentation to the function docstring explaining that '0' values for max_lines and max_chars indicate that truncation is disabled. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py | Involving: bluetech (reviewer) | To make local reasoning about the function easier.",
+     "type": "world"
+    },
+    {
+     "id": "f3920375-8a5b-417e-ae0d-6c50a3545a5d",
+     "label": "P59",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested refactoring the truncation logic in src/_pytest/assertion/truncate.py to use 'max_chars > 0' for clarity and consistency with the 'max_lines > 0' check. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:92 | Involving: bluetech (reviewer) | To improve code readability and consistency in PR #14105.",
+     "type": "world"
+    },
+    {
+     "id": "dfc6d985-5ee8-47d3-929e-3535cf7e075d",
+     "label": "P60",
+     "kind": "human",
+     "text": "Reviewer nicoddemus suggested accessing dictionary keys directly in src/_pytest/python_api.py because previous checks already ensure both dictionaries have the same set of keys. | When: 2026-01-13 | Where: src/_pytest/python_api.py:260 | Involving: nicoddemus (reviewer) | Code review feedback for PR #13815",
+     "type": "world"
+    },
+    {
+     "id": "659d7a56-85ed-4cfa-8733-f44d765ee195",
+     "label": "P61",
+     "kind": "human",
+     "text": "Reviewer bluetech proposed a minimal fix for PR #14105 regarding an edge case in _truncate_explanation when truncating due to max_chars. | When: 2026-01-12 | Where: src/_pytest/assertion/truncate.py:104 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "bd7ffae4-04ef-4a9c-829a-92dcf251f95f",
+     "label": "P62",
+     "kind": "human",
+     "text": "nicoddemus requested a rewrite of the test in testing/python/approx.py:1074 using pytester to verify the output message and suggested using more dictionary keys for better coverage. | When: 2026-01-13 | Where: testing/python/approx.py:1074 | Involving: nicoddemus (reviewer) | To improve test coverage and verify output messages for PR #13815.",
+     "type": "world"
+    },
+    {
+     "id": "115520bc-d6b9-48f9-a2ba-d5e99ac921cf",
+     "label": "P63",
+     "kind": "human",
+     "text": "Reviewer graingert suggested renaming the test file to 'test example file exposing multiple issues with coroutine exception passover in case of stopiteration' on PR #12934. | When: 2024-12-19 | Where: testing/example_scripts/hook_exceptions/test_stop_iteration.py | Involving: graingert (reviewer) | Code review feedback for PR #12934 regarding StopIteration handling in generators.",
+     "type": "world"
+    },
+    {
+     "id": "fc178fcd-a869-4346-93b0-47f8b2f355ce",
+     "label": "P64",
+     "kind": "human",
+     "text": "Reviewer bluetech requested that self.kwargs in src/_pytest/subtests.py be made directly serializable to ensure the property from_json(to_json(report)) == report. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | To ensure JSON serializability of subtest context kwargs in PR #13963.",
+     "type": "world"
+    },
+    {
+     "id": "1cffb3b8-e473-4493-a121-38ed5605d2df",
+     "label": "P65",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested keeping TemporaryDirectory in src/_pytest/cacheprovider.py due to its rmtree implementation details. | When: 2026-01-18 | Where: src/_pytest/cacheprovider.py:83 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "14b756db-a812-4424-8e8e-9afed050b78c",
+     "label": "P66",
+     "kind": "human",
+     "text": "Reviewer The-Compiler questioned the value of making subtest context kwargs human-readable via pickle protocol 0, noting that the output is not truly human-readable and suggesting protocol 4 would be more robust. | When: 2025-12-11 | Where: src/_pytest/subtests.py:67 | Involving: The-Compiler (reviewer) | Code review feedback on PR #13963",
+     "type": "world"
+    },
+    {
+     "id": "4a44289b-f69c-4a8f-bc09-c5ed160fd8a0",
+     "label": "P67",
+     "kind": "human",
+     "text": "webknjaz suggested a specific phrasing for the changelog entry in PR #13728 regarding terminal test session progress. | When: 2025-09-15 | Where: changelog/13072.feature.rst | Involving: webknjaz (reviewer) | Code review feedback for PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "2940ff1d-de99-43af-a506-0ed737fe5448",
+     "label": "P68",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) suggested a refactoring for PR #13728 to simplify state handling using a dictionary mapping instead of match statements. | When: 2025-09-25 | Where: src/_pytest/terminal.py:1694 | Involving: The-Compiler (reviewer), user (PR author) | Code review feedback for PR #13728",
+     "type": "world"
+    },
+    {
+     "id": "1d58a1fd-ab1e-4760-9d17-42cb9b397e7b",
+     "label": "P69",
+     "kind": "human",
+     "text": "Reviewer graingert commented on PR #12934 that the implementation in testing/acceptance_test.py:1638 does not work with fixtures. | When: 2025-01-10 | Where: testing/acceptance_test.py:1638 | Involving: graingert (reviewer) | Code review feedback regarding PR #12934",
+     "type": "world"
+    },
+    {
+     "id": "519672b1-0986-4e85-88e2-a4a53d47400c",
+     "label": "P70",
+     "kind": "human",
+     "text": "Reviewer webknjaz requested adding explicit IDs for booleans in testing/code/test_excinfo.py:1900 on PR #14025. | When: 2025-12-02 | Where: testing/code/test_excinfo.py:1900 | Involving: webknjaz (reviewer) | Code review feedback for PR #14025",
+     "type": "world"
+    },
+    {
+     "id": "99bae643-b1b2-4da7-9032-8e425f3e1846",
+     "label": "P71",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested implementing the TODO regarding ignore_cleanup_errors=True for Python 3.10+ support in PR #14121. | When: 2026-01-18 | Involving: bluetech (reviewer)",
+     "type": "world"
+    },
+    {
+     "id": "9a76439e-e21d-4994-8ccc-6b0f8e2c2eed",
+     "label": "P72",
+     "kind": "human",
+     "text": "The-Compiler (reviewer) questioned the implementation of PR #13728 and suggested adding '-p no:terminalprogress' as an escape hatch for users on older Linux distributions. | When: 2025-09-25 | Where: PR #13728, changelog/13072.feature.rst | Involving: The-Compiler (reviewer) | To ensure compatibility and provide control for users on long-term support Linux versions like Ubuntu 22.04 and 24.04.",
+     "type": "world"
+    },
+    {
+     "id": "779fb819-30bf-4468-95e5-17ced003b55b",
+     "label": "P73",
+     "kind": "human",
+     "text": "Reviewer The-Compiler suggested parameterizing the test case in testing/test_terminal.py:3347 for PR #13728. | When: 2025-09-25 | Where: testing/test_terminal.py:3347 | Involving: The-Compiler (reviewer) | Code review feedback for PR #13728 regarding terminal test session progress notification.",
+     "type": "world"
+    },
+    {
+     "id": "4e294610-d93d-4e52-b4dd-43a38b93b556",
+     "label": "P74",
+     "kind": "human",
+     "text": "Reviewer bluetech suggested that saferepr might be non-optimal for PR #13963 and recommended using _idval_from_value for better string conversion. | When: 2025-11-13 | Where: src/_pytest/subtests.py:67 | Involving: bluetech (reviewer) | Improving subtest context kwargs serialization",
+     "type": "world"
+    },
+    {
+     "id": "8079ebba-a5ed-421b-b702-1f9593e7196a",
+     "label": "P75",
+     "kind": "human",
+     "text": "nicoddemus (reviewer) provided a code suggestion for PR #13815 to fix pytest.approx mapping key order comparison. | When: 2026-01-15 | Where: testing/python/approx.py:1089 | Involving: nicoddemus | To address issue #12444 regarding unordered mapping matching in pytest.",
+     "type": "world"
+    },
+    {
+     "id": "f3f4c6ac-26d9-46ba-b48d-f6145756633a",
+     "label": "P76",
+     "kind": "human",
+     "text": "nicoddemus suggested a simplified flow for cache directory creation in PR #14121 to handle concurrent pytest execution and directory permissions. | When: 2026-01-25 | Where: src/_pytest/cacheprovider.py:88 | Involving: nicoddemus (reviewer) | To address race conditions and permission handling during cache directory creation.",
+     "type": "world"
+    },
+    {
+     "id": "d5c472f2-146c-4267-b1a9-1b83a72a7f0d",
+     "label": "P77",
+     "kind": "agent",
+     "text": "Reviewer bluetech echoed the suggestion to change the version specifier to '8.4+' on PR #14099. | When: 2026-01-12 | Where: PR #14099 | Involving: bluetech (reviewer) | To maintain logical consistency in the documentation.",
+     "type": "world"
+    },
+    {
+     "id": "9fa49d41-8557-4544-8807-750fc3f79b6a",
+     "label": "P78",
+     "kind": "agent",
+     "text": "The assistant learned to avoid suggesting guards against IndexError for empty input in future reviews as maintainers do not request them. | When: 2026-01-13 | Involving: assistant | To align with maintainer preferences observed in PR #14105.",
+     "type": "experience"
+    },
+    {
+     "id": "10866089-ce98-4c11-9edc-8cf2b4dc56ba",
+     "label": "P79",
+     "kind": "agent",
+     "text": "Maintainers did not adopt the suggestion from Precedent, indicating they do not want this type of review comment. | When: 2026-01-12 | Where: PR #14099 | Involving: maintainers",
+     "type": "world"
+    },
+    {
+     "id": "41629fa0-56d5-4eb6-bf89-df33b0e173e9",
+     "label": "P80",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested updating the version specifier for the 8.4 release to '8.4+' for consistency with other documentation rows. | When: 2026-01-12 | Where: doc/en/backwards-compatibility.rst:85 | Involving: Precedent (automated review bot) | To ensure consistency with other version specifiers like '9.0+' and '7.1 - 7.4'.",
+     "type": "world"
+    },
+    {
+     "id": "4c00d1bb-6e77-4575-872b-08cec029d925",
+     "label": "P81",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding changelog filename consistency with PR numbers. | When: 2025-05-31 | Involving: Maintainers | Maintainers did not raise the concern when suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "80825e02-00bd-41b5-bbf1-18243f8366b1",
+     "label": "P82",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports in test modules. | Involving: Maintainers | The maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "1df11bc0-5acf-42c3-bbe6-e144e52f4da3",
+     "label": "P83",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested updating hard-coded version strings or automating them on PR #14099. | When: 2026-01-12 | Where: doc/en/reference/reference.rst:20 | Involving: Precedent (automated review bot)",
+     "type": "experience"
+    },
+    {
+     "id": "a56c986d-0504-48ff-9f4b-f41293297e6f",
+     "label": "P84",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding missing imports for patches, so Precedent should stop suggesting them. | When: 2025-10-01 | Involving: Precedent (automated review bot), maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "33176b51-fea7-4e43-9c73-1d29f21ca1d9",
+     "label": "P85",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding unused variables, so the bot should not repeat this type of suggestion. | When: 2026-01-13 | Involving: maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    },
+    {
+     "id": "64e7b624-0cde-41db-960f-fffa270bd153",
+     "label": "P86",
+     "kind": "agent",
+     "text": "Maintainers of the project prefer and encourage detailed review comments like the one provided by Precedent. | Involving: Project maintainers",
+     "type": "world"
+    },
+    {
+     "id": "0c519eac-c814-4735-82d9-dbb5ebb7d307",
+     "label": "P87",
+     "kind": "agent",
+     "text": "Maintainers of the project approve of the type of review comments provided by Precedent. | Involving: Project maintainers",
+     "type": "world"
+    },
+    {
+     "id": "4f7b5183-f907-4dec-acb7-018be7521709",
+     "label": "P88",
+     "kind": "agent",
+     "text": "Project maintainers value and desire review comments regarding code clarity and pattern corrections. | Involving: maintainers",
+     "type": "world"
+    },
+    {
+     "id": "4057428a-7dff-4277-abff-e5708b7a8a97",
+     "label": "P89",
+     "kind": "agent",
+     "text": "Maintainers of the project prefer review comments that identify potential runtime errors like KeyErrors in order-sensitive loops. | Involving: maintainers",
+     "type": "world"
+    },
+    {
+     "id": "e5dbe38d-6ca7-4884-b359-0c16d0aad0b4",
+     "label": "P90",
+     "kind": "agent",
+     "text": "Precedent (automated review bot) suggested renaming changelog file 12929.bugfix.rst to 12934.bugfix.rst on PR #12934. | When: 2025-05-31 | Where: PR #12934 | Involving: Precedent (automated review bot) | To keep changelog indexing consistent.",
+     "type": "world"
+    },
+    {
+     "id": "163655e3-97b4-491a-bfc9-9b31553138ce",
+     "label": "P91",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding PEP 604 union syntax compatibility for Python 3.8. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "9630c656-75ce-4325-9a51-7d517adb2882",
+     "label": "P92",
+     "kind": "agent",
+     "text": "Maintainers confirmed they value automated review comments regarding documentation consistency. | When: 2026-01-12 | Involving: maintainers",
+     "type": "world"
+    },
+    {
+     "id": "a4c9f4a1-8cca-4e7e-a668-336b9ef34093",
+     "label": "P93",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting missing imports for type annotations. | Involving: maintainers | Maintainers did not raise the concern suggested by Precedent.",
+     "type": "world"
+    },
+    {
+     "id": "9923282e-3b0b-4155-8559-430de8b2b80b",
+     "label": "P94",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments regarding `pytest.TerminalReporter` type annotations, so the bot should not repeat this suggestion. | When: 2025-10-01 | Involving: maintainers | Maintainers did not raise this concern on PR #13728.",
+     "type": "world"
+    },
+    {
+     "id": "01340421-8be3-4e52-9dc7-3dfbbb37b805",
+     "label": "P95",
+     "kind": "agent",
+     "text": "Maintainers do not want review comments suggesting imports for decorators, so the bot should not repeat this type of suggestion. | Involving: maintainers | Maintainers did not raise the concern suggested by the bot.",
+     "type": "world"
+    }
+   ]
+  }
+ ]
+}

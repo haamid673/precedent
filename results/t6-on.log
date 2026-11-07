@@ -1,0 +1,16 @@
+◇ injected env (6) from .env.local
+arm=on prs=13 bank=replay-t6-on-mw5whlt4
+# 0 PR 12934  recalled=0  comments=3  matched=0  human=2 covered=0  running precision=0%  (5s)
+# 1 PR 13728  recalled=10  comments=6  matched=0  human=5 covered=0  running precision=0%  (5s)
+# 2 PR 14025  recalled=30  comments=3  matched=1  human=1 covered=1  running precision=8%  (4s)
+# 3 PR 13963  recalled=36  comments=1  matched=0  human=3 covered=0  running precision=8%  (48s)
+# 4 PR 14053  recalled=63  comments=1  matched=0  human=1 covered=0  running precision=7%  (4s)
+# 5 PR 14099  recalled=66  comments=0  matched=0  human=1 covered=0  running precision=7%  (25s)
+# 6 PR 14105  recalled=72  comments=2  matched=2  human=2 covered=2  running precision=19%  (38s)
+# 7 PR 13815  recalled=76  comments=1  matched=1  human=3 covered=1  running precision=24%  (35s)
+# 8 PR 14121  recalled=87  comments=1  matched=0  human=2 covered=0  running precision=22%  (49s)
+# 9 PR 13778  recalled=90  comments=2  matched=0  human=8 covered=0  running precision=20%  (93s)
+#10 PR 14179  recalled=90  comments=0  matched=0  human=23 covered=0  running precision=20%  (47s)
+#11 PR 14050  recalled=91  comments=0  matched=0  human=5 covered=0  running precision=20%  (34s)
+#12 PR 14200  recalled=91  comments=1  matched=0  human=1 covered=0  running precision=19%  (50s)
+wrote results/replay-t6-on.json

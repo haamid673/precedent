@@ -1,0 +1,46 @@
+◇ injected env (6) from .env.local
+arm=off prs=20 bank=-
+PR 12934 attempt 1 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+# 0 PR 12934  recalled=-  comments=5  matched=0  human=2 covered=0  running precision=0%  (759s)
+# 1 PR 13728  recalled=-  comments=6  matched=0  human=5 covered=0  running precision=0%  (360s)
+# 2 PR 14025  recalled=-  comments=1  matched=0  human=1 covered=0  running precision=0%  (538s)
+# 3 PR 13963  recalled=-  comments=5  matched=0  human=3 covered=0  running precision=0%  (473s)
+# 4 PR 14053  recalled=-  comments=6  matched=1  human=1 covered=1  running precision=4%  (351s)
+PR 14099 attempt 1 failed (LLM JSON completion failed on all models: Request timed out.), retrying in 30s
+# 5 PR 14099  recalled=-  comments=2  matched=0  human=1 covered=0  running precision=4%  (580s)
+# 6 PR 14105  recalled=-  comments=6  matched=2  human=2 covered=2  running precision=10%  (393s)
+# 7 PR 13815  recalled=-  comments=3  matched=2  human=3 covered=2  running precision=15%  (477s)
+# 8 PR 14121  recalled=-  comments=6  matched=1  human=2 covered=1  running precision=15%  (421s)
+# 9 PR 13778  recalled=-  comments=5  matched=3  human=8 covered=3  running precision=20%  (535s)
+#10 PR 14179  recalled=-  comments=6  matched=0  human=23 covered=0  running precision=18%  (724s)
+#11 PR 14050  recalled=-  comments=1  matched=1  human=5 covered=1  running precision=19%  (657s)
+#12 PR 14200  recalled=-  comments=3  matched=0  human=1 covered=0  running precision=18%  (537s)
+PR 14216 attempt 1 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14216 attempt 2 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14216 attempt 3 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14216 failed: LLM JSON completion failed on all models: Connection error.
+PR 14223 attempt 1 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14223 attempt 2 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14223 attempt 3 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14223 failed: LLM JSON completion failed on all models: Connection error.
+PR 12378 attempt 1 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 12378 attempt 2 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 12378 attempt 3 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 12378 failed: LLM JSON completion failed on all models: Connection error.
+PR 14303 attempt 1 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14303 attempt 2 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14303 attempt 3 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14303 failed: LLM JSON completion failed on all models: Connection error.
+PR 14175 attempt 1 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14175 attempt 2 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14175 attempt 3 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14175 failed: LLM JSON completion failed on all models: Connection error.
+PR 14310 attempt 1 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14310 attempt 2 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14310 attempt 3 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14310 failed: LLM JSON completion failed on all models: Connection error.
+PR 14339 attempt 1 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14339 attempt 2 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14339 attempt 3 failed (LLM JSON completion failed on all models: Connection error.), retrying in 30s
+PR 14339 failed: LLM JSON completion failed on all models: Connection error.
+wrote results/replay-t6-off.json
